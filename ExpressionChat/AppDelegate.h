@@ -11,7 +11,6 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-
+@property (strong, nonatomic) UIManagedDocument *document;
 @end
-
+//bf134cf7186efa1d8c4c3f148fc1ee35c4c30e48
