@@ -12,6 +12,7 @@
 #import "EmojiViewController.h"
 #import "BiuSessionManager.h"
 #import "NotifyMsg.h"
+#import "Animation.h"
 #import <AVOSCloud/AVOSCloud.h>
 
 @interface MainViewController ()
@@ -56,10 +57,11 @@
                 [self.friendsTableView reloadData];
             } else {
                 NSLog(@"No such user");
-                CATransition *animation = [CATransition animation];
-                animation.duration = 1.0f;
-                animation.type = @"rippleEffect";
-                [self.searchFriendTextField.layer addAnimation:animation forKey:nil];
+                [Animation shakeView:_searchFriendTextField];
+//                CATransition *animation = [CATransition animation];
+//                animation.duration = 1.0f;
+//                animation.type = @"rippleEffect";
+//                [self.searchFriendTextField.layer addAnimation:animation forKey:nil];
             }
         }];
     } else {
