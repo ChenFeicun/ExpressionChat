@@ -8,6 +8,8 @@
 
 #import "MainViewController.h"
 #import "Friends.h"
+#import "Friends+Methods.h"
+#import "NotifyMsg+Methods.h"
 #import "AppDelegate.h"
 #import "EmojiViewController.h"
 #import "BiuSessionManager.h"
@@ -29,7 +31,6 @@
 @end
 
 @implementation MainViewController
-//init—>loadView—>viewDidLoad—>viewWillApper—>viewDidApper—>viewWillDisapper—>viewDidDisapper—>viewWillUnload->viewDidUnload—>dealloc
 
 - (IBAction)searchFriendEnd:(id)sender {
     [self searchFriendWithName];
@@ -38,11 +39,11 @@
 - (void)searchFriendWithName {
     //先从数据库里检索 是否存在该用户 不存在的话云端检索
     if ([self.searchFriendTextField.text isEqualToString:self.curUser.username]) {
-        //
+        //是否要进入Settings页面
         NSLog(@"yourself");
         return;
     }
-    Friends *friend = [self isFriendExistInDB];
+    Friends *friend = [Friends isFriendExistInDB:_searchFriendTextField.text inManagedObjectContext:_context];
     if (!friend) {
         AVQuery *query = [AVUser query];
         [query whereKey:@"username" equalTo:self.searchFriendTextField.text];
@@ -51,23 +52,19 @@
                 NSLog(@"Find %@", self.searchFriendTextField.text);
                 //添加用户 关闭键盘
                 //[self initDocument];
-                [self addFriend:object];
-                
+                [Friends addFriend:object inManagedObjectContext:_context];
+                //[self addFriend:object];
+                self.searchFriendTextField.text = @"";
                 [self.searchFriendTextField resignFirstResponder];
                 [self.friendsTableView reloadData];
             } else {
                 NSLog(@"No such user");
                 [Animation shakeView:_searchFriendTextField];
-//                CATransition *animation = [CATransition animation];
-//                animation.duration = 1.0f;
-//                animation.type = @"rippleEffect";
-//                [self.searchFriendTextField.layer addAnimation:animation forKey:nil];
             }
         }];
     } else {
         [self performSegueWithIdentifier:@"ChatWithFriend" sender:self];
     }
-    
 }
 
 #pragma mark - 链接数据库的一些准备工作
@@ -83,76 +80,6 @@
     return NO;
 }
 
-#pragma mark -数据库操作
-
-- (Friends *)isFriendExistInDB {
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Friends"];
-    request.predicate = [NSPredicate predicateWithFormat:@"account = %@", self.searchFriendTextField.text];
-    NSError *error;
-    NSArray *array = [self.context executeFetchRequest:request error:&error];
-    if ([array count]) {
-        return [array firstObject];
-    } else {
-        return nil;
-    }
-}
-
-- (void)addFriend:(AVObject *)userObj {
-    if ([self documentIsReady]) {
-        Friends *friend = [NSEntityDescription insertNewObjectForEntityForName:@"Friends" inManagedObjectContext:self.context];
-        friend.id = [userObj objectForKey:@"objectId"];
-        friend.account = [userObj objectForKey:@"username"];
-        if ([self.context save:nil]) {
-            NSLog(@"add successd");
-        } else {
-            NSLog(@"add failed");
-        }
-    }
-}
-
-- (void)deleteFriend:(Friends *)delFriend {
-    if ([self documentIsReady]) {
-        [self.context deleteObject:delFriend];
-        if ([self.context save:nil]) {
-            NSLog(@"delete successd");
-        } else {
-            NSLog(@"delete failed");
-        }
-    }
-}
-
-- (void)allFriends {
-    if ([self documentIsReady]) {
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Friends"];
-        //排序！！！
-        request.predicate = nil;
-        
-        NSError *error;
-        NSArray *array = [self.context executeFetchRequest:request error:&error];
-        if (!error) {
-            self.all = [[NSMutableArray alloc] initWithArray:array];
-            //return self.all;
-        } else
-            NSLog(@"%@", error);
-    } else {
-        NSLog(@"failed allfriend");
-        self.all = nil;
-    }
-}
-
-//根据id查找离线消息
-- (NSUInteger)getOfflineMsgCount:(Friends *)friend {
-    if ([self documentIsReady]) {
-        //应该有可以直接返回count的
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"NotifyMsg"];
-        request.predicate = [NSPredicate predicateWithFormat:@"fromid = %@", friend.id];
-        NSError *error;
-        NSUInteger count = [self.context countForFetchRequest:request error:&error];
-        return count;
-    }
-    return 0;
-}
-
 #pragma mark -页面
 //每接收一条信息刷新一次页面
 - (void)reloadTableView:(NSNotification *)notification {
@@ -166,14 +93,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //NSLog(@"!!!!!!!!!!!!!!!!");
     self.curUser = [AVUser currentUser];
     [self.curButton setTitle:self.curUser.username forState:UIControlStateNormal];
     self.appDelegate = [[UIApplication sharedApplication] delegate];
     self.document = self.appDelegate.document;
     self.sessionManager = [BiuSessionManager sharedInstance];
-    //[self initDocument];
-    // Do any additional setup after loading the view.
+    [self documentIsReady];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -184,61 +109,82 @@
 #pragma mark -tableView的相关操作
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    [self allFriends];
-    if (self.all) {
-        //NSLog(@"select all success %lui", (unsigned long)[self.all count]);
+    _all = [Friends allFriendsInManagedObjectContext:_context];
+    if (_all) {
         return [self.all count];
     } else {
-        NSLog(@"111111");
         return 0;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //NSLog(@"celllllllll");
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friend"];
+    JZSwipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friend"];
     if(cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+        cell = [[JZSwipeCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:@"friend"];
     }
-    
+    cell.delegate = self;
     if (self.all) {
         UILabel *label = (UILabel *)[cell viewWithTag:100];
         Friends *friend = self.all[indexPath.row];
         label.text = friend.account;
         
         //在这里根据friendid查找数据库 看是否有离线消息
-        NSInteger count = [self getOfflineMsgCount:friend];
+        NSInteger count = [NotifyMsg getOfflineMsgCount:friend inManagedObjectContext:_context];
         if (count) {
-            UILabel *label = (UILabel *)[cell viewWithTag:101];
-            label.text = @"!!!";
+            UILabel *lab = (UILabel *)[cell viewWithTag:101];
+            lab.text = @"!!!";
+            //抖动的位置有问题
+            //[Animation shakeView:cell];
         }
     }
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         //
         Friends *friend = [self.all objectAtIndex:indexPath.row];
-        [self deleteFriend:friend];
+        [Friends deleteFriend:friend inManagedObjectContext:_context];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
 //2
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //self.selectedFriend = [self.all objectAtIndex:indexPath.row];
-    //[self.navigationController pushViewController:nil animated:YES];
+    JZSwipeCell *cell = (JZSwipeCell*)[tableView cellForRowAtIndexPath:indexPath];
+    [cell triggerSwipeWithType:JZSwipeTypeNone];
 }
 //1
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"ChatWithFriend"]) {
-        EmojiViewController *controller = segue.destinationViewController;//(ChatViewController *)[segue.destinationViewController topViewController];
+        EmojiViewController *controller = segue.destinationViewController;
         NSIndexPath *path = [self.friendsTableView indexPathForCell:sender];
         controller.chatFriend = [self.all objectAtIndex:path.row];
     }
 }
 
+- (void)swipeCell:(JZSwipeCell*)cell triggeredSwipeWithType:(JZSwipeType)swipeType
+{
+    if (swipeType != JZSwipeTypeNone)
+    {
+        NSIndexPath *indexPath = [self.friendsTableView indexPathForCell:cell];
+        if (indexPath)
+        {
+            [Friends deleteFriend:[_all objectAtIndex:indexPath.row] inManagedObjectContext:_context];
+            //deleteRowsAtIndexPaths 执行完会自动删除
+            //[self.all removeObjectAtIndex:indexPath.row];
+            [self.friendsTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }
+}
 
-
+- (void)swipeCell:(JZSwipeCell *)cell swipeTypeChangedFrom:(JZSwipeType)from to:(JZSwipeType)to
+{
+    // perform custom state changes here
+    NSLog(@"Swipe Changed From (%d) To (%d)", from, to);
+}
 @end

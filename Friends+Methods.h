@@ -8,6 +8,15 @@
 
 #import "Friends.h"
 
+@class AVObject;
+
 @interface Friends (Methods)
+
++ (Friends *)isFriendExistInDB:(NSString *)account inManagedObjectContext:(NSManagedObjectContext *)context;
++ (Friends *)isFriendExistWithId:(NSString *)id inManagedObjectContext:(NSManagedObjectContext *)context;
++ (void)addFriend:(AVObject *)userObj inManagedObjectContext:(NSManagedObjectContext *)context;
++ (void)addFriendWithAccount:(NSString *)account andId:(NSString *)id inManagedObjectContext:(NSManagedObjectContext *)context;
++ (void)deleteFriend:(Friends *)delFriend inManagedObjectContext:(NSManagedObjectContext *)context;
++ (NSMutableArray *)allFriendsInManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end

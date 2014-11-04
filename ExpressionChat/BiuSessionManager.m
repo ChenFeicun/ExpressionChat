@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 #import "Friends.h"
 #import "NotifyMsg.h"
+#import "Friends+Methods.h"
+#import "NotifyMsg+Methods.h"
 
 @interface BiuSessionManager ()
 @property (strong, nonatomic) AVSession *session;
@@ -111,55 +113,14 @@ static BOOL initialized = NO;
     } else {
         //需要查下数据库是否存在这个好友
         //不存在则需要入库
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Friends"];
-        request.predicate = [NSPredicate predicateWithFormat:@"id = %@", message.fromPeerId];
-        NSError *err;
-        if (![self.context countForFetchRequest:request error:&err]) {
-            //入库
-            //代码重复
-            NSLog(@"需要存入数据库中: %@", message.payload);
-            NSError *error = nil;
-            NSData *data = [message.payload dataUsingEncoding:NSUTF8StringEncoding];
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-            NotifyMsg *msg = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyMsg" inManagedObjectContext:self.context];
-            msg.fromid = [dict objectForKey:@"fromid"];
-            msg.resid = [dict objectForKey:@"resid"];
-            msg.xratio = [dict objectForKey:@"xratio"];
-            msg.type = [dict objectForKey:@"type"];
-            if ([self.context save:nil]) {
-                NSLog(@"msg%@ : %@", msg.fromid, msg.resid);
-            } else {
-                NSLog(@"add message failed");
-            }
-            
-            Friends *friend = [NSEntityDescription insertNewObjectForEntityForName:@"Friends" inManagedObjectContext:self.context];
-            friend.account = [dict objectForKey:@"fromName"];
-            friend.id = message.fromPeerId;
-            if ([self.context save:nil]) {
-                NSLog(@"save friend successed");
-            } else {
-                NSLog(@"save friend failed");
-                //NSLog(@"add message failed");
-            }
+        NSError *error = nil;
+        NSData *data = [message.payload dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+        if (![Friends isFriendExistWithId:message.fromPeerId inManagedObjectContext:_context]) {
+            [NotifyMsg addMsgWithDictionary:dict inManagedObjectContext:_context];
+            [Friends addFriendWithAccount:[dict objectForKey:@"fromName"] andId:message.fromPeerId inManagedObjectContext:_context];
         } else {
-            //代码重复了
-            NSLog(@"需要存入数据库中: %@", message.payload);
-            NSDictionary *dict = nil;
-            NSError *error = nil;
-            NSData *data = [message.payload dataUsingEncoding:NSUTF8StringEncoding];
-            dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-            if (dict) {
-                NotifyMsg *msg = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyMsg" inManagedObjectContext:self.context];
-                msg.fromid = [dict objectForKey:@"fromid"];
-                msg.resid = [dict objectForKey:@"resid"];
-                msg.xratio = [dict objectForKey:@"xratio"];
-                msg.type = [dict objectForKey:@"type"];
-                if ([self.context save:nil]) {
-                    NSLog(@"msg%@ : %@", msg.fromid, msg.resid);
-                } else {
-                    NSLog(@"add message failed");
-                }
-            }
+            [NotifyMsg addMsgWithDictionary:dict inManagedObjectContext:_context];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
     }

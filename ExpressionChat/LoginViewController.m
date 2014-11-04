@@ -7,7 +7,8 @@
 //
 
 #import "LoginViewController.h"
-#include "ViewController.h"
+#import "ViewController.h"
+#import "Animation.h"
 #import <AVOSCloud/AVOSCloud.h>
 
 @interface LoginViewController ()
@@ -16,42 +17,64 @@
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (strong, nonatomic) AVUser *user;
 @end
+//
+static BOOL editingOrNot = NO;
 
 @implementation LoginViewController
 
 - (IBAction)userLogin:(id)sender {
     _user = [AVUser user];
     _user.username = [_loginUserName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    //暂定账号密码相同
+    //特殊字符判断
     _user.password = [_loginPassword.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
     if (_user.username.length > 12) {
-        ;
+        //提醒
+        [Animation shakeView:_loginUserName];
+    } else if (_user.password.length == 0) {
+        //提醒
+        [Animation shakeView:_loginPassword];
     } else {
         [AVUser logInWithUsernameInBackground:_user.username password:_user.password block:^(AVUser *user, NSError *error) {
-            NSLog(@"%@", error.localizedDescription);
+            NSLog(@"-----%@-----", error.localizedDescription);
             if (user) {
-                [self performSegueWithIdentifier:@"RegistToLogin" sender:self];
+                [self performSegueWithIdentifier:@"RegistLoading" sender:self];
+            } else if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]) {
+                //没有网络连接
+                
             } else if ([error.localizedDescription isEqualToString:@"Could not find user"]) {
                 [_user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
                         //注册成功
-                        [self performSegueWithIdentifier:@"RegistToLogin" sender:self];
+                        [self performSegueWithIdentifier:@"RegistLoading" sender:self];
                     }else{
                         
                     }
                 }];
             } else {
                 //用户名密码不匹配
+                [Animation shakeView:_loginButton];
             }
         }];
     }
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    editingOrNot = YES;
+    [Animation moveViewForEditing:self.view orNot:editingOrNot];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    editingOrNot = NO;
+    [Animation moveViewForEditing:self.view orNot:editingOrNot];
+}
+
 //设置委托之后 才会调用这个方法
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    _loginButton.enabled = ([newText length] > 0);
+    if ([textField isEqual:_loginUserName]) {
+        NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        _loginButton.enabled = ([newText length] > 0);
+    }
     return YES;
 }
 
@@ -59,14 +82,12 @@
     [super viewDidLoad];
     //设置委托
     _loginUserName.delegate = self;
-    //清除AVUser缓存
-    //[AVUser logOut];
-    // Do any additional setup after loading the view.
+    _loginPassword.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [_loginUserName becomeFirstResponder];
+    //[_loginUserName becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {

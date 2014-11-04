@@ -10,5 +10,8 @@
 #import <UIKit/UIKit.h>
 
 @interface Animation : NSObject
+
 + (void)shakeView:(UIView *)view;
++ (void)moveViewForEditing:(UIView *)view orNot:(BOOL)editingOrNot;
+
 @end

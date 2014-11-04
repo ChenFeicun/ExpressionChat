@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JZSwipeCell.h"
 //#import "ChatViewController.h"
 
 @class Friends;
 @class AVUser;
 
-@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, JZSwipeCellDelegate>
 @property (strong, nonatomic) AVUser *curUser;
 @end

@@ -8,24 +8,31 @@
 
 #import "EmojiViewController.h"
 #import "BiuSessionManager.h"
+#import "ResourceManager.h"
 #import "Friends.h"
 #import "NotifyMsg.h"
+#import "NotifyMsg+Methods.h"
 #import "AppDelegate.h"
 #import "Animation.h"
 #import <AVOSCloud/AVOSCloud.h>
+#import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
 @interface EmojiViewController ()
 @property (strong, nonatomic) NSMutableArray *msgArray;
 @property (weak, nonatomic) IBOutlet UICollectionView *emojiKeyboard;
+@property (weak, nonatomic) IBOutlet UICollectionView *voiceKeyboard;
 @property (weak, nonatomic) IBOutlet UIButton *friendButton;
 @property (strong, nonatomic) BiuSessionManager *sessionManager;
 @property (strong, nonatomic) AppDelegate *appDelegate;
 @property (strong, nonatomic) NSManagedObjectContext *context;
 //从plist文件中读取 应该是公用的 不需要每次打开聊天界面就读一次
-@property (strong, nonatomic) NSDictionary *emojiDictonary;
+@property (strong, nonatomic) NSDictionary *emojiDictionary;
+@property (strong, nonatomic) NSDictionary *voiceDictionary;
 //定时器
 @property (strong, nonatomic) NSTimer *timer;
+//segment YES--emoji  NO--voice
+@property (nonatomic) BOOL emojiOrVoice;
 @end
 
 @implementation EmojiViewController
@@ -33,13 +40,62 @@
 #define UP YES  //UP代表自己发送  上升
 #define DOWN NO //DOWN代表接收  下落
 
+//滑动返回 需要修改
+- (IBAction)swipeBack:(id)sender {
+    CATransition *animation = [CATransition animation];
+    animation.delegate = self;
+    animation.duration = 0.7f;
+    animation.timingFunction = UIViewAnimationCurveEaseInOut;
+    animation.type = kCATransitionReveal;
+    animation.subtype = kCATransitionFromLeft;
+    [[self.view layer] addAnimation:animation forKey:@"animation"];
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
+}
+
+- (IBAction)segmentValueChanged:(id)sender {
+    switch([(UISegmentedControl *)sender selectedSegmentIndex])
+    {
+        case 0:
+            NSLog(@"%@", @"image!!!");
+            _emojiKeyboard.hidden = NO;
+            _voiceKeyboard.hidden = YES;
+            _emojiOrVoice = YES;
+            break;
+        case 1:
+            NSLog(@"%@", @"voice!!!");
+            _emojiKeyboard.hidden = YES;
+            _voiceKeyboard.hidden = NO;
+            _emojiOrVoice = NO;
+            break;
+        default:
+            _emojiOrVoice = YES;
+            break;
+    }
+}
+
 - (IBAction)dropOfflineMsg:(id)sender {
     if ([_msgArray count]) {
         for (NotifyMsg *msg in _msgArray) {
-            [self dropUpOrDown:DOWN withXratio:[msg.xratio intValue] andImgName:[self getImgName:msg.resid]];
+            NSString *imgName;
+            if ([msg.type isEqualToString:@"Voice"]) {
+                imgName = @"emoji_audio";
+            } else if ([msg.type isEqualToString:@"Emoji"]) {
+                imgName = [NSString stringWithFormat:@"emoji_%@", msg.resid];
+            }
+            [self dropUpOrDown:DOWN withXratio:[msg.xratio intValue] andImgName:imgName andType:msg.type andResid:msg.resid];
+            [_context deleteObject:msg];
+            if ([self.context save:nil]) {
+                NSLog(@"delete successd");
+            } else {
+                NSLog(@"delete failed");
+            }
         }
         [_friendButton setTitle:_chatFriend.account forState:UIControlStateNormal];
         [_timer invalidate];
+        //清空数据库
+        //不能批量？
+        //[_context deletedObjects:[NSSet setWithArray:_msgArray]];
     }
 }
 
@@ -56,10 +112,8 @@
     
     //获取数据库的信息
     _context = _appDelegate.document.managedObjectContext;
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"NotifyMsg"];
-    request.predicate = [NSPredicate predicateWithFormat:@"fromid = %@", _chatFriend.id];
-    NSError *error;
-    NSArray *array = [_context executeFetchRequest:request error:&error];
+    
+    NSArray *array = [NotifyMsg getOfflineMsg:_chatFriend inManagedObjectContext:_context];
     
     NSMutableString *title = [NSMutableString stringWithString:_chatFriend.account];
     if ([array count]) {
@@ -75,8 +129,11 @@
     NSLog(@"recieve msg : %li", (unsigned long)[array count]);
     
     //加载plist
-    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Emoji" ofType:@"plist"];
-    _emojiDictonary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    //NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Emoji" ofType:@"plist"];
+    //_emojiDictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    _emojiOrVoice = YES;
+    _emojiDictionary = [[ResourceManager sharedInstance] readEmojiInfo];
+    _voiceDictionary = [[ResourceManager sharedInstance] readVoiceInfo];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,13 +158,19 @@
     dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     NSString *resid = [dict objectForKey:@"resid"];
     NSString *xratio = [dict objectForKey:@"xratio"];
-    [self dropUpOrDown:DOWN withXratio:[xratio intValue] andImgName:[self getImgName:resid]];
+    NSString *type = [dict objectForKey:@"type"];
+    NSString *imgName;
+    if ([type isEqualToString:@"Voice"]) {
+        imgName = @"emoji_audio";
+    } else if ([type isEqualToString:@"Emoji"]) {
+        imgName = [NSString stringWithFormat:@"emoji_%@", resid];//imgName = resid;
+    }
+    [self dropUpOrDown:DOWN withXratio:[xratio intValue] andImgName:imgName andType:type andResid:resid];
 }
 
 static const CGSize DROP_SIZE = {50, 50};
 
-- (void)dropUpOrDown:(BOOL)isUp withXratio:(int)x andImgName:(NSString *)imgName
-{
+- (void)dropUpOrDown:(BOOL)isUp withXratio:(int)x andImgName:(NSString *)imgName andType:(NSString *)type andResid:(NSString *)resid {
     NSInteger height = _emojiKeyboard.center.y - _emojiKeyboard.bounds.size.height / 2 - _friendButton.bounds.size.height;
     
     CGRect frame;
@@ -132,7 +195,7 @@ static const CGSize DROP_SIZE = {50, 50};
     dropView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", imgName]];
     [self.view addSubview:dropView];
     dropView.alpha = 0;
-    
+    //表情动画
     [UIView animateWithDuration:1.0f delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         dropView.center = CGPointMake(dropView.center.x, quarter);
         dropView.alpha = 1;
@@ -144,75 +207,47 @@ static const CGSize DROP_SIZE = {50, 50};
             [dropView removeFromSuperview];
         }];
     }];
-    /*
-    NSInteger curCount = 0;
-    while (curCount <= 50) {
-        //NSLog(@"height %f", dropView.center.y - dropView.bounds.size.height);
-        CGFloat currentStep = (-(height - dropView.bounds.size.height) * 8 /  (TIMES * TIMES * 10 / 2) * curCount + (height - dropView.bounds.size.height) * 9 / (TIMES * 10 / 2));
-        //!!!!!
-        //每次都判断 完全没必要
-        currentStep = isUp ? currentStep : - currentStep;
-        //NSLog(@"currentStep:%f curCount:%li", currentStep, curCount);
-        
-        [UIView animateWithDuration:2.0 animations:^{
-            //NSLog(@"current alpha %f", dropView.alpha);
-            dropView.alpha = ((-17.0 / 35.0) * curCount * curCount + (170.0 / 7.0) * curCount);
-            dropView.center = CGPointMake(dropView.center.x, dropView.center.y - currentStep);
-        } completion:^(BOOL finished) {
-            if (finished) {
-                [dropView removeFromSuperview];
-            }
-        }];
-        curCount++;
+    
+    if ([type isEqualToString:@"Voice"]) {
+        SystemSoundID soundID = [[ResourceManager sharedInstance] getSoundIdByVoicePath:[self getVoicePath:resid]];
+        AudioServicesPlaySystemSound(soundID);
     }
-    
-    */
-    //NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(emojiDrop) object:nil];
-    
-    //[NSThread detachNewThreadSelector:@selector(emojiDrop:) toTarget:dropView withObject:nil];
-    /*
-    dispatch_queue_t queue = dispatch_queue_create("emojiDrop", NULL);
-    //创建一个子线程
-    
-    dispatch_async(queue, ^{
-        if (curCount == 50) {
-            //
-        } else {
-            float currentStep = (float) (-(250 - dropView.bounds.size.height) * 8 /  (TIMES * TIMES * 10 / 2) * curCount + (250 - dropView.bounds.size.height) * 9 / (TIMES * 10 / 2));
-            NSLog(@"currentStep:%f curCount:%li", currentStep, curCount);
-            [UIView beginAnimations:@"AnimationName0" context:nil];
-            [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-            dropView.center = CGPointMake(dropView.center.x, dropView.center.y + currentStep);
-            [UIView commitAnimations];
-        
-            curCount++;
-        }
-    });
-    */
 }
 
-- (void)sendMsgByPassingResid:(NSString *)resid andXratio:(NSString *)xratio {
+- (void)sendMsgByPassingResid:(NSString *)resid andXratio:(NSString *)xratio andType:(NSString *)type{
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:[AVUser currentUser].objectId forKey:@"fromid"];
     [dict setObject:[AVUser currentUser].username forKey:@"fromName"];
-    //[dict setObject:msg.type forKey:@"type"];
+    [dict setObject:type forKey:@"type"];
     [dict setObject:resid forKey:@"resid"];
     [dict setObject:xratio forKey:@"xratio"];
     [_sessionManager sendNotifyMsgWithDictionary:dict toPeerId:_chatFriend.id];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"emojiCell" forIndexPath:indexPath];
-    
-    UIImageView *view = (UIImageView *)[cell viewWithTag:100];
-    view.image = [UIImage imageNamed:[NSString stringWithFormat:@"emoji_%02li.png", (indexPath.row + 1)]];
+    UICollectionViewCell *cell;
+    if ([collectionView.restorationIdentifier isEqualToString:@"ImageSegment"]) {
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"emojiCell" forIndexPath:indexPath];
+        
+        UIImageView *view = (UIImageView *)[cell viewWithTag:100];
+        view.image = [UIImage imageNamed:[NSString stringWithFormat:@"emoji_%02li.png", (indexPath.row + 1)]];
+    }
+    if ([collectionView.restorationIdentifier isEqualToString:@"VoiceSegment"]) {
+        NSLog(@"VoiceSegment!!!");
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"voiceCell" forIndexPath:indexPath];
+        UILabel *label = (UILabel *)[cell viewWithTag:100];
+        label.text = [[_voiceDictionary objectForKey:[NSString stringWithFormat:@"%02li", (indexPath.row + 1)]] objectForKey:@"content"];
+    }
     
     return cell;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
-    return 33;
+    if ([collectionView.restorationIdentifier isEqualToString:@"ImageSegment"])
+        return [_emojiDictionary count];
+    else if ([collectionView.restorationIdentifier isEqualToString:@"VoiceSegment"])
+        return [_voiceDictionary count];
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -220,25 +255,35 @@ static const CGSize DROP_SIZE = {50, 50};
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    //NSString *str = [NSString stringWithFormat:@"%02li", indexPath.row];
-    //NSLog(@"%@", str);
-    
-    //NotifyMsg *msg = [[NotifyMsg alloc] init];
-    //[_sessionManager sendMessage:@"" toPeerId:_chatFriend.id];
-    //dispatch_queue_t main_queue = dispatch_get_main_queue();//dispatch_queue_create("emojiDrop", NULL);
-    //创建一个子线程
-    //跟UI相关的需要在主线程里操作
-    //dispatch_async(main_queue, ^{
+    NSString *type;
     NSString *str = [NSString stringWithFormat:@"%02li",(long)indexPath.row + 1];
-    NSDictionary *dic = [_emojiDictonary objectForKey:str];
+    NSDictionary *dic;
     int x = (arc4random() % (int)(self.view.bounds.size.width) / DROP_SIZE.width - 1);
-    [self sendMsgByPassingResid:[dic objectForKey:@"resid"] andXratio:[NSString stringWithFormat:@"%i", x]];
-    [self dropUpOrDown:UP withXratio:x andImgName:[dic objectForKey:@"name"]];
+    
+    if ([collectionView.restorationIdentifier isEqualToString:@"ImageSegment"]) {
+        dic = [_emojiDictionary objectForKey:str];
+        type = @"Emoji";
+        [self sendMsgByPassingResid:[dic objectForKey:@"resid"] andXratio:[NSString stringWithFormat:@"%i", x] andType:type];
+        NSString *imgName = [NSString stringWithFormat:@"emoji_%@", str];
+        [self dropUpOrDown:UP withXratio:x andImgName:imgName andType:type andResid:[dic objectForKey:@"resid"]];
+    }
+    else if ([collectionView.restorationIdentifier isEqualToString:@"VoiceSegment"]) {
+        dic = [_voiceDictionary objectForKey:str];
+        type = @"Voice";
+        [self sendMsgByPassingResid:[dic objectForKey:@"resid"] andXratio:[NSString stringWithFormat:@"%i", x] andType:type];
+        [self dropUpOrDown:UP withXratio:x andImgName:[dic objectForKey:@"name"] andType:type andResid:[dic objectForKey:@"resid"]];
+    }
+    
     //});
 }
 
+- (NSString *)getVoicePath:(NSString *)resid {
+    NSDictionary *dic = [_voiceDictionary objectForKey:resid];
+    return [dic objectForKey:@"path"];
+}
+
 - (NSString *)getImgName:(NSString *)resid {
-    NSDictionary *dic = [_emojiDictonary objectForKey:resid];
+    NSDictionary *dic = [_emojiDictionary objectForKey:resid];
     return [dic objectForKey:@"name"];
 }
 

@@ -14,7 +14,6 @@
 		180C238219E4D41A008F8C0E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 180C238019E4D41A008F8C0E /* Main.storyboard */; };
 		180C238419E4D41A008F8C0E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 180C238319E4D41A008F8C0E /* Images.xcassets */; };
 		180C239319E4D41A008F8C0E /* ExpressionChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 180C239219E4D41A008F8C0E /* ExpressionChatTests.m */; };
-		180C239D19E4D4FA008F8C0E /* AVOSCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180C239C19E4D4FA008F8C0E /* AVOSCloud.framework */; };
 		180C239F19E4D556008F8C0E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180C239E19E4D556008F8C0E /* SystemConfiguration.framework */; };
 		180C23A119E4D563008F8C0E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180C23A019E4D563008F8C0E /* MobileCoreServices.framework */; };
 		180C23A319E4D56E008F8C0E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180C23A219E4D56E008F8C0E /* CoreTelephony.framework */; };
@@ -22,15 +21,30 @@
 		180C23A719E4D590008F8C0E /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 180C23A619E4D590008F8C0E /* libicucore.dylib */; };
 		180C23AA19E522D7008F8C0E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180C23A919E522D7008F8C0E /* LoginViewController.m */; };
 		182EBE0019FCEB7100D3AC01 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182EBDFF19FCEB7100D3AC01 /* AudioToolbox.framework */; };
+		183CD7EB1A086C0700117537 /* AVOSCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 183CD7EA1A086C0700117537 /* AVOSCloud.framework */; };
 		183EE39019EE06BC0096DC26 /* EmojiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183EE38F19EE06BC0096DC26 /* EmojiViewController.m */; };
 		183EE39319EE09810096DC26 /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 183EE39219EE09810096DC26 /* Emoji.plist */; };
-		18409E8B19E7BA85008414EF /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18409E8A19E7BA85008414EF /* ChatViewController.m */; };
 		1840F8DC19EB59A600F64F7C /* BiuSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840F8DB19EB59A600F64F7C /* BiuSessionManager.m */; };
 		18414CD919ED08B700B072C4 /* NotifyMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 18414CD819ED08B700B072C4 /* NotifyMsg.m */; };
 		1841E3DF19E5270400859B58 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1841E3DE19E5270400859B58 /* MainViewController.m */; };
 		18580A9B1A01132D00C1539E /* Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18580A9A1A01132D00C1539E /* Animation.m */; };
+		18912ADD1A01CF6500BF0797 /* JZSwipeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18912ADC1A01CF6500BF0797 /* JZSwipeCell.m */; };
+		189BE4241A046BD5002FF4FA /* ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189BE4231A046BD5002FF4FA /* ResourceManager.m */; };
+		189BE42D1A04F88D002FF4FA /* audio_01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 189BE4251A04F88D002FF4FA /* audio_01.wav */; };
+		189BE42E1A04F88D002FF4FA /* audio_02.wav in Resources */ = {isa = PBXBuildFile; fileRef = 189BE4261A04F88D002FF4FA /* audio_02.wav */; };
+		189BE42F1A04F88D002FF4FA /* audio_03.wav in Resources */ = {isa = PBXBuildFile; fileRef = 189BE4271A04F88D002FF4FA /* audio_03.wav */; };
+		189BE4301A04F88D002FF4FA /* audio_04.wav in Resources */ = {isa = PBXBuildFile; fileRef = 189BE4281A04F88D002FF4FA /* audio_04.wav */; };
+		189BE4311A04F88D002FF4FA /* audio_05.wav in Resources */ = {isa = PBXBuildFile; fileRef = 189BE4291A04F88D002FF4FA /* audio_05.wav */; };
+		189BE4321A04F88D002FF4FA /* audio_06.wav in Resources */ = {isa = PBXBuildFile; fileRef = 189BE42A1A04F88D002FF4FA /* audio_06.wav */; };
+		189BE4331A04F88D002FF4FA /* audio_07.wav in Resources */ = {isa = PBXBuildFile; fileRef = 189BE42B1A04F88D002FF4FA /* audio_07.wav */; };
+		189BE4341A04F88D002FF4FA /* audio_08.wav in Resources */ = {isa = PBXBuildFile; fileRef = 189BE42C1A04F88D002FF4FA /* audio_08.wav */; };
+		189BE4361A04F8C8002FF4FA /* Voice.plist in Resources */ = {isa = PBXBuildFile; fileRef = 189BE4351A04F8C8002FF4FA /* Voice.plist */; };
+		189BE4391A065356002FF4FA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 189BE4381A065356002FF4FA /* Reachability.m */; };
+		189BE43C1A065DEC002FF4FA /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189BE43B1A065DEC002FF4FA /* LoadingViewController.m */; };
+		189BE4401A067760002FF4FA /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189BE43F1A067760002FF4FA /* SettingsViewController.m */; };
 		18B6A1A219FF2B08008C4EE9 /* Friends+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6A1A119FF2B08008C4EE9 /* Friends+Methods.m */; };
 		18B6A1A519FF2D29008C4EE9 /* NotifyMsg+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6A1A419FF2D29008C4EE9 /* NotifyMsg+Methods.m */; };
+		18E009311A0723560071F471 /* ValidateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E009301A0723560071F471 /* ValidateViewController.m */; };
 		18EF7FB119E685B60018AC26 /* DBBiu.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 18EF7FAF19E685B60018AC26 /* DBBiu.xcdatamodeld */; };
 		18EF7FB419E686BE0018AC26 /* Friends.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EF7FB319E686BE0018AC26 /* Friends.m */; };
 /* End PBXBuildFile section */
@@ -59,7 +73,6 @@
 		180C238C19E4D41A008F8C0E /* ExpressionChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExpressionChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		180C239119E4D41A008F8C0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		180C239219E4D41A008F8C0E /* ExpressionChatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExpressionChatTests.m; sourceTree = "<group>"; };
-		180C239C19E4D4FA008F8C0E /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVOSCloud.framework; path = "../../iOS/release-v2.6.5.1/AVOSCloud.framework"; sourceTree = "<group>"; };
 		180C239E19E4D556008F8C0E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		180C23A019E4D563008F8C0E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		180C23A219E4D56E008F8C0E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -68,11 +81,10 @@
 		180C23A819E522D7008F8C0E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		180C23A919E522D7008F8C0E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		182EBDFF19FCEB7100D3AC01 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		183CD7EA1A086C0700117537 /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloud.framework; sourceTree = "<group>"; };
 		183EE38E19EE06BC0096DC26 /* EmojiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiViewController.h; sourceTree = "<group>"; };
 		183EE38F19EE06BC0096DC26 /* EmojiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiViewController.m; sourceTree = "<group>"; };
-		183EE39219EE09810096DC26 /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Emoji.plist; path = ../Emoji.plist; sourceTree = "<group>"; };
-		18409E8919E7BA85008414EF /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
-		18409E8A19E7BA85008414EF /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
+		183EE39219EE09810096DC26 /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
 		1840F8DA19EB59A600F64F7C /* BiuSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiuSessionManager.h; sourceTree = "<group>"; };
 		1840F8DB19EB59A600F64F7C /* BiuSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiuSessionManager.m; sourceTree = "<group>"; };
 		18414CD719ED08B700B072C4 /* NotifyMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyMsg.h; sourceTree = "<group>"; };
@@ -81,10 +93,31 @@
 		1841E3DE19E5270400859B58 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		18580A991A01132D00C1539E /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		18580A9A1A01132D00C1539E /* Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Animation.m; sourceTree = "<group>"; };
+		18912ADB1A01CF6500BF0797 /* JZSwipeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JZSwipeCell.h; sourceTree = "<group>"; };
+		18912ADC1A01CF6500BF0797 /* JZSwipeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JZSwipeCell.m; sourceTree = "<group>"; };
+		189BE4221A046BD5002FF4FA /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = ../ResourceManager.h; sourceTree = "<group>"; };
+		189BE4231A046BD5002FF4FA /* ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResourceManager.m; path = ../ResourceManager.m; sourceTree = "<group>"; };
+		189BE4251A04F88D002FF4FA /* audio_01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_01.wav; sourceTree = "<group>"; };
+		189BE4261A04F88D002FF4FA /* audio_02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_02.wav; sourceTree = "<group>"; };
+		189BE4271A04F88D002FF4FA /* audio_03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_03.wav; sourceTree = "<group>"; };
+		189BE4281A04F88D002FF4FA /* audio_04.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_04.wav; sourceTree = "<group>"; };
+		189BE4291A04F88D002FF4FA /* audio_05.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_05.wav; sourceTree = "<group>"; };
+		189BE42A1A04F88D002FF4FA /* audio_06.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_06.wav; sourceTree = "<group>"; };
+		189BE42B1A04F88D002FF4FA /* audio_07.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_07.wav; sourceTree = "<group>"; };
+		189BE42C1A04F88D002FF4FA /* audio_08.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_08.wav; sourceTree = "<group>"; };
+		189BE4351A04F8C8002FF4FA /* Voice.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Voice.plist; path = ExpressionChat/Voice.plist; sourceTree = "<group>"; };
+		189BE4371A065356002FF4FA /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		189BE4381A065356002FF4FA /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		189BE43A1A065DEC002FF4FA /* LoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingViewController.h; sourceTree = "<group>"; };
+		189BE43B1A065DEC002FF4FA /* LoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController.m; sourceTree = "<group>"; };
+		189BE43E1A067760002FF4FA /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		189BE43F1A067760002FF4FA /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		18B6A1A019FF2B08008C4EE9 /* Friends+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Friends+Methods.h"; sourceTree = "<group>"; };
 		18B6A1A119FF2B08008C4EE9 /* Friends+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Friends+Methods.m"; sourceTree = "<group>"; };
 		18B6A1A319FF2D29008C4EE9 /* NotifyMsg+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NotifyMsg+Methods.h"; sourceTree = "<group>"; };
 		18B6A1A419FF2D29008C4EE9 /* NotifyMsg+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NotifyMsg+Methods.m"; sourceTree = "<group>"; };
+		18E0092F1A0723560071F471 /* ValidateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidateViewController.h; sourceTree = "<group>"; };
+		18E009301A0723560071F471 /* ValidateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidateViewController.m; sourceTree = "<group>"; };
 		18EF7FB019E685B60018AC26 /* DBBiu.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DBBiu.xcdatamodel; sourceTree = "<group>"; };
 		18EF7FB219E686BE0018AC26 /* Friends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Friends.h; path = ../Friends.h; sourceTree = "<group>"; };
 		18EF7FB319E686BE0018AC26 /* Friends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Friends.m; path = ../Friends.m; sourceTree = "<group>"; };
@@ -100,8 +133,8 @@
 				180C23A519E4D576008F8C0E /* CoreLocation.framework in Frameworks */,
 				180C23A319E4D56E008F8C0E /* CoreTelephony.framework in Frameworks */,
 				180C23A119E4D563008F8C0E /* MobileCoreServices.framework in Frameworks */,
+				183CD7EB1A086C0700117537 /* AVOSCloud.framework in Frameworks */,
 				180C239F19E4D556008F8C0E /* SystemConfiguration.framework in Frameworks */,
-				180C239D19E4D4FA008F8C0E /* AVOSCloud.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,23 +173,15 @@
 		180C237519E4D419008F8C0E /* ExpressionChat */ = {
 			isa = PBXGroup;
 			children = (
+				18912ADE1A01CF6E00BF0797 /* Resource */,
 				18414CDE19ED0A3400B072C4 /* Manager */,
 				18414CDA19ED08F800B072C4 /* DBBiu */,
+				189BE43D1A065DF6002FF4FA /* ViewController */,
 				180C237A19E4D41A008F8C0E /* AppDelegate.h */,
 				180C237B19E4D41A008F8C0E /* AppDelegate.m */,
 				18580A991A01132D00C1539E /* Animation.h */,
 				18580A9A1A01132D00C1539E /* Animation.m */,
-				180C237D19E4D41A008F8C0E /* ViewController.h */,
-				180C237E19E4D41A008F8C0E /* ViewController.m */,
-				183EE38E19EE06BC0096DC26 /* EmojiViewController.h */,
-				183EE38F19EE06BC0096DC26 /* EmojiViewController.m */,
 				180C238019E4D41A008F8C0E /* Main.storyboard */,
-				18409E8919E7BA85008414EF /* ChatViewController.h */,
-				18409E8A19E7BA85008414EF /* ChatViewController.m */,
-				180C23A819E522D7008F8C0E /* LoginViewController.h */,
-				180C23A919E522D7008F8C0E /* LoginViewController.m */,
-				1841E3DD19E5270400859B58 /* MainViewController.h */,
-				1841E3DE19E5270400859B58 /* MainViewController.m */,
 				180C238319E4D41A008F8C0E /* Images.xcassets */,
 				18017E8119F8EF9800BB9B29 /* LaunchScreen.xib */,
 				180C237619E4D419008F8C0E /* Supporting Files */,
@@ -167,13 +192,13 @@
 		180C237619E4D419008F8C0E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				183CD7EA1A086C0700117537 /* AVOSCloud.framework */,
 				182EBDFF19FCEB7100D3AC01 /* AudioToolbox.framework */,
 				180C23A619E4D590008F8C0E /* libicucore.dylib */,
 				180C23A419E4D576008F8C0E /* CoreLocation.framework */,
 				180C23A219E4D56E008F8C0E /* CoreTelephony.framework */,
 				180C23A019E4D563008F8C0E /* MobileCoreServices.framework */,
 				180C239E19E4D556008F8C0E /* SystemConfiguration.framework */,
-				180C239C19E4D4FA008F8C0E /* AVOSCloud.framework */,
 				180C237719E4D41A008F8C0E /* Info.plist */,
 				180C237819E4D41A008F8C0E /* main.m */,
 			);
@@ -200,7 +225,6 @@
 		18414CDA19ED08F800B072C4 /* DBBiu */ = {
 			isa = PBXGroup;
 			children = (
-				183EE39219EE09810096DC26 /* Emoji.plist */,
 				18EF7FB219E686BE0018AC26 /* Friends.h */,
 				18EF7FB319E686BE0018AC26 /* Friends.m */,
 				18EF7FAF19E685B60018AC26 /* DBBiu.xcdatamodeld */,
@@ -213,10 +237,55 @@
 		18414CDE19ED0A3400B072C4 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				189BE4221A046BD5002FF4FA /* ResourceManager.h */,
+				189BE4231A046BD5002FF4FA /* ResourceManager.m */,
 				1840F8DA19EB59A600F64F7C /* BiuSessionManager.h */,
 				1840F8DB19EB59A600F64F7C /* BiuSessionManager.m */,
 			);
 			name = Manager;
+			sourceTree = "<group>";
+		};
+		18912ADE1A01CF6E00BF0797 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				18912ADB1A01CF6500BF0797 /* JZSwipeCell.h */,
+				18912ADC1A01CF6500BF0797 /* JZSwipeCell.m */,
+				189BE4371A065356002FF4FA /* Reachability.h */,
+				189BE4381A065356002FF4FA /* Reachability.m */,
+				183EE39219EE09810096DC26 /* Emoji.plist */,
+				189BE4351A04F8C8002FF4FA /* Voice.plist */,
+				189BE4251A04F88D002FF4FA /* audio_01.wav */,
+				189BE4261A04F88D002FF4FA /* audio_02.wav */,
+				189BE4271A04F88D002FF4FA /* audio_03.wav */,
+				189BE4281A04F88D002FF4FA /* audio_04.wav */,
+				189BE4291A04F88D002FF4FA /* audio_05.wav */,
+				189BE42A1A04F88D002FF4FA /* audio_06.wav */,
+				189BE42B1A04F88D002FF4FA /* audio_07.wav */,
+				189BE42C1A04F88D002FF4FA /* audio_08.wav */,
+			);
+			name = Resource;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		189BE43D1A065DF6002FF4FA /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				18E0092F1A0723560071F471 /* ValidateViewController.h */,
+				18E009301A0723560071F471 /* ValidateViewController.m */,
+				189BE43E1A067760002FF4FA /* SettingsViewController.h */,
+				189BE43F1A067760002FF4FA /* SettingsViewController.m */,
+				189BE43A1A065DEC002FF4FA /* LoadingViewController.h */,
+				189BE43B1A065DEC002FF4FA /* LoadingViewController.m */,
+				180C23A819E522D7008F8C0E /* LoginViewController.h */,
+				180C23A919E522D7008F8C0E /* LoginViewController.m */,
+				1841E3DD19E5270400859B58 /* MainViewController.h */,
+				1841E3DE19E5270400859B58 /* MainViewController.m */,
+				180C237D19E4D41A008F8C0E /* ViewController.h */,
+				180C237E19E4D41A008F8C0E /* ViewController.m */,
+				183EE38E19EE06BC0096DC26 /* EmojiViewController.h */,
+				183EE38F19EE06BC0096DC26 /* EmojiViewController.m */,
+			);
+			name = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,10 +337,15 @@
 				TargetAttributes = {
 					180C237219E4D419008F8C0E = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 9UJ995B4PR;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					180C238B19E4D41A008F8C0E = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = 9UJ995B4PR;
 						TestTargetID = 180C237219E4D419008F8C0E;
 					};
 				};
@@ -302,8 +376,17 @@
 			files = (
 				180C238219E4D41A008F8C0E /* Main.storyboard in Resources */,
 				183EE39319EE09810096DC26 /* Emoji.plist in Resources */,
+				189BE4311A04F88D002FF4FA /* audio_05.wav in Resources */,
+				189BE4361A04F8C8002FF4FA /* Voice.plist in Resources */,
+				189BE4321A04F88D002FF4FA /* audio_06.wav in Resources */,
 				180C238419E4D41A008F8C0E /* Images.xcassets in Resources */,
+				189BE4341A04F88D002FF4FA /* audio_08.wav in Resources */,
+				189BE42D1A04F88D002FF4FA /* audio_01.wav in Resources */,
 				18017E8219F8EF9800BB9B29 /* LaunchScreen.xib in Resources */,
+				189BE4331A04F88D002FF4FA /* audio_07.wav in Resources */,
+				189BE4301A04F88D002FF4FA /* audio_04.wav in Resources */,
+				189BE42F1A04F88D002FF4FA /* audio_03.wav in Resources */,
+				189BE42E1A04F88D002FF4FA /* audio_02.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,16 +407,21 @@
 				183EE39019EE06BC0096DC26 /* EmojiViewController.m in Sources */,
 				18414CD919ED08B700B072C4 /* NotifyMsg.m in Sources */,
 				18580A9B1A01132D00C1539E /* Animation.m in Sources */,
+				189BE4401A067760002FF4FA /* SettingsViewController.m in Sources */,
+				18E009311A0723560071F471 /* ValidateViewController.m in Sources */,
 				18B6A1A219FF2B08008C4EE9 /* Friends+Methods.m in Sources */,
 				18EF7FB419E686BE0018AC26 /* Friends.m in Sources */,
 				1840F8DC19EB59A600F64F7C /* BiuSessionManager.m in Sources */,
+				189BE43C1A065DEC002FF4FA /* LoadingViewController.m in Sources */,
 				18EF7FB119E685B60018AC26 /* DBBiu.xcdatamodeld in Sources */,
+				189BE4241A046BD5002FF4FA /* ResourceManager.m in Sources */,
 				180C23AA19E522D7008F8C0E /* LoginViewController.m in Sources */,
 				180C237F19E4D41A008F8C0E /* ViewController.m in Sources */,
+				189BE4391A065356002FF4FA /* Reachability.m in Sources */,
 				18B6A1A519FF2D29008C4EE9 /* NotifyMsg+Methods.m in Sources */,
 				180C237C19E4D41A008F8C0E /* AppDelegate.m in Sources */,
+				18912ADD1A01CF6500BF0797 /* JZSwipeCell.m in Sources */,
 				1841E3DF19E5270400859B58 /* MainViewController.m in Sources */,
-				18409E8B19E7BA85008414EF /* ChatViewController.m in Sources */,
 				180C237919E4D41A008F8C0E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -402,9 +490,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "eec1550a-2a7e-4400-b2e4-db244963f94e";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -437,8 +526,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "eec1550a-2a7e-4400-b2e4-db244963f94e";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -453,9 +543,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/apple/Desktop/iOS/release-v2.6.5.1",
+					"$(PROJECT_DIR)/ExpressionChat",
 				);
 				INFOPLIST_FILE = ExpressionChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -472,9 +563,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/apple/Desktop/iOS/release-v2.6.5.1",
+					"$(PROJECT_DIR)/ExpressionChat",
 				);
 				INFOPLIST_FILE = ExpressionChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -486,6 +578,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -497,6 +591,7 @@
 				INFOPLIST_FILE = ExpressionChatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExpressionChat.app/ExpressionChat";
 			};
 			name = Debug;
@@ -505,6 +600,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -512,6 +609,7 @@
 				INFOPLIST_FILE = ExpressionChatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExpressionChat.app/ExpressionChat";
 			};
 			name = Release;

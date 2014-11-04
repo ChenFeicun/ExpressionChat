@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "ViewController.h"
-//#import "BiuSessionManager.h"
+#import "ResourceManager.h"
 #import <AVOSCloud/AVOSCloud.h>
 
 @interface AppDelegate ()
@@ -19,6 +19,9 @@
 @implementation AppDelegate
 
 - (void)initDocument {
+    
+    [[ResourceManager sharedInstance] createSystemSoundID];
+    
     NSLog(@"initDocument !!!!!!");
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *documentsDirectory = [[fileManager URLsForDirectory:NSDocumentDirectory
@@ -49,55 +52,57 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    //ViewController *cv = [[ViewController alloc] init];
-    //UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:cv];
-    //self.window.rootViewController = cv;
-
     [self initDocument];
     [AVOSCloud setApplicationId:@"v2a4kgkyvnsmjkj0kf6e73w8rve32gxx4cttl8ob7dss0ikb"
                       clientKey:@"v2o8ffr9ou10wqzk96hslcd3vmcqpv2huxv0qkeqef4rgfro"];
     
-    //AVInstallation *installation = [AVInstallation alloc]in
-    //不能在这初始化 因为不一定有AVUSer
-    //[BiuSessionManager sharedInstance];
-    //在这里判断是否需要注册
-    //AVUser *user = [AVUser currentUser];
+    //推送过来的消息在这里 应用未启动
+//    if (launchOptions) {
+//        NSLog(@"123");
+//        //NSDictionary *div = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+//        NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
+//        if (badge) {
+//            badge--;
+//            [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
+//        }
+//    }
+//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
+//        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+//    } else {
+//        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
+//        [application registerUserNotificationSettings:settings];
+//        [application registerForRemoteNotifications];
+//
+//    }
     
-       return YES;
-    //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return YES;
 }
 
-/*
-- (void)toLogin {
-    
+//接收远程消息 应用处于打开状态
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"didReceiveRemoteNotification");
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    localNotification.userInfo = userInfo;
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    localNotification.alertBody = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+    localNotification.fireDate = [NSDate date];
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
-- (void)toMain {
-    MainViewController *cv = [[MainViewController alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:cv];
-    self.window.rootViewController = nav;
-    
-    //self.window.rootViewController = controller;
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    CDBaseTabBarController *tab = [[CDBaseTabBarController alloc] init];
-    
-    CDBaseController *controller = [[CDChatListController alloc] init];
-    CDBaseNavigationController *nav = [[CDBaseNavigationController alloc] initWithRootViewController:controller];
-    [tab addChildViewController:nav];
-    
-    controller = [[CDContactListController alloc] init];
-    nav = [[CDBaseNavigationController alloc] initWithRootViewController:controller];
-    [tab addChildViewController:nav];
-    
-    controller = [[CDProfileController alloc] init];
-    nav = [[CDBaseNavigationController alloc] initWithRootViewController:controller];
-    [tab addChildViewController:nav];
-    
-    self.window.rootViewController = tab;
-     
-}
-*/
 
+//注册成功
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSLog(@"Receive DeviceToken: %@", deviceToken);
+    AVInstallation *curInstallation = [AVInstallation currentInstallation];
+    [curInstallation setDeviceTokenFromData:deviceToken];
+    [curInstallation saveInBackground];
+}
+//注册失败
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"Failed!!!!!!!!!!!!!!!!! %@", error.description);
+}
+
+#pragma mark - 应用的生命周期
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

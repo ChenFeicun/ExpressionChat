@@ -21,4 +21,15 @@
     [view.layer addAnimation:animation forKey:@"position"];
 }
 
++ (void)moveViewForEditing:(UIView *)view orNot:(BOOL)editingOrNot{
+    CGFloat move = editingOrNot ? 50 : -50;
+    [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        CGRect frame = view.frame;
+        frame.origin.y -= move;
+        view.frame = frame;
+    } completion:^(BOOL finished) {
+        ;
+    }];
+}
+
 @end

@@ -8,6 +8,12 @@
 
 #import "NotifyMsg.h"
 
+@class Friends;
+
 @interface NotifyMsg (Methods)
+
++ (NSUInteger)getOfflineMsgCount:(Friends *)friend inManagedObjectContext:(NSManagedObjectContext *)context;
++ (NSArray *)getOfflineMsg:(Friends *)friend inManagedObjectContext:(NSManagedObjectContext *)context;
++ (void)addMsgWithDictionary:(NSDictionary *)dict inManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end
