@@ -32,4 +32,20 @@
     }];
 }
 
++ (void)setBackgroundColorWithGrey:(UIView *)view {
+    [view setBackgroundColor:[[UIColor alloc] initWithRed:117.0 / 255.0 green:117.0 / 255.0 blue:117.0 / 255.0 alpha:1.0]];
+}
+
++ (void)setBackgroundColorWithDark:(UIView *)view {
+    [view setBackgroundColor:[[UIColor alloc] initWithRed:0 green:188.0 / 255.0 blue:212.0 / 255.0 alpha:1.0]];
+}
+
++ (void)setBackgroundColorWithLight:(UIView *)view {
+    [view setBackgroundColor:[[UIColor alloc] initWithRed:245.0 / 255.0 green:245.0 / 255.0 blue:245.0 / 255.0 alpha:1.0]];
+}
+
++ (void)setBackgroundColorWithWhite:(UIView *)view {
+    [view setBackgroundColor:[[UIColor alloc] initWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]];
+}
+
 @end

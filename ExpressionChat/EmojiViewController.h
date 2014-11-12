@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EmojiSoundCell.h"
 
 @class Friends;
 
-@interface EmojiViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIDynamicAnimatorDelegate>
+@interface EmojiViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIDynamicAnimatorDelegate, EmojiSoundCellDelegate>
 @property (strong, nonatomic) Friends *chatFriend;
 @end

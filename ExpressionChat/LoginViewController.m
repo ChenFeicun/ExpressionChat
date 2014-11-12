@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "ViewController.h"
 #import "Animation.h"
+#import "Toast.h"
 #import <AVOSCloud/AVOSCloud.h>
 
 @interface LoginViewController ()
@@ -22,16 +23,22 @@ static BOOL editingOrNot = NO;
 
 @implementation LoginViewController
 
+- (IBAction)touchDown:(id)sender {
+    [Animation setBackgroundColorWithGrey:sender];
+}
+
 - (IBAction)userLogin:(id)sender {
+    [Animation setBackgroundColorWithDark:sender];
     _user = [AVUser user];
     _user.username = [_loginUserName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     //特殊字符判断
     _user.password = [_loginPassword.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
-    if (_user.username.length > 12) {
+    if (_user.username.length > 12 || _user.username.length <= 0) {
         //提醒
         [Animation shakeView:_loginUserName];
-    } else if (_user.password.length == 0) {
+        [[Toast makeToast:@"用户名太长!!!!"] show];
+    } else if (_user.password.length > 12 || _user.password.length <= 0) {
         //提醒
         [Animation shakeView:_loginPassword];
     } else {
@@ -41,7 +48,7 @@ static BOOL editingOrNot = NO;
                 [self performSegueWithIdentifier:@"RegistLoading" sender:self];
             } else if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]) {
                 //没有网络连接
-                
+                [[Toast makeToast:@"网络连接异常"] show];
             } else if ([error.localizedDescription isEqualToString:@"Could not find user"]) {
                 [_user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
@@ -54,6 +61,7 @@ static BOOL editingOrNot = NO;
             } else {
                 //用户名密码不匹配
                 [Animation shakeView:_loginButton];
+                [[Toast makeToast:@"用户名与密码不匹配"] show];
             }
         }];
     }
@@ -70,19 +78,20 @@ static BOOL editingOrNot = NO;
 }
 
 //设置委托之后 才会调用这个方法
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if ([textField isEqual:_loginUserName]) {
-        NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
-        _loginButton.enabled = ([newText length] > 0);
-    }
-    return YES;
-}
+//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+//    if ([textField isEqual:_loginUserName]) {
+//        NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
+//        _loginButton.enabled = ([newText length] > 0);
+//        [Animation setBackgroundColorWithDark:_loginButton];
+//    }
+//    return YES;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     //设置委托
-    _loginUserName.delegate = self;
-    _loginPassword.delegate = self;
+    //_loginUserName.delegate = self;
+    //_loginPassword.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

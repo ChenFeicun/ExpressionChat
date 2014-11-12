@@ -13,5 +13,9 @@
 
 + (void)shakeView:(UIView *)view;
 + (void)moveViewForEditing:(UIView *)view orNot:(BOOL)editingOrNot;
++ (void)setBackgroundColorWithGrey:(UIView *)view;
++ (void)setBackgroundColorWithDark:(UIView *)view;
++ (void)setBackgroundColorWithLight:(UIView *)view;
++ (void)setBackgroundColorWithWhite:(UIView *)view;
 
 @end

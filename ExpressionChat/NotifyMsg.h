@@ -2,7 +2,7 @@
 //  NotifyMsg.h
 //  ExpressionChat
 //
-//  Created by Feicun on 14-10-14.
+//  Created by Feicun on 14/11/7.
 //  Copyright (c) 2014年 Feicun. All rights reserved.
 //
 
@@ -13,8 +13,9 @@
 @interface NotifyMsg : NSManagedObject
 
 @property (nonatomic, retain) NSString * fromid;
-@property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSString * resid;
+@property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSString * xratio;
+@property (nonatomic, retain) NSNumber * time;
 
 @end

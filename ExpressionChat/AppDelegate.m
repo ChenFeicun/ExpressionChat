@@ -20,7 +20,7 @@
 
 - (void)initDocument {
     
-    [[ResourceManager sharedInstance] createSystemSoundID];
+    [ResourceManager sharedInstance];
     
     NSLog(@"initDocument !!!!!!");
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -56,24 +56,26 @@
     [AVOSCloud setApplicationId:@"v2a4kgkyvnsmjkj0kf6e73w8rve32gxx4cttl8ob7dss0ikb"
                       clientKey:@"v2o8ffr9ou10wqzk96hslcd3vmcqpv2huxv0qkeqef4rgfro"];
     
+    //图标上的数字 通过推送推过来的 需要在服务器端做增加
+    
     //推送过来的消息在这里 应用未启动
-//    if (launchOptions) {
-//        NSLog(@"123");
-//        //NSDictionary *div = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-//        NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
-//        if (badge) {
-//            badge--;
-//            [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
-//        }
-//    }
-//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
-//        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
-//    } else {
-//        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
-//        [application registerUserNotificationSettings:settings];
-//        [application registerForRemoteNotifications];
-//
-//    }
+    if (launchOptions) {
+        NSLog(@"123");
+        //NSDictionary *div = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
+        if (badge) {
+            NSLog(@"%li", (long)badge);
+            [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+        }
+    }
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
+        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+    } else {
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
+        [application registerUserNotificationSettings:settings];
+        [application registerForRemoteNotifications];
+
+    }
     
     return YES;
 }
@@ -86,6 +88,7 @@
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     localNotification.alertBody = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
     localNotification.fireDate = [NSDate date];
+    localNotification.applicationIconBadgeNumber++;
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
@@ -111,10 +114,12 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    //[[UIApplication sharedApplication] setApplicationIconBadgeNumber:[UIApplication sharedApplication].applicationIconBadgeNumber++];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

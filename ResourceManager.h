@@ -12,9 +12,11 @@
 @interface ResourceManager : NSObject
 
 + (instancetype)sharedInstance;
+@property (nonatomic, strong) NSMutableArray *emojiArray;
 - (NSDictionary *)readEmojiInfo;
 - (NSDictionary *)readVoiceInfo;
-- (SystemSoundID)getSoundIdByVoicePath:(NSString *)content;
-- (void)createSystemSoundID;
+- (NSMutableArray *)emojiSoundInfo;
+//- (SystemSoundID)getSoundIdByVoicePath:(NSString *)content;
+//- (void)createSystemSoundID;
 
 @end

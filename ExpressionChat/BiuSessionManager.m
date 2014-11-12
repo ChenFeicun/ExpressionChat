@@ -53,7 +53,12 @@ static BOOL initialized = NO;
     _appDelegate = [[UIApplication sharedApplication] delegate];
     [_session openWithPeerId:[AVUser currentUser].objectId];
     _context = _appDelegate.document.managedObjectContext;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearCurrentFriend) name:@"ClearCurrentFriend" object:nil];
     initialized = YES;
+}
+
+- (void)clearCurrentFriend {
+    _chatFriendCurrent = nil;
 }
 
 - (void)addWatchPeerId:(NSString *)peerId andSetCurFriend:(Friends *)friend{
@@ -117,10 +122,10 @@ static BOOL initialized = NO;
         NSData *data = [message.payload dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
         if (![Friends isFriendExistWithId:message.fromPeerId inManagedObjectContext:_context]) {
-            [NotifyMsg addMsgWithDictionary:dict inManagedObjectContext:_context];
+            [NotifyMsg addMsgWithDictionary:dict andTime:message.timestamp inManagedObjectContext:_context];
             [Friends addFriendWithAccount:[dict objectForKey:@"fromName"] andId:message.fromPeerId inManagedObjectContext:_context];
         } else {
-            [NotifyMsg addMsgWithDictionary:dict inManagedObjectContext:_context];
+            [NotifyMsg addMsgWithDictionary:dict andTime:message.timestamp inManagedObjectContext:_context];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
     }
@@ -132,6 +137,7 @@ static BOOL initialized = NO;
 }
 
 - (void)session:(AVSession *)session messageSendFinished:(AVMessage *)message {
+    NSLog(@"%lli", message.timestamp);
     NSLog(@"%s", __PRETTY_FUNCTION__);
     NSLog(@"session:%@ message:%@ toPeerId:%@", session.peerId, message, message.toPeerId);
 }

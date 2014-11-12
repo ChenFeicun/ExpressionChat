@@ -2,7 +2,7 @@
 //  Friends.h
 //  ExpressionChat
 //
-//  Created by Feicun on 14-10-9.
+//  Created by Feicun on 14/11/4.
 //  Copyright (c) 2014年 Feicun. All rights reserved.
 //
 
@@ -12,7 +12,7 @@
 
 @interface Friends : NSManagedObject
 
-@property (nonatomic, retain) NSString * id;
 @property (nonatomic, retain) NSString * account;
+@property (nonatomic, retain) NSString * id;
 
 @end

@@ -88,11 +88,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
     self.curUser = [AVUser currentUser];
     [self.curButton setTitle:self.curUser.username forState:UIControlStateNormal];
     self.appDelegate = [[UIApplication sharedApplication] delegate];
@@ -127,8 +127,8 @@
     if (self.all) {
         UILabel *label = (UILabel *)[cell viewWithTag:100];
         Friends *friend = self.all[indexPath.row];
+        NSLog(@"%@", friend.account);
         label.text = friend.account;
-        
         //在这里根据friendid查找数据库 看是否有离线消息
         NSInteger count = [NotifyMsg getOfflineMsgCount:friend inManagedObjectContext:_context];
         if (count) {
@@ -139,6 +139,14 @@
         }
     }
     return cell;
+}
+- (IBAction)touchDown:(id)sender {
+    [Animation setBackgroundColorWithGrey:sender];
+}
+
+- (IBAction)toSettings:(id)sender {
+    [Animation setBackgroundColorWithDark:sender];
+    [self performSegueWithIdentifier:@"MainToSettings" sender:self];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -157,6 +165,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     JZSwipeCell *cell = (JZSwipeCell*)[tableView cellForRowAtIndexPath:indexPath];
     [cell triggerSwipeWithType:JZSwipeTypeNone];
+    
+    [Animation setBackgroundColorWithLight:[cell viewWithTag:100]];
+    [Animation setBackgroundColorWithLight:[cell viewWithTag:101]];
 }
 //1
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -167,14 +178,14 @@
     }
 }
 
-- (void)swipeCell:(JZSwipeCell*)cell triggeredSwipeWithType:(JZSwipeType)swipeType
-{
-    if (swipeType != JZSwipeTypeNone)
-    {
+- (void)swipeCell:(JZSwipeCell*)cell triggeredSwipeWithType:(JZSwipeType)swipeType {
+    if (swipeType != JZSwipeTypeNone) {
         NSIndexPath *indexPath = [self.friendsTableView indexPathForCell:cell];
         if (indexPath)
         {
-            [Friends deleteFriend:[_all objectAtIndex:indexPath.row] inManagedObjectContext:_context];
+            Friends *friend = [_all objectAtIndex:indexPath.row];
+            [Friends deleteFriend:friend inManagedObjectContext:_context];
+            [NotifyMsg deleteFriendMsg:friend inManagedObjectContext:_context];
             //deleteRowsAtIndexPaths 执行完会自动删除
             //[self.all removeObjectAtIndex:indexPath.row];
             [self.friendsTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -182,8 +193,7 @@
     }
 }
 
-- (void)swipeCell:(JZSwipeCell *)cell swipeTypeChangedFrom:(JZSwipeType)from to:(JZSwipeType)to
-{
+- (void)swipeCell:(JZSwipeCell *)cell swipeTypeChangedFrom:(JZSwipeType)from to:(JZSwipeType)to {
     // perform custom state changes here
     NSLog(@"Swipe Changed From (%d) To (%d)", from, to);
 }

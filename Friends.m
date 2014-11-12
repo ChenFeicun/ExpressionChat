@@ -2,7 +2,7 @@
 //  Friends.m
 //  ExpressionChat
 //
-//  Created by Feicun on 14-10-9.
+//  Created by Feicun on 14/11/4.
 //  Copyright (c) 2014年 Feicun. All rights reserved.
 //
 
@@ -11,7 +11,7 @@
 
 @implementation Friends
 
-@dynamic id;
 @dynamic account;
+@dynamic id;
 
 @end

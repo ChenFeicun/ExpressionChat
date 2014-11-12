@@ -24,8 +24,16 @@ static BOOL editingOrNot = NO;
 //记录当前 验证的手机号码
 static NSString *phoneNumber = nil;
 @implementation ValidateViewController
+- (IBAction)touchDown:(id)sender {
+    [Animation setBackgroundColorWithGrey:sender];
+}
+
+- (IBAction)swipeToBack:(id)sender {
+    [self performSegueWithIdentifier:@"BackToSettings" sender:self];
+}
 
 - (IBAction)send:(id)sender {
+    [Animation setBackgroundColorWithDark:sender];
     [AVOSCloud requestSmsCodeWithPhoneNumber:_phoneTextField.text appName:@"Biu" operation:@"验证" timeToLive:10 callback:^(BOOL succeeded, NSError *error) {
         NSLog(@"!!!--%@--!!!", error.localizedDescription);
         if (succeeded) {
@@ -57,6 +65,7 @@ static NSString *phoneNumber = nil;
 }
 
 - (IBAction)validate:(id)sender {
+    [Animation setBackgroundColorWithDark:sender];
     [AVOSCloud verifySmsCode:_codeTextField.text callback:^(BOOL succeeded, NSError *error) {
         //code
         if (succeeded) {
@@ -70,7 +79,7 @@ static NSString *phoneNumber = nil;
                 }
             }];
             //返回上一页
-            
+            [self performSegueWithIdentifier:@"BackToSettings" sender:self];
         }
     }];
 }

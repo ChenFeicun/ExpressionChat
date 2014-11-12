@@ -18,5 +18,6 @@
 + (void)addFriendWithAccount:(NSString *)account andId:(NSString *)id inManagedObjectContext:(NSManagedObjectContext *)context;
 + (void)deleteFriend:(Friends *)delFriend inManagedObjectContext:(NSManagedObjectContext *)context;
 + (NSMutableArray *)allFriendsInManagedObjectContext:(NSManagedObjectContext *)context;
++ (void)deleteAllFriends:(NSManagedObjectContext *)context;
 
 @end

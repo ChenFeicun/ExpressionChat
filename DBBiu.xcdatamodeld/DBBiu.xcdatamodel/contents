@@ -7,11 +7,12 @@
     <entity name="NotifyMsg" representedClassName="NotifyMsg" syncable="YES">
         <attribute name="fromid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="resid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="xratio" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Friends" positionX="-54" positionY="-9" width="128" height="75"/>
-        <element name="NotifyMsg" positionX="-36" positionY="27" width="128" height="105"/>
+        <element name="Friends" positionX="286" positionY="-18" width="128" height="73"/>
+        <element name="NotifyMsg" positionX="-63" positionY="-54" width="128" height="118"/>
     </elements>
 </model>
