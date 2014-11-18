@@ -67,35 +67,12 @@ static id instance = nil;
     //应该可以清理整个文件夹？
     for (Emoji *emj in _emojiArray) {
         if (emj.isRecord) {
-            if ([manager fileExistsAtPath:emj.soundPath]) {
-                [manager removeItemAtPath:emj.soundPath error:&error];
+            if ([manager fileExistsAtPath:[emj.soundURL path]]) {
+                [manager removeItemAtURL:emj.soundURL error:&error];
             }
         }
     }
+    _emojiArray = [self emojiSoundInfo];
 }
-//
-////方法暂时没用 可能被替换
-//- (void)createSystemSoundID {
-//    NSDictionary *dictionary = [self readVoiceInfo];
-//    //NSLog(@"%li", [dictionary count]);
-//    for (int i = 0; i < [dictionary count]; i++) {
-//        NSString *str = [NSString stringWithFormat:@"%02i", i + 1];
-//        NSDictionary *dict = [dictionary objectForKey:str];
-//        //NSLog(@"%@", [dict objectForKey:@"name"]);
-//        NSString *path = [[NSBundle mainBundle] pathForResource:[dict objectForKey:@"path"] ofType:@"wav"];
-//        if (path) {
-//            //注册声音到系统
-//            //NSString *str = [NSString stringWithFormat:@"%02i", index];
-//            SystemSoundID soundID;
-//            AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &soundID);
-//            //通过名字
-//            [_soundDict setObject:[NSString stringWithFormat:@"%i", (unsigned int)soundID] forKey:[dict objectForKey:@"path"]];
-//            //[_soundDict setObject:@"" forKey:str];
-//        }
-//    }
-//}
-//
-//- (SystemSoundID)getSoundIdByVoicePath:(NSString *)path {
-//    return [[_soundDict objectForKey:path] intValue];
-//}
+
 @end

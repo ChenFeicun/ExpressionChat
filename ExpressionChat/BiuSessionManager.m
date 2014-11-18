@@ -122,11 +122,9 @@ static BOOL initialized = NO;
         NSData *data = [message.payload dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
         if (![Friends isFriendExistWithId:message.fromPeerId inManagedObjectContext:_context]) {
-            [NotifyMsg addMsgWithDictionary:dict andTime:message.timestamp inManagedObjectContext:_context];
             [Friends addFriendWithAccount:[dict objectForKey:@"fromName"] andId:message.fromPeerId inManagedObjectContext:_context];
-        } else {
-            [NotifyMsg addMsgWithDictionary:dict andTime:message.timestamp inManagedObjectContext:_context];
         }
+        [NotifyMsg addMsgWithDictionary:dict andTime:message.timestamp inManagedObjectContext:_context];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
     }
 }

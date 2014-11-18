@@ -2,7 +2,7 @@
 //  NotifyMsg.m
 //  ExpressionChat
 //
-//  Created by Feicun on 14/11/7.
+//  Created by Feicun on 14/11/16.
 //  Copyright (c) 2014年 Feicun. All rights reserved.
 //
 
@@ -13,8 +13,9 @@
 
 @dynamic fromid;
 @dynamic resid;
+@dynamic time;
 @dynamic type;
 @dynamic xratio;
-@dynamic time;
+@dynamic fileUrl;
 
 @end

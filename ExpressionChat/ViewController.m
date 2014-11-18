@@ -8,22 +8,24 @@
 
 #import "ViewController.h"
 #import <AVOSCloud/AVOSCloud.h>
-//#import <AVFoundation/AVFoundation.h>
+#import "AppDelegate.h"
 #import <AudioToolbox/AudioToolbox.h>
 
 @interface ViewController ()
-
+@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-}
-
-- (IBAction)start:(id)sender {
-    //Document的初始化未完成就跳转了页面  这个方法可能不可行  用LaunchScreen一样
-    //故还是要再AppDelegate中判断 初始化成功后跳转
+    //786 967
+    CGFloat width = self.view.frame.size.width;
+    CGFloat height = width / 2 / 786 * 967;
+    CGRect frame = CGRectMake(width / 4, (self.view.frame.size.height - height) / 2, width / 2, height);
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:frame];
+    imgView.image = [UIImage imageNamed:@"shuxiajian.png"];
+    [self.view addSubview:imgView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -38,8 +40,12 @@
 
 - (void)changePage:(NSNotification *)notification {
    //NSString *str = [notification object];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(loginOrRegist) userInfo:nil repeats:NO];
+}
+
+- (void)loginOrRegist {
     if ([AVUser currentUser]) {
-    
+        
         [self setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
         [self performSegueWithIdentifier:@"LoginLoading" sender:self];
         //[self toMain];

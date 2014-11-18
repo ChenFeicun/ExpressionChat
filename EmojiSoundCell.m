@@ -39,13 +39,12 @@
 }
 
 - (void)triggerRecorder {
-    
+    [self configureCell];
 }
 
 - (void)configureCell {
     if (!self.contentView.backgroundColor)
-        self.contentView.backgroundColor = [UIColor clearColor];
-    
+        self.contentView.backgroundColor = [UIColor clearColor];    
     self.gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(gestureHappened:)];
     self.gesture.minimumPressDuration = 1.0f;
     self.gesture.numberOfTouchesRequired = 1;
@@ -68,8 +67,10 @@
 - (instancetype)initWithEmojiName:(NSString *)emojiName {
     if (self = [super init]) {
         self.emojiName = emojiName;
-        self.soundPath = nil;
+        self.soundURL = nil;
         self.isRecord = NO;
+        self.emojiData = nil;
+        self.avosURL = nil;
     }
     return self;
 }

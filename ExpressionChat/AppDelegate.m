@@ -60,8 +60,6 @@
     
     //推送过来的消息在这里 应用未启动
     if (launchOptions) {
-        NSLog(@"123");
-        //NSDictionary *div = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
         if (badge) {
             NSLog(@"%li", (long)badge);

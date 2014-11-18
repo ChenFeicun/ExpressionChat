@@ -140,12 +140,9 @@
     }
     return cell;
 }
-- (IBAction)touchDown:(id)sender {
-    [Animation setBackgroundColorWithGrey:sender];
-}
 
 - (IBAction)toSettings:(id)sender {
-    [Animation setBackgroundColorWithDark:sender];
+    //[Animation setBackgroundColorWithDark:sender];
     [self performSegueWithIdentifier:@"MainToSettings" sender:self];
 }
 

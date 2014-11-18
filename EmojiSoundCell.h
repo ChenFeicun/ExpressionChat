@@ -18,7 +18,6 @@
 @interface EmojiSoundCell : UICollectionViewCell <UIGestureRecognizerDelegate>
 
 @property (nonatomic) BOOL isRecord;
-@property (nonatomic, strong) NSString *soundPath;
 @property (nonatomic, strong) NSString *emojiName;
 @property (nonatomic) NSInteger emojiNum;
 @property (nonatomic, assign) id<EmojiSoundCellDelegate> delegate;
@@ -31,8 +30,10 @@
 @interface Emoji : NSObject
 
 @property (nonatomic) BOOL isRecord;
-@property (nonatomic, strong) NSString *soundPath;
+@property (nonatomic, strong) NSURL *soundURL;
 @property (nonatomic, strong) NSString *emojiName;
+@property (nonatomic, strong) NSData *emojiData;
+@property (nonatomic, strong) NSString *avosURL;
 
 - (instancetype)initWithEmojiName:(NSString *)emojiName;
 

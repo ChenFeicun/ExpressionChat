@@ -52,6 +52,7 @@
     msg.xratio = [dict objectForKey:@"xratio"];
     msg.type = [dict objectForKey:@"type"];
     msg.time = [NSNumber numberWithLongLong:time];
+    msg.fileUrl = [dict objectForKey:@"url"];
     if ([context save:nil]) {
         NSLog(@"msg%@ : %@", msg.fromid, msg.resid);
     } else {

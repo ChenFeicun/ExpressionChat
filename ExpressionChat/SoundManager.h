@@ -120,6 +120,9 @@ typedef void (^SoundCompletionHandler)(BOOL didFinish);
 - (void)stopAllSounds:(BOOL)fadeOut;
 - (void)stopAllSounds;
 
+- (void)setVolumeToZero;
+- (void)setVolumeToOne;
+
 @end
 
 

@@ -623,6 +623,16 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
     }
 }
 
+- (void)setVolumeToOne {
+    _soundVolume = 1.0f;
+    _musicVolume = 1.0f;
+}
+
+- (void)setVolumeToZero {
+    _soundVolume = 0.0f;
+    _musicVolume = 0.0f;
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

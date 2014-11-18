@@ -10,12 +10,14 @@
 #import "Friends+Methods.h"
 #import "NotifyMsg+Methods.h"
 #import "AppDelegate.h"
+#import "SoundManager.h"
 #import "Animation.h"
 #import <AddressBook/AddressBook.h>
 #import <AVOSCloud/AVOSCloud.h>
 
 @interface SettingsViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *phoneButton;
+@property (weak, nonatomic) IBOutlet UIButton *soundButton;
 @property (strong, nonatomic) UIManagedDocument *document;
 @property (strong, nonatomic) NSManagedObjectContext *context;
 @property (strong, nonatomic) NSMutableArray *all;
@@ -24,29 +26,32 @@
 @end
 
 @implementation SettingsViewController
-- (IBAction)touchDown:(id)sender {
-    [Animation setBackgroundColorWithGrey:sender];
-}
-
 - (IBAction)swipeToBack:(id)sender {
     [self performSegueWithIdentifier:@"SettingsToMain" sender:self];
+}
+
+- (IBAction)openOrCloseSound:(id)sender {
+    BOOL oOrC = [[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"];
+    [[NSUserDefaults standardUserDefaults] setBool:!oOrC forKey:@"OpenOrClose"];
+    NSString *soundTitle = !oOrC ? @"打开声音" : @"关闭声音";
+    [_soundButton setTitle:soundTitle forState:UIControlStateNormal];
 }
 
 - (IBAction)logout:(id)sender {
     //弹出提醒
     //清除数据库
-    [Animation setBackgroundColorWithDark:sender];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    //[Animation setBackgroundColorWithDark:sender];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登出" message:@"此操作将删除本地数据" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alert show];
 }
 
 - (IBAction)validatePhone:(id)sender {
-    [Animation setBackgroundColorWithDark:sender];
+    //[Animation setBackgroundColorWithDark:sender];
     [self performSegueWithIdentifier:@"ValidatePhone" sender:self];
 }
 
 - (IBAction)addFriendsFromPeople:(id)sender {
-    [Animation setBackgroundColorWithDark:sender];
+    //[Animation setBackgroundColorWithDark:sender];
     [self readAllPhoneNumber];
 }
 
@@ -72,6 +77,9 @@
     if (_document.documentState == UIDocumentStateNormal) {
         _context = _document.managedObjectContext;
     }
+
+    NSString *soundTitle = [[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"] ? @"打开声音" : @"关闭声音";
+    [_soundButton setTitle:soundTitle forState:UIControlStateNormal];
     // Do any additional setup after loading the view.
 }
 

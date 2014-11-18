@@ -24,31 +24,33 @@ static BOOL editingOrNot = NO;
 //记录当前 验证的手机号码
 static NSString *phoneNumber = nil;
 @implementation ValidateViewController
-- (IBAction)touchDown:(id)sender {
-    [Animation setBackgroundColorWithGrey:sender];
-}
-
 - (IBAction)swipeToBack:(id)sender {
     [self performSegueWithIdentifier:@"BackToSettings" sender:self];
 }
 
 - (IBAction)send:(id)sender {
-    [Animation setBackgroundColorWithDark:sender];
-    [AVOSCloud requestSmsCodeWithPhoneNumber:_phoneTextField.text appName:@"Biu" operation:@"验证" timeToLive:10 callback:^(BOOL succeeded, NSError *error) {
-        NSLog(@"!!!--%@--!!!", error.localizedDescription);
-        if (succeeded) {
-            phoneNumber = _phoneTextField.text;
-            _codeTextField.enabled = YES;
-            _sendButton.enabled = NO;
-            _timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(countdown) userInfo:nil repeats:YES];
-        } else if ([error.localizedDescription isEqualToString:@"The mobile phone number was invalid."]) {
+    //先查是否手机号码被注册
+    AVQuery *query = [AVUser query];
+    [query whereKey:@"mobilePhoneNumber" equalTo:_phoneTextField.text];
+    [query getFirstObjectInBackgroundWithBlock:^(AVObject *object, NSError *error) {
+        if (!error) {
+            //已经被注册了
             [Animation shakeView:_phoneTextField];
-        } else if ([error.localizedDescription isEqualToString:@"Mobile phone number has already been taken"]){
-            //已经注册过
-            [Animation shakeView:_phoneTextField];
+        } else {
+            [Animation setBackgroundColorWithDark:sender];
+            [AVOSCloud requestSmsCodeWithPhoneNumber:_phoneTextField.text appName:@"Biu" operation:@"验证" timeToLive:10 callback:^(BOOL succeeded, NSError *error) {
+                NSLog(@"!!!--%@--!!!", error.localizedDescription);
+                if (succeeded) {
+                    phoneNumber = _phoneTextField.text;
+                    _codeTextField.enabled = YES;
+                    _sendButton.enabled = NO;
+                    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(countdown) userInfo:nil repeats:YES];
+                } else if ([error.localizedDescription isEqualToString:@"The mobile phone number was invalid."]) {
+                    [Animation shakeView:_phoneTextField];
+                }
+            }];
         }
     }];
-    //An user with the specified mobile phone number was not found
 }
 
 - (void)countdown {
@@ -97,6 +99,7 @@ static NSString *phoneNumber = nil;
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
     if ([textField isEqual:_phoneTextField]) {
+        [_sendButton setBackgroundImage:[UIImage imageNamed:@"normal.png"] forState:UIControlStateNormal];
         _sendButton.enabled = ([newText length] > 0);
     } else if ([textField isEqual:_codeTextField]) {
         

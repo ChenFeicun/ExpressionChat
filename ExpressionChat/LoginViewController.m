@@ -23,12 +23,15 @@ static BOOL editingOrNot = NO;
 
 @implementation LoginViewController
 
-- (IBAction)touchDown:(id)sender {
-    [Animation setBackgroundColorWithGrey:sender];
+- (IBAction)userLogin:(id)sender {
+    [self enter];
+}
+//
+- (IBAction)finishInput:(id)sender {
+    [self enter];
 }
 
-- (IBAction)userLogin:(id)sender {
-    [Animation setBackgroundColorWithDark:sender];
+- (void)enter {
     _user = [AVUser user];
     _user.username = [_loginUserName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     //特殊字符判断
@@ -90,8 +93,8 @@ static BOOL editingOrNot = NO;
 - (void)viewDidLoad {
     [super viewDidLoad];
     //设置委托
-    //_loginUserName.delegate = self;
-    //_loginPassword.delegate = self;
+    _loginUserName.delegate = self;
+    _loginPassword.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -103,5 +106,5 @@ static BOOL editingOrNot = NO;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+//https://github.com/hhuai/ios-amr
 @end

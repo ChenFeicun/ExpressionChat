@@ -2,7 +2,7 @@
 //  Friends.h
 //  ExpressionChat
 //
-//  Created by Feicun on 14/11/4.
+//  Created by Feicun on 14/11/16.
 //  Copyright (c) 2014年 Feicun. All rights reserved.
 //
 

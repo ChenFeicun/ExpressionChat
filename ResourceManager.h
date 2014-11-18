@@ -16,6 +16,7 @@
 - (NSDictionary *)readEmojiInfo;
 - (NSDictionary *)readVoiceInfo;
 - (NSMutableArray *)emojiSoundInfo;
+- (void)removeSoundFile;
 //- (SystemSoundID)getSoundIdByVoicePath:(NSString *)content;
 //- (void)createSystemSoundID;
 

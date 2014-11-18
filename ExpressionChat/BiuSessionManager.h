@@ -15,5 +15,5 @@
 + (instancetype)sharedInstance;
 - (void)sendMessage:(NSString *)message toPeerId:(NSString *)peerId;
 - (void)sendNotifyMsgWithDictionary:(NSMutableDictionary *)dict toPeerId:(NSString *)peerId;
-- (void)addWatchPeerId:(NSString *)peerId andSetCurFriend:(Friends *)friend;
+- (void)addWatchPeerId:(NSString *)peerId andSetCurFriend:(Friends *)person;
 @end

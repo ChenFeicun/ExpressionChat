@@ -18,7 +18,7 @@
 
 @implementation Toast
 
-#define TOAST_HEIGHT 30
+#define TOAST_HEIGHT 40
 
 - (instancetype)initWithText:(NSString *)text {
     if (self = [super init]) {
