@@ -33,6 +33,11 @@ static id instance = nil;
     if (self = [super init]) {
         _soundDict = [[NSMutableDictionary alloc] init];
         _emojiArray = [self emojiSoundInfo];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSURL *documentsDirectory = [[fileManager URLsForDirectory:NSDocumentDirectory
+                                                         inDomains:NSUserDomainMask] firstObject];
+        NSURL *url = [documentsDirectory URLByAppendingPathComponent:@"audio"];
+        [fileManager createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
     }
     return self;
 }
@@ -56,12 +61,18 @@ static id instance = nil;
     for (int i = 0; i < [dict count]; i++) {
         NSDictionary *dic = [dict objectForKey:[NSString stringWithFormat:@"%02i", i + 1]];
         Emoji *emj = [[Emoji alloc] initWithEmojiName:[dic objectForKey:@"name"]];
+        NSURL *url = [self searchAmrFile:emj.emojiName];
+        if (url) {
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            emj.isRecord = YES;
+            emj.emojiData = data;
+        }
         [array addObject:emj];
     }
     return array;
 }
 
-- (void)removeSoundFile {
+- (void)removeAllSoundFile {
     NSFileManager *manager = [NSFileManager defaultManager];
     NSError *error;
     //应该可以清理整个文件夹？
@@ -73,6 +84,34 @@ static id instance = nil;
         }
     }
     _emojiArray = [self emojiSoundInfo];
+}
+
+- (void)removeSoundFileByUrl:(NSURL *)url {
+    NSFileManager *manager = [NSFileManager defaultManager];
+    NSError *error;
+    if ([manager fileExistsAtPath:[url path]]) {
+        [manager removeItemAtURL:url error:&error];
+    }
+}
+
+- (NSURL *)searchAmrFile:(NSString *)emojiName {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *documentsDirectory = [[fileManager URLsForDirectory:NSDocumentDirectory
+                                                     inDomains:NSUserDomainMask] firstObject];
+    NSURL *url = [documentsDirectory URLByAppendingPathComponent:[@"audio" stringByAppendingPathComponent:[emojiName stringByAppendingString:@".amr"]]];
+    if ([fileManager fileExistsAtPath:[url path]]) {
+        return url;
+    }
+    return nil;
+}
+
+- (NSURL *)dataWriteToFile:(NSString *)emojiName withData:(NSData *)data {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *documentsDirectory = [[fileManager URLsForDirectory:NSDocumentDirectory
+                                                     inDomains:NSUserDomainMask] firstObject];
+    NSURL *url = [[documentsDirectory URLByAppendingPathComponent:@"audio"] URLByAppendingPathComponent:[emojiName stringByAppendingString:@".amr"]];
+    [data writeToURL:url atomically:YES];
+    return url;
 }
 
 @end

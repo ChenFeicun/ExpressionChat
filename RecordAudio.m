@@ -33,7 +33,7 @@
         //We could just use record and then switch it to playback leter, but
         //since we are going to do both lets set it up once.
         [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error: &error];
-        
+    
         UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
         AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
 								 sizeof (audioRouteOverride),
@@ -46,8 +46,7 @@
 }
 
 - (NSURL *) stopRecord {
-    NSURL *url = 
-    [[NSURL alloc]initWithString:recorder.url.absoluteString];
+    NSURL *url = [[NSURL alloc]initWithString:recorder.url.absoluteString];
     [recorder stop];
     [recorder release];
     recorder =nil;
@@ -95,7 +94,7 @@
     return DecodeAMRToWAVE(data);
 }
 
--(void) play:(NSData*) data{
+- (void)play:(NSData*) data{
 	//Setup the AVAudioPlayer to play the file that we just recorded.
     //在播放时，只停止
 //    if (avPlayer!=nil) {
@@ -110,6 +109,20 @@
 	[avPlayer prepareToPlay];
     [avPlayer setVolume:1.0];
 	if(![avPlayer play]){
+        [self sendStatus:1];
+    } else {
+        [self sendStatus:0];
+    }
+}
+
+- (void)playWithNoSound:(NSData *)data {
+    NSData* o = [self decodeAmr:data];
+    NSLog(@"end decode");
+    avPlayer = [[AVAudioPlayer alloc] initWithData:o error:&error];
+    avPlayer.delegate = self;
+    [avPlayer prepareToPlay];
+    [avPlayer setVolume:0.0];
+    if(![avPlayer play]){
         [self sendStatus:1];
     } else {
         [self sendStatus:0];
@@ -183,10 +196,23 @@
     [recorder prepareToRecord];
         NSLog(@"2");
     //Start the actual Recording
+    recorder.meteringEnabled = YES;
     [recorder record];
         NSLog(@"3");
     //There is an optional method for doing the recording for a limited time see 
     //[recorder recordForDuration:(NSTimeInterval) 10]
+}
+
+- (float)getPeakPower {
+    [recorder updateMeters];
+    //发送updateMeters消息来刷新平均和峰值功率。此计数是以对数刻度计量的，-160表示完全安静，0表示最大输入值
+    //float averagePower = [recorder averagePowerForChannel:0];
+    float peakPower = [recorder peakPowerForChannel:0];
+    //转换最高分贝值，范围是0到1。0最小，1最大。
+    const float ALPHA = 0.05;
+    float peakPowerForChannel = pow(10, (ALPHA * peakPower));
+    //lowPassResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * lowPassResults;
+    return peakPowerForChannel;
 }
 
 @end

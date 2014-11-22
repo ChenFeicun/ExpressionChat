@@ -53,8 +53,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [self initDocument];
-    [AVOSCloud setApplicationId:@"v2a4kgkyvnsmjkj0kf6e73w8rve32gxx4cttl8ob7dss0ikb"
-                      clientKey:@"v2o8ffr9ou10wqzk96hslcd3vmcqpv2huxv0qkeqef4rgfro"];
+    //v2a4kgkyvnsmjkj0kf6e73w8rve32gxx4cttl8ob7dss0ikb
+    //v2o8ffr9ou10wqzk96hslcd3vmcqpv2huxv0qkeqef4rgfro
+    //Biu
+    [AVOSCloud setApplicationId:@"f9usm1eb6gw2qiadlw2ylqciindz78zvxe68psg66fkpz8ww"
+                      clientKey:@"giq92vh6f4mnfoy5vfxkfd6t00dyjpvxe9kw74g0r0gizlke"];
     
     //图标上的数字 通过推送推过来的 需要在服务器端做增加
     

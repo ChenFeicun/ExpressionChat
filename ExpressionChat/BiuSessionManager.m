@@ -69,6 +69,18 @@ static BOOL initialized = NO;
     _chatFriendCurrent = friend;
 }
 
+- (void)sendBiuMessageWithDictionary:(NSMutableDictionary *)dict toPeerId:(NSString *)peerId {
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
+    if (!error) {
+        NSString *payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"---%@---", payload);
+        AVMessage *messageObject = [AVMessage messageForPeerWithSession:_session toPeerId:peerId payload:payload];
+        [_session sendMessage:messageObject transient:NO];
+    }
+}
+
+////
 - (void)sendNotifyMsgWithDictionary:(NSMutableDictionary *)dict toPeerId:(NSString *)peerId {
     NSError *error = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
@@ -78,7 +90,7 @@ static BOOL initialized = NO;
         [_session sendMessage:messageObject transient:NO];
     }
 }
-////
+
 - (void)sendMessage:(NSString *)message toPeerId:(NSString *)peerId {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:_session.peerId forKey:@"fromId"];
@@ -121,10 +133,15 @@ static BOOL initialized = NO;
         NSError *error = nil;
         NSData *data = [message.payload dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-        if (![Friends isFriendExistWithId:message.fromPeerId inManagedObjectContext:_context]) {
-            [Friends addFriendWithAccount:[dict objectForKey:@"fromName"] andId:message.fromPeerId inManagedObjectContext:_context];
+        Friends *friend = [Friends isFriendExistWithId:message.fromPeerId inManagedObjectContext:_context];
+        if (!friend) {
+            [Friends addFriendWithUsername:[dict objectForKey:@"fromName"] andId:message.fromPeerId andTime:message.timestamp inManagedObjectContext:_context];
+        } else {
+            //更新朋友表时间戳
+            [Friends updateFriend:friend time:message.timestamp inManagedObjectContext:_context];
         }
-        [NotifyMsg addMsgWithDictionary:dict andTime:message.timestamp inManagedObjectContext:_context];
+        
+        [NotifyMsg addMsgWithDictionary:dict andPeerId:message.fromPeerId andTime:message.timestamp inManagedObjectContext:_context];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
     }
 }
@@ -138,6 +155,8 @@ static BOOL initialized = NO;
     NSLog(@"%lli", message.timestamp);
     NSLog(@"%s", __PRETTY_FUNCTION__);
     NSLog(@"session:%@ message:%@ toPeerId:%@", session.peerId, message, message.toPeerId);
+    Friends *friend = [Friends isFriendExistWithId:message.toPeerId inManagedObjectContext:_context];
+    [Friends updateFriend:friend time:message.timestamp inManagedObjectContext:_context];
 }
 
 - (void)session:(AVSession *)session didReceiveStatus:(AVPeerStatus)status peerIds:(NSArray *)peerIds {

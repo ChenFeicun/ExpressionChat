@@ -12,10 +12,11 @@
 @interface EmojiSoundCell()
 
 @property (nonatomic, strong) UILongPressGestureRecognizer *gesture;
-
+@property (nonatomic, strong) UIView *pointVIew;
 @end
 
 @implementation EmojiSoundCell
+#define CELL_PADDING 8
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -42,7 +43,18 @@
     [self configureCell];
 }
 
+- (void)showPointView {
+    self.pointVIew.hidden = NO;
+}
+
 - (void)configureCell {
+    CGRect pointFrame = CGRectMake(0, self.frame.size.height - CELL_PADDING / 2, CELL_PADDING / 2, CELL_PADDING / 2);
+    self.pointVIew = [[UIView alloc] initWithFrame:pointFrame];
+    self.pointVIew.backgroundColor = [UIColor blueColor];
+    self.pointVIew.hidden = YES;
+    
+    [self addSubview:self.pointVIew];
+    
     if (!self.contentView.backgroundColor)
         self.contentView.backgroundColor = [UIColor clearColor];    
     self.gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(gestureHappened:)];
@@ -67,10 +79,9 @@
 - (instancetype)initWithEmojiName:(NSString *)emojiName {
     if (self = [super init]) {
         self.emojiName = emojiName;
-        self.soundURL = nil;
-        self.isRecord = NO;
-        self.emojiData = nil;
-        self.avosURL = nil;
+        emojiName = [emojiName substringFromIndex:emojiName.length - 2];
+        NSString *avosName = [@"audio_" stringByAppendingString:emojiName];
+        self.avosName = [avosName stringByAppendingString:@".amr"];
     }
     return self;
 }

@@ -47,7 +47,7 @@
     if ([AVUser currentUser]) {
         
         [self setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-        [self performSegueWithIdentifier:@"LoginLoading" sender:self];
+        [self performSegueWithIdentifier:@"StartToMain" sender:self];
         //[self toMain];
         
     } else {

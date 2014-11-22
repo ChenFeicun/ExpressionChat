@@ -12,6 +12,9 @@
 #import "AppDelegate.h"
 #import "SoundManager.h"
 #import "Animation.h"
+#import "ResourceManager.h"
+#import "Toast.h"
+#import "UINavigationController+YRBackGesture.h"
 #import <AddressBook/AddressBook.h>
 #import <AVOSCloud/AVOSCloud.h>
 
@@ -22,6 +25,7 @@
 @property (strong, nonatomic) NSManagedObjectContext *context;
 @property (strong, nonatomic) NSMutableArray *all;
 @property (retain, nonatomic) AppDelegate *appDelegate;
+@property (strong, nonatomic) Toast *loadToast;
 //@property (strong, nonatomic) NSMutableArray *phoneArray;
 @end
 
@@ -35,6 +39,10 @@
     [[NSUserDefaults standardUserDefaults] setBool:!oOrC forKey:@"OpenOrClose"];
     NSString *soundTitle = !oOrC ? @"打开声音" : @"关闭声音";
     [_soundButton setTitle:soundTitle forState:UIControlStateNormal];
+}
+
+- (IBAction)aboutBiu:(id)sender {
+    [self performSegueWithIdentifier:@"AboutBiu" sender:self];
 }
 
 - (IBAction)logout:(id)sender {
@@ -60,6 +68,10 @@
         NSLog(@"确定");
         [Friends deleteAllFriends:_context];
         [NotifyMsg deleteAllMsg:_context];
+        //删除录音文件
+        //AVFile缓存文件
+        [AVFile clearAllCachedFiles];
+        [[ResourceManager sharedInstance] removeAllSoundFile];
         [AVUser logOut];
         //跳至登录页面
         [self performSegueWithIdentifier:@"Logout" sender:self];
@@ -68,6 +80,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.navigationController setEnableBackGesture:YES];
     if ([AVUser currentUser].mobilePhoneNumber) {
         [_phoneButton setTitle:[AVUser currentUser].mobilePhoneNumber forState:UIControlStateNormal];
         _phoneButton.enabled = NO;
@@ -94,7 +107,8 @@
     ABAddressBookRequestAccessWithCompletion(tmpAddressBook, ^(bool greanted, CFErrorRef error){
         NSLog(@"%@", error);
         if (greanted) {
-            //
+            _loadToast = [Toast makeToast:@"请稍候"];
+            [_loadToast loading:self.view];
             if (ABAddressBookGetAuthorizationStatus() != kABAuthorizationStatusAuthorized) {
                 return ;
             }
@@ -102,7 +116,7 @@
             ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
             //查询所有
             NSArray *people = CFBridgingRelease(ABAddressBookCopyArrayOfAllPeople(addressBook));
-            //_phoneArray =
+
             NSMutableArray *phoneArray = [[NSMutableArray alloc] init];
             for (id person in people) {
                 ABMultiValueRef phone = ABRecordCopyValue((__bridge ABRecordRef)(person), kABPersonPhoneProperty);
@@ -125,7 +139,8 @@
 
 - (void)searchAndAddFriends:(NSMutableArray *)phoneArray {
     if (![phoneArray count]) {
-        return;
+        [_loadToast endLoading];
+        [self performSegueWithIdentifier:@"SettingsToMain" sender:self];
     } else {
         //NSLog(@"%i", [phoneArray count]);
         AVQuery *query = [AVUser query];
@@ -142,6 +157,8 @@
                     }
                 }
             }
+            [_loadToast endLoading];
+            [self performSegueWithIdentifier:@"SettingsToMain" sender:self];
         }];
     }
 }

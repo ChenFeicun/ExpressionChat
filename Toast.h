@@ -5,12 +5,14 @@
 //  Created by Feicun on 14/11/5.
 //  Copyright (c) 2014年 Feicun. All rights reserved.
 //
-
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
 @interface Toast : NSObject
 
 + (Toast *)makeToast:(NSString *)text;
 - (void)show;
-
+- (void)loading;
+- (void)loading:(UIView *)parentView;
+- (void)endLoading;
 @end

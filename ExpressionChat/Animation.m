@@ -9,16 +9,47 @@
 #import "Animation.h"
 
 @implementation Animation
+//static UIAlertView *alertView;
+//+ (void)showAlertView:(NSString *)message {
+//    alertView = [[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:nil, nil];
+//    [alertView show];
+//    
+//    [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(performDismiss:) userInfo:nil repeats:NO];
+//
+//}
+//
+//+ (void) performDismiss:(NSTimer *)timer {
+//    [timer invalidate];
+//    [alertView dismissWithClickedButtonIndex:0 animated:NO];
+//}
 
 + (void)shakeView:(UIView *)view {
-    CAKeyframeAnimation *animation = [CAKeyframeAnimation animation];
-    animation.duration = 0.5f;
-    animation.autoreverses = YES;
-    CGPoint left = CGPointMake(view.center.x - 10, view.center.y);
-    CGPoint right = CGPointMake(view.center.x + 10, view.center.y);
-    NSArray *array = [NSArray arrayWithObjects:[NSValue valueWithCGPoint:view.center], [NSValue valueWithCGPoint:left], [NSValue valueWithCGPoint:view.center],[NSValue valueWithCGPoint:right], [NSValue valueWithCGPoint:view.center],[NSValue valueWithCGPoint:left], [NSValue valueWithCGPoint:view.center], [NSValue valueWithCGPoint:right], [NSValue valueWithCGPoint:view.center], [NSValue valueWithCGPoint:left], nil];
-    animation.values = array;
-    [view.layer addAnimation:animation forKey:@"position"];
+    [self shakeView:view
+          withTimes:10
+          direction:1
+       currentTimes:0
+          withDelta:5
+           andSpeed:0.04
+     shakeDirection:ShakeDirectionHorizontal];
+}
+
++ (void)shakeView:(UIView *)view withTimes:(int)times direction:(int)direction currentTimes:(int)current withDelta:(CGFloat)delta andSpeed:(NSTimeInterval)interval shakeDirection:(ShakeDirection)shakeDirection
+{
+    [UIView animateWithDuration:interval animations:^{
+        view.transform = (shakeDirection == ShakeDirectionHorizontal) ? CGAffineTransformMakeTranslation(delta * direction, 0) : CGAffineTransformMakeTranslation(0, delta * direction);
+    } completion:^(BOOL finished) {
+        if(current >= times) {
+            view.transform = CGAffineTransformIdentity;
+            return;
+        }
+        [self shakeView:view
+               withTimes:(times - 1)
+           direction:direction * -1
+        currentTimes:current + 1
+           withDelta:delta
+            andSpeed:interval
+      shakeDirection:shakeDirection];
+    }];
 }
 
 + (void)moveViewForEditing:(UIView *)view orNot:(BOOL)editingOrNot{

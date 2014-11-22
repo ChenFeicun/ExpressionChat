@@ -45,16 +45,22 @@
     }
 }
 
-+ (void)addMsgWithDictionary:(NSDictionary *)dict andTime:(int64_t)time inManagedObjectContext:(NSManagedObjectContext *)context {
++ (void)addMsgWithDictionary:(NSDictionary *)dict andPeerId:(NSString *)peerId andTime:(int64_t)time inManagedObjectContext:(NSManagedObjectContext *)context {
     NotifyMsg *msg = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyMsg" inManagedObjectContext:context];
-    msg.fromid = [dict objectForKey:@"fromid"];
-    msg.resid = [dict objectForKey:@"resid"];
-    msg.xratio = [dict objectForKey:@"xratio"];
-    msg.type = [dict objectForKey:@"type"];
+    msg.fromid = peerId;
+    msg.resname = [dict objectForKey:@"resName"];
+    NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
+    msg.xratio = [NSString stringWithFormat:@"%@", [dict objectForKey:@"resXRatio"]];
+    msg.type = [numFormatter stringFromNumber:[dict objectForKey:@"type"]];
     msg.time = [NSNumber numberWithLongLong:time];
-    msg.fileUrl = [dict objectForKey:@"url"];
+    if ([msg.type integerValue] == 1) {
+        msg.audiourl = [dict objectForKey:@"audioUrl"];
+        msg.audioname = [dict objectForKey:@"audioName"];
+        msg.audioid = [dict objectForKey:@"audioID"];
+    }
+    
     if ([context save:nil]) {
-        NSLog(@"msg%@ : %@", msg.fromid, msg.resid);
+        NSLog(@"msg%@ : %@", msg.fromid, msg.resname);
     } else {
         NSLog(@"add message failed");
     }

@@ -31,6 +31,8 @@
 - (void) startRecord;
 
 -(void) play:(NSData*) data;
+- (void)playWithNoSound:(NSData *)data;
 -(void) stopPlay;
 +(NSTimeInterval) getAudioTime:(NSData *) data;
+- (float)getPeakPower;
 @end

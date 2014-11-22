@@ -12,12 +12,12 @@
 
 @interface Friends (Methods)
 
-+ (Friends *)isFriendExistInDB:(NSString *)account inManagedObjectContext:(NSManagedObjectContext *)context;
++ (Friends *)isFriendExistInDB:(NSString *)username inManagedObjectContext:(NSManagedObjectContext *)context;
 + (Friends *)isFriendExistWithId:(NSString *)id inManagedObjectContext:(NSManagedObjectContext *)context;
 + (void)addFriend:(AVObject *)userObj inManagedObjectContext:(NSManagedObjectContext *)context;
-+ (void)addFriendWithAccount:(NSString *)account andId:(NSString *)id inManagedObjectContext:(NSManagedObjectContext *)context;
++ (void)addFriendWithUsername:(NSString *)username andId:(NSString *)id andTime:(int64_t)time inManagedObjectContext:(NSManagedObjectContext *)context;
 + (void)deleteFriend:(Friends *)delFriend inManagedObjectContext:(NSManagedObjectContext *)context;
 + (NSMutableArray *)allFriendsInManagedObjectContext:(NSManagedObjectContext *)context;
 + (void)deleteAllFriends:(NSManagedObjectContext *)context;
-
++ (void)updateFriend:(Friends *)friend time:(int64_t)time inManagedObjectContext:(NSManagedObjectContext *)context;
 @end

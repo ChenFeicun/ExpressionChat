@@ -15,7 +15,7 @@
 + (NSUInteger)getOfflineMsgCount:(Friends *)friend inManagedObjectContext:(NSManagedObjectContext *)context;
 + (NSArray *)recentlyOfflineMsg:(Friends *)friend inManagedObjectContext:(NSManagedObjectContext *)context;
 + (NSArray *)getOfflineMsg:(Friends *)friend inManagedObjectContext:(NSManagedObjectContext *)context;
-+ (void)addMsgWithDictionary:(NSDictionary *)dict andTime:(int64_t)time inManagedObjectContext:(NSManagedObjectContext *)context;
++ (void)addMsgWithDictionary:(NSDictionary *)dict andPeerId:(NSString *)peerId andTime:(int64_t)time inManagedObjectContext:(NSManagedObjectContext *)context;
 + (void)deleteFriendMsg:(Friends *)friend inManagedObjectContext:(NSManagedObjectContext *)context;
 + (void)deleteAllMsg:(NSManagedObjectContext *)context;
 

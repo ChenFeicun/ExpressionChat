@@ -15,6 +15,8 @@
 #import "BiuSessionManager.h"
 #import "NotifyMsg.h"
 #import "Animation.h"
+#import "Toast.h"
+#import "UINavigationController+YRBackGesture.h"
 #import <AVOSCloud/AVOSCloud.h>
 
 @interface MainViewController ()
@@ -40,30 +42,32 @@
     //先从数据库里检索 是否存在该用户 不存在的话云端检索
     if ([self.searchFriendTextField.text isEqualToString:self.curUser.username]) {
         //是否要进入Settings页面
-        NSLog(@"yourself");
-        return;
-    }
-    Friends *friend = [Friends isFriendExistInDB:_searchFriendTextField.text inManagedObjectContext:_context];
-    if (!friend) {
-        AVQuery *query = [AVUser query];
-        [query whereKey:@"username" equalTo:self.searchFriendTextField.text];
-        [query getFirstObjectInBackgroundWithBlock:^(AVObject *object, NSError *error) {
-            if (!error) {
-                NSLog(@"Find %@", self.searchFriendTextField.text);
-                //添加用户 关闭键盘
-                //[self initDocument];
-                [Friends addFriend:object inManagedObjectContext:_context];
-                //[self addFriend:object];
-                self.searchFriendTextField.text = @"";
-                [self.searchFriendTextField resignFirstResponder];
-                [self.friendsTableView reloadData];
-            } else {
-                NSLog(@"No such user");
-                [Animation shakeView:_searchFriendTextField];
-            }
-        }];
+        //NSLog(@"yourself");
+        [[Toast makeToast:@"就是你!"] show];
     } else {
-        [self performSegueWithIdentifier:@"ChatWithFriend" sender:self];
+        Friends *friend = [Friends isFriendExistInDB:_searchFriendTextField.text inManagedObjectContext:_context];
+        if (!friend) {
+            AVQuery *query = [AVUser query];
+            [query whereKey:@"username" equalTo:self.searchFriendTextField.text];
+            [query getFirstObjectInBackgroundWithBlock:^(AVObject *object, NSError *error) {
+                if (!error) {
+                    //NSLog(@"Find %@", self.searchFriendTextField.text);
+                    //添加用户 关闭键盘
+                    //[self initDocument];
+                    [Friends addFriend:object inManagedObjectContext:_context];
+                    //[self addFriend:object];
+                    self.searchFriendTextField.text = @"";
+                    [self.searchFriendTextField resignFirstResponder];
+                    [self.friendsTableView reloadData];
+                } else {
+                    //NSLog(@"No such user");
+                    [[Toast makeToast:@"查无此人"] show];
+                    [Animation shakeView:_searchFriendTextField];
+                }
+            }];
+        } else {
+            [self performSegueWithIdentifier:@"ChatWithFriend" sender:self];
+        }
     }
 }
 
@@ -83,16 +87,20 @@
 #pragma mark -页面
 //每接收一条信息刷新一次页面
 - (void)reloadTableView:(NSNotification *)notification {
+    //all需要根据消息的时间来排序
+    //_all = [Friends allFriendsInManagedObjectContext:_context];
     [self.friendsTableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.friendsTableView reloadData];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
+    [self.navigationController setEnableBackGesture:YES];
     self.curUser = [AVUser currentUser];
     [self.curButton setTitle:self.curUser.username forState:UIControlStateNormal];
     self.appDelegate = [[UIApplication sharedApplication] delegate];
@@ -127,16 +135,18 @@
     if (self.all) {
         UILabel *label = (UILabel *)[cell viewWithTag:100];
         Friends *friend = self.all[indexPath.row];
-        NSLog(@"%@", friend.account);
-        label.text = friend.account;
+        NSLog(@"%@", friend.id);
+        label.text = friend.username;
         //在这里根据friendid查找数据库 看是否有离线消息
         NSInteger count = [NotifyMsg getOfflineMsgCount:friend inManagedObjectContext:_context];
+        UILabel *lab = (UILabel *)[cell viewWithTag:101];
         if (count) {
-            UILabel *lab = (UILabel *)[cell viewWithTag:101];
             lab.text = @"!!!";
-            //抖动的位置有问题
-            //[Animation shakeView:cell];
-        }
+            [Animation shakeView:cell];
+        } else
+            lab.text = @"";
+        [Animation setBackgroundColorWithWhite:label];
+        [Animation setBackgroundColorWithWhite:lab];
     }
     return cell;
 }
@@ -158,9 +168,11 @@
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
+
 //2
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     JZSwipeCell *cell = (JZSwipeCell*)[tableView cellForRowAtIndexPath:indexPath];
+    cell.delegate = self;
     [cell triggerSwipeWithType:JZSwipeTypeNone];
     
     [Animation setBackgroundColorWithLight:[cell viewWithTag:100]];

@@ -23,7 +23,7 @@
 @property (nonatomic, assign) id<EmojiSoundCellDelegate> delegate;
 
 - (void)triggerRecorder;
-
+- (void)showPointView;
 @end
 
 
@@ -33,7 +33,10 @@
 @property (nonatomic, strong) NSURL *soundURL;
 @property (nonatomic, strong) NSString *emojiName;
 @property (nonatomic, strong) NSData *emojiData;
+//AVOS上保存的URL和ObjectId和名字
+@property (nonatomic, strong) NSString *avosName;
 @property (nonatomic, strong) NSString *avosURL;
+@property (nonatomic, strong) NSString *avosID;
 
 - (instancetype)initWithEmojiName:(NSString *)emojiName;
 

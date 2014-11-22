@@ -463,7 +463,7 @@ NSData* EncodePCMToAMR(char* data, int maxLen,int nChannels, int nBitsPerSample)
 	enstate = Encoder_Interface_init(dtx);
 	
 	while(1)
-        {
+    {
 		// read one pcm frame
         if ((data-oldBuf+320)>maxLen) {
             break;
@@ -480,7 +480,7 @@ NSData* EncodePCMToAMR(char* data, int maxLen,int nChannels, int nBitsPerSample)
 		bytes += byte_counter;
 		//fwrite(amrFrame, sizeof (unsigned char), byte_counter, fpamr );
         [out appendBytes:amrFrame length:byte_counter];
-        }
+    }
 	
 	Encoder_Interface_exit(enstate);
 	

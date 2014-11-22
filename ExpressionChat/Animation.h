@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+typedef NS_ENUM(NSInteger, ShakeDirection) {
+    ShakeDirectionHorizontal = 0,
+    ShakeDirectionVertical
+};
 
 @interface Animation : NSObject
-
+//+ (void)showAlertView:(NSString *)message;
 + (void)shakeView:(UIView *)view;
 + (void)moveViewForEditing:(UIView *)view orNot:(BOOL)editingOrNot;
 + (void)setBackgroundColorWithGrey:(UIView *)view;

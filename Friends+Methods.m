@@ -11,9 +11,9 @@
 
 @implementation Friends (Methods)
 
-+ (Friends *)isFriendExistInDB:(NSString *)account inManagedObjectContext:(NSManagedObjectContext *)context {
++ (Friends *)isFriendExistInDB:(NSString *)username inManagedObjectContext:(NSManagedObjectContext *)context {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Friends"];
-    request.predicate = [NSPredicate predicateWithFormat:@"account = %@", account];
+    request.predicate = [NSPredicate predicateWithFormat:@"username = %@", username];
     NSError *error;
     NSArray *array = [context executeFetchRequest:request error:&error];
     if ([array count]) {
@@ -38,7 +38,7 @@
 + (void)addFriend:(AVObject *)userObj inManagedObjectContext:(NSManagedObjectContext *)context {
     Friends *friend = [NSEntityDescription insertNewObjectForEntityForName:@"Friends" inManagedObjectContext:context];
     friend.id = [userObj objectForKey:@"objectId"];
-    friend.account = [userObj objectForKey:@"username"];
+    friend.username = [userObj objectForKey:@"username"];
     if ([context save:nil]) {
         NSLog(@"add successd");
     } else {
@@ -46,10 +46,11 @@
     }
 }
 
-+ (void)addFriendWithAccount:(NSString *)account andId:(NSString *)id inManagedObjectContext:(NSManagedObjectContext *)context {
++ (void)addFriendWithUsername:(NSString *)username andId:(NSString *)id andTime:(int64_t)time inManagedObjectContext:(NSManagedObjectContext *)context {
     Friends *friend = [NSEntityDescription insertNewObjectForEntityForName:@"Friends" inManagedObjectContext:context];
-    friend.account = account;
+    friend.username = username;
     friend.id = id;
+    friend.time = [NSNumber numberWithLongLong:time];
     if ([context save:nil]) {
         NSLog(@"save friend successed");
     } else {
@@ -72,6 +73,7 @@
     NSMutableArray *all = nil;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Friends"];
     //排序！！！
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO]];
     request.predicate = nil;
     
     NSError *error;
@@ -96,6 +98,18 @@
             NSLog(@"delete all failed");
         }
     }
+}
+
++ (void)updateFriend:(Friends *)friend time:(int64_t)time inManagedObjectContext:(NSManagedObjectContext *)context {
+    //NSLog(@"%@", friend.time);
+    friend.time = [NSNumber numberWithLongLong:time];
+    //NSLog(@"%@", friend.time);
+    if ([context save:nil]) {
+        NSLog(@"update successd");
+    } else {
+        NSLog(@"update failed");
+    }
+    
 }
 
 @end
