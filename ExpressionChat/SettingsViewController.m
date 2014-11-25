@@ -10,7 +10,7 @@
 #import "Friends+Methods.h"
 #import "NotifyMsg+Methods.h"
 #import "AppDelegate.h"
-#import "SoundManager.h"
+//#import "SoundManager.h"
 #import "Animation.h"
 #import "ResourceManager.h"
 #import "Toast.h"
@@ -30,9 +30,9 @@
 @end
 
 @implementation SettingsViewController
-- (IBAction)swipeToBack:(id)sender {
-    [self performSegueWithIdentifier:@"SettingsToMain" sender:self];
-}
+//- (IBAction)swipeToBack:(id)sender {
+//    [self performSegueWithIdentifier:@"SettingsToMain" sender:self];
+//}
 
 - (IBAction)openOrCloseSound:(id)sender {
     BOOL oOrC = [[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"];
@@ -66,6 +66,10 @@
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         NSLog(@"确定");
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"OpenOrClose"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MainTip"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"EmojiTip"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SettingsTip"];
         [Friends deleteAllFriends:_context];
         [NotifyMsg deleteAllMsg:_context];
         //删除录音文件
@@ -76,6 +80,15 @@
         //跳至登录页面
         [self performSegueWithIdentifier:@"Logout" sender:self];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"SettingsTip"]) {
+        [[Toast makeTip] pageTip:@"" andCenter:@"向右滑动返回主界面" andBottom:@""];
+    }
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SettingsTip"];
+
 }
 
 - (void)viewDidLoad {
@@ -107,8 +120,8 @@
     ABAddressBookRequestAccessWithCompletion(tmpAddressBook, ^(bool greanted, CFErrorRef error){
         NSLog(@"%@", error);
         if (greanted) {
-            _loadToast = [Toast makeToast:@"请稍候"];
-            [_loadToast loading:self.view];
+            //_loadToast = [Toast makeToast:@"请稍候"];
+            //[_loadToast loading:self.view];
             if (ABAddressBookGetAuthorizationStatus() != kABAuthorizationStatusAuthorized) {
                 return ;
             }
@@ -139,7 +152,7 @@
 
 - (void)searchAndAddFriends:(NSMutableArray *)phoneArray {
     if (![phoneArray count]) {
-        [_loadToast endLoading];
+        //[_loadToast endLoading];
         [self performSegueWithIdentifier:@"SettingsToMain" sender:self];
     } else {
         //NSLog(@"%i", [phoneArray count]);
@@ -157,7 +170,7 @@
                     }
                 }
             }
-            [_loadToast endLoading];
+            //[_loadToast endLoading];
             [self performSegueWithIdentifier:@"SettingsToMain" sender:self];
         }];
     }

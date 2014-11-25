@@ -94,6 +94,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"MainTip"]) {
+        [[Toast makeTip] pageTip:@"添加好友" andCenter:@"您还未添加好友" andBottom:@"通讯录好友"];
+    }
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MainTip"];
+
     [self.friendsTableView reloadData];
 }
 
@@ -107,6 +112,8 @@
     self.document = self.appDelegate.document;
     self.sessionManager = [BiuSessionManager sharedInstance];
     [self documentIsReady];
+    
+    //[[Toast makeToast:@""] mainPageTip];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -145,8 +152,8 @@
             [Animation shakeView:cell];
         } else
             lab.text = @"";
-        [Animation setBackgroundColorWithWhite:label];
-        [Animation setBackgroundColorWithWhite:lab];
+//        [Animation setBackgroundColorWithWhite:label];
+//        [Animation setBackgroundColorWithWhite:lab];
     }
     return cell;
 }
@@ -175,8 +182,8 @@
     cell.delegate = self;
     [cell triggerSwipeWithType:JZSwipeTypeNone];
     
-    [Animation setBackgroundColorWithLight:[cell viewWithTag:100]];
-    [Animation setBackgroundColorWithLight:[cell viewWithTag:101]];
+//    [Animation setBackgroundColorWithLight:[cell viewWithTag:100]];
+//    [Animation setBackgroundColorWithLight:[cell viewWithTag:101]];
 }
 //1
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

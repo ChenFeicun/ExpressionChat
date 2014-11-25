@@ -80,29 +80,28 @@ static BOOL initialized = NO;
     }
 }
 
-////
-- (void)sendNotifyMsgWithDictionary:(NSMutableDictionary *)dict toPeerId:(NSString *)peerId {
-    NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
-    if (!error) {
-        NSString *payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        AVMessage *messageObject = [AVMessage messageForPeerWithSession:_session toPeerId:peerId payload:payload];
-        [_session sendMessage:messageObject transient:NO];
-    }
-}
-
-- (void)sendMessage:(NSString *)message toPeerId:(NSString *)peerId {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:_session.peerId forKey:@"fromId"];
-    [dict setObject:@"text" forKey:@"type"];
-    [dict setObject:message forKey:@"msg"];
-    NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
-    NSString *payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    AVMessage *messageObject = [AVMessage messageForPeerWithSession:_session toPeerId:peerId payload:payload];
-    [_session sendMessage:messageObject transient:NO];
-    //[_session sendMessage:messageObject];
-}
+//- (void)sendNotifyMsgWithDictionary:(NSMutableDictionary *)dict toPeerId:(NSString *)peerId {
+//    NSError *error = nil;
+//    NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
+//    if (!error) {
+//        NSString *payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        AVMessage *messageObject = [AVMessage messageForPeerWithSession:_session toPeerId:peerId payload:payload];
+//        [_session sendMessage:messageObject transient:NO];
+//    }
+//}
+//
+//- (void)sendMessage:(NSString *)message toPeerId:(NSString *)peerId {
+//    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+//    [dict setObject:_session.peerId forKey:@"fromId"];
+//    [dict setObject:@"text" forKey:@"type"];
+//    [dict setObject:message forKey:@"msg"];
+//    NSError *error = nil;
+//    NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
+//    NSString *payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//    AVMessage *messageObject = [AVMessage messageForPeerWithSession:_session toPeerId:peerId payload:payload];
+//    [_session sendMessage:messageObject transient:NO];
+//    //[_session sendMessage:messageObject];
+//}
 
 - (void)sessionOpened:(AVSession *)session {
     NSLog(@"%s", __PRETTY_FUNCTION__);

@@ -10,8 +10,8 @@
 
 @implementation AboutViewController
 
-- (IBAction)swipeToBack:(id)sender {
-    [self performSegueWithIdentifier:@"AboutToSettings" sender:self];
-}
+//- (IBAction)swipeToBack:(id)sender {
+//    [self performSegueWithIdentifier:@"AboutToSettings" sender:self];
+//}
 
 @end

@@ -50,7 +50,7 @@
 - (void)configureCell {
     CGRect pointFrame = CGRectMake(0, self.frame.size.height - CELL_PADDING / 2, CELL_PADDING / 2, CELL_PADDING / 2);
     self.pointVIew = [[UIView alloc] initWithFrame:pointFrame];
-    self.pointVIew.backgroundColor = [UIColor blueColor];
+    self.pointVIew.backgroundColor = [[UIColor alloc] initWithRed:0 green:188.0 / 255.0 blue:212.0 / 255.0 alpha:1.0];
     self.pointVIew.hidden = YES;
     
     [self addSubview:self.pointVIew];
@@ -74,16 +74,16 @@
 
 @end
 
-@implementation Emoji
-
-- (instancetype)initWithEmojiName:(NSString *)emojiName {
-    if (self = [super init]) {
-        self.emojiName = emojiName;
-        emojiName = [emojiName substringFromIndex:emojiName.length - 2];
-        NSString *avosName = [@"audio_" stringByAppendingString:emojiName];
-        self.avosName = [avosName stringByAppendingString:@".amr"];
-    }
-    return self;
-}
-
-@end
+//@implementation Emoji
+//
+//- (instancetype)initWithEmojiName:(NSString *)emojiName {
+//    if (self = [super init]) {
+//        self.emojiName = emojiName;
+//        emojiName = [emojiName substringFromIndex:emojiName.length - 2];
+//        NSString *avosName = [@"audio_" stringByAppendingString:emojiName];
+//        self.avosName = [avosName stringByAppendingString:@".amr"];
+//    }
+//    return self;
+//}
+//
+//@end

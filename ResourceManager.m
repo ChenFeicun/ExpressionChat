@@ -7,11 +7,11 @@
 //
 
 #import "ResourceManager.h"
-#import "EmojiSoundCell.h"
+#import "EmojiBoardView.h"
 
 @interface ResourceManager()
 
-@property (strong, nonatomic) NSMutableDictionary *soundDict;
+//@property (strong, nonatomic) NSMutableDictionary *soundDict;
 
 @end
 
@@ -31,7 +31,7 @@ static id instance = nil;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _soundDict = [[NSMutableDictionary alloc] init];
+        //_soundDict = [[NSMutableDictionary alloc] init];
         _emojiArray = [self emojiSoundInfo];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSURL *documentsDirectory = [[fileManager URLsForDirectory:NSDocumentDirectory
@@ -49,11 +49,11 @@ static id instance = nil;
     return dict;
 }
 
-- (NSDictionary *)readVoiceInfo {
-    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Voice" ofType:@"plist"];
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-    return dict;
-}
+//- (NSDictionary *)readVoiceInfo {
+//    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Voice" ofType:@"plist"];
+//    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+//    return dict;
+//}
 
 - (NSMutableArray *)emojiSoundInfo {
     NSDictionary *dict = [self readEmojiInfo];

@@ -13,6 +13,7 @@
 
 @property (nonatomic, copy) NSString *toastLabelText;
 @property (nonatomic, retain) UIView *toastView;
+@property (nonatomic, retain) TipView *tipView;
 
 @end
 
@@ -79,7 +80,7 @@
 }
 
 - (void)loadingView {
-    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:1];
+    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
     CGPoint center = window.center;
     _toastView = [[UIView alloc] initWithFrame:window.frame];
     _toastView.backgroundColor = [UIColor grayColor];
@@ -113,6 +114,78 @@
 - (void)endLoading {
     [_toastView removeFromSuperview];
 }
+
++ (Toast *)makeTip {
+    Toast *toast = [[Toast alloc] init];
+    return toast;
+}
+
+- (void)pageTip:(NSString *)top andCenter:(NSString *)center andBottom:(NSString *)bottom {
+    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+    _tipView = [[TipView alloc] initWithFrame:window.frame];
+    _tipView.backgroundColor = [UIColor grayColor];
+    _tipView.alpha = 0.7;
+    
+    UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, [[UIScreen mainScreen] applicationFrame].origin.y, _tipView.frame.size.width, 40)];
+    topLabel.font = [UIFont boldSystemFontOfSize:17.0f];
+    topLabel.textAlignment = NSTextAlignmentCenter;
+    topLabel.text = top;
+    topLabel.textColor = [UIColor whiteColor];
+    
+    UILabel *centerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (_tipView.frame.size.height - 40) / 2, _tipView.frame.size.width, 40)];
+    centerLabel.font = [UIFont boldSystemFontOfSize:17.0f];
+    centerLabel.textAlignment = NSTextAlignmentCenter;
+    centerLabel.text = center;
+    centerLabel.textColor = [UIColor whiteColor];
+    
+    UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _tipView.frame.size.height - 40, _tipView.frame.size.width, 40)];
+    bottomLabel.font = [UIFont boldSystemFontOfSize:17.0f];
+    bottomLabel.textAlignment = NSTextAlignmentCenter;
+    bottomLabel.text = bottom;
+    bottomLabel.textColor = [UIColor whiteColor];
+    
+    [_tipView addSubview:topLabel];
+    [_tipView addSubview:centerLabel];
+    [_tipView addSubview:bottomLabel];
+    
+    [window addSubview:_tipView];
+}
+
 @end
 
+@interface TipView()
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic) BOOL isTap;
+@end
 
+@implementation TipView
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        _isTap = NO;
+        _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHappened:)];
+        _tapGesture.delegate = self;
+        [self addGestureRecognizer:_tapGesture];
+        _timer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(disappear) userInfo:nil repeats:NO];
+    }
+    return self;
+}
+
+- (void)remove {
+    [_timer invalidate];
+    [self removeFromSuperview];
+}
+
+- (void)disappear {
+    if (!_isTap) {
+        [self remove];
+    }
+}
+
+- (void)tapHappened:(UITapGestureRecognizer *)tap {
+    _isTap = YES;
+    [self remove];
+}
+@end

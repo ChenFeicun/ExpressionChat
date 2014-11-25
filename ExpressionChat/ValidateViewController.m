@@ -24,9 +24,9 @@ static BOOL editingOrNot = NO;
 //记录当前 验证的手机号码
 static NSString *phoneNumber = nil;
 @implementation ValidateViewController
-- (IBAction)swipeToBack:(id)sender {
-    [self performSegueWithIdentifier:@"BackToSettings" sender:self];
-}
+//- (IBAction)swipeToBack:(id)sender {
+//    [self performSegueWithIdentifier:@"BackToSettings" sender:self];
+//}
 
 - (IBAction)send:(id)sender {
     //先查是否手机号码被注册

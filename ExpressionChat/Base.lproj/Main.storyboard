@@ -33,7 +33,7 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mHn-Gn-b94">
                                 <rect key="frame" x="0.0" y="627" width="375" height="40"/>
-                                <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.76470588235294112" green="0.76470588235294112" blue="0.76470588235294112" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="aiQ-q8-nSg"/>
                                 </constraints>
@@ -47,7 +47,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="40" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="nyw-Gh-c8E">
-                                <rect key="frame" x="0.0" y="60" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="60" width="375" height="567"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="friend" rowHeight="40" id="4yM-w6-Yjc" customClass="JZSwipeCell">
@@ -63,7 +63,7 @@
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CyO-GQ-BRF">
                                                     <rect key="frame" x="360" y="0.0" width="15" height="40"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="G1g-v8-0fY"/>
                                                         <constraint firstAttribute="width" constant="15" id="fZt-lm-o0J"/>
@@ -98,7 +98,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="l1f-af-0YS" firstAttribute="top" secondItem="77o-5P-WSZ" secondAttribute="bottom" id="3GV-RV-Hea"/>
-                            <constraint firstItem="mHn-Gn-b94" firstAttribute="top" secondItem="nyw-Gh-c8E" secondAttribute="bottom" constant="8" id="ALt-yw-TYY"/>
+                            <constraint firstItem="mHn-Gn-b94" firstAttribute="top" secondItem="nyw-Gh-c8E" secondAttribute="bottom" id="ALt-yw-TYY"/>
                             <constraint firstItem="l1f-af-0YS" firstAttribute="leading" secondItem="5cQ-al-o92" secondAttribute="leadingMargin" constant="-16" id="FLo-lg-leh"/>
                             <constraint firstItem="nyw-Gh-c8E" firstAttribute="leading" secondItem="5cQ-al-o92" secondAttribute="leadingMargin" constant="-16" id="L1H-vy-Yzp"/>
                             <constraint firstItem="nyw-Gh-c8E" firstAttribute="top" secondItem="l1f-af-0YS" secondAttribute="bottom" id="MuU-t7-Q53"/>
@@ -183,7 +183,7 @@
                     <view key="view" contentMode="scaleToFill" id="OQA-ET-p6D">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.73725490199999999" blue="0.83137254900000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -319,7 +319,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9t-JM-YeJ">
                                 <rect key="frame" x="0.0" y="354" width="375" height="40"/>
-                                <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.76470588235294112" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="jMX-eR-57P"/>
                                 </constraints>
@@ -520,21 +520,21 @@
                                     <constraint firstAttribute="height" constant="40" id="Ez3-sT-hEt"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <state key="normal" title="使用LeanCloud构建" backgroundImage="normal.png">
+                                <state key="normal" title="使用 LeanCloud 构建" backgroundImage="normal.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vqv-th-94h">
                                 <rect key="frame" x="0.0" y="274" width="375" height="40"/>
-                                <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="V3g-Jt-yVs"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <state key="normal" title="Version 1.0.0" backgroundImage="normal.png">
+                                <state key="normal" title="Version 1.0.0">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
                         </subviews>
@@ -586,8 +586,8 @@
         <image name="normal.png" width="1206" height="71"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="IFy-1z-vZk"/>
-        <segue reference="Nc4-lu-kpa"/>
         <segue reference="C45-AN-du8"/>
+        <segue reference="mSf-C4-Ic6"/>
+        <segue reference="Nc4-lu-kpa"/>
     </inferredMetricsTieBreakers>
 </document>

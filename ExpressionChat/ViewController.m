@@ -19,12 +19,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //786 967
-    CGFloat width = self.view.frame.size.width;
-    CGFloat height = width / 2 / 786 * 967;
-    CGRect frame = CGRectMake(width / 4, (self.view.frame.size.height - height) / 2, width / 2, height);
+    CGFloat img_wh = self.view.frame.size.width / 2;
+    CGRect frame = CGRectMake((self.view.frame.size.width - img_wh) / 2, (self.view.frame.size.height - img_wh) / 2, img_wh, img_wh);
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:frame];
-    imgView.image = [UIImage imageNamed:@"shuxiajian.png"];
+    imgView.image = [UIImage imageNamed:@"biu_logo"];
     [self.view addSubview:imgView];
 }
 

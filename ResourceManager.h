@@ -14,7 +14,7 @@
 + (instancetype)sharedInstance;
 @property (nonatomic, strong) NSMutableArray *emojiArray;
 - (NSDictionary *)readEmojiInfo;
-- (NSDictionary *)readVoiceInfo;
+//- (NSDictionary *)readVoiceInfo;
 - (NSMutableArray *)emojiSoundInfo;
 - (void)removeAllSoundFile;
 - (void)removeSoundFileByUrl:(NSURL *)url;

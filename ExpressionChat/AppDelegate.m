@@ -62,49 +62,49 @@
     //图标上的数字 通过推送推过来的 需要在服务器端做增加
     
     //推送过来的消息在这里 应用未启动
-    if (launchOptions) {
-        NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
-        if (badge) {
-            NSLog(@"%li", (long)badge);
-            [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-        }
-    }
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
-        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
-    } else {
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
-        [application registerUserNotificationSettings:settings];
-        [application registerForRemoteNotifications];
-
-    }
+//    if (launchOptions) {
+//        NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
+//        if (badge) {
+//            NSLog(@"%li", (long)badge);
+//            [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+//        }
+//    }
+//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
+//        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+//    } else {
+//        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
+//        [application registerUserNotificationSettings:settings];
+//        [application registerForRemoteNotifications];
+//
+//    }
     
     return YES;
 }
 
 //接收远程消息 应用处于打开状态
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"didReceiveRemoteNotification");
-    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    localNotification.userInfo = userInfo;
-    localNotification.soundName = UILocalNotificationDefaultSoundName;
-    localNotification.alertBody = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
-    localNotification.fireDate = [NSDate date];
-    localNotification.applicationIconBadgeNumber++;
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-}
+//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+//    NSLog(@"didReceiveRemoteNotification");
+//    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+//    localNotification.userInfo = userInfo;
+//    localNotification.soundName = UILocalNotificationDefaultSoundName;
+//    localNotification.alertBody = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+//    localNotification.fireDate = [NSDate date];
+//    localNotification.applicationIconBadgeNumber++;
+//    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+//}
 
 
-//注册成功
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSLog(@"Receive DeviceToken: %@", deviceToken);
-    AVInstallation *curInstallation = [AVInstallation currentInstallation];
-    [curInstallation setDeviceTokenFromData:deviceToken];
-    [curInstallation saveInBackground];
-}
-//注册失败
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"Failed!!!!!!!!!!!!!!!!! %@", error.description);
-}
+////注册成功
+//- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+//    NSLog(@"Receive DeviceToken: %@", deviceToken);
+//    AVInstallation *curInstallation = [AVInstallation currentInstallation];
+//    [curInstallation setDeviceTokenFromData:deviceToken];
+//    [curInstallation saveInBackground];
+//}
+////注册失败
+//- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+//    NSLog(@"Failed!!!!!!!!!!!!!!!!! %@", error.description);
+//}
 
 #pragma mark - 应用的生命周期
 - (void)applicationWillResignActive:(UIApplication *)application {
