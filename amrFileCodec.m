@@ -7,6 +7,7 @@
 //
 
 #include "amrFileCodec.h"
+#include <stdlib.h>
 
 typedef unsigned long long u64;
 typedef long long s64;
@@ -143,7 +144,6 @@ int ReadAMRFrameFirstData(char* fpamr,int pos,int maxLen, unsigned char frameBuf
 {
     int nPos = 0;
 	memset(frameBuffer, 0, sizeof(frameBuffer));
-	
 	// 先读帧头
 	//fread(stdFrameHeader, 1, sizeof(unsigned char), fpamr);
     stdFrameHeader[0] = fpamr[pos];nPos++;
@@ -272,7 +272,7 @@ NSData* DecodeAMRToWAVE(NSData* data) {
     }
     
 	const char* rfile = [data bytes];
-    int maxLen = [data length];
+    int maxLen = (int)[data length];
     int pos = 0;
     
     //有可能是android 3gp格式
@@ -301,6 +301,8 @@ NSData* DecodeAMRToWAVE(NSData* data) {
 	memset(amrFrame, 0, sizeof(amrFrame));
 	memset(pcmFrame, 0, sizeof(pcmFrame));
 	//ReadAMRFrameFirst(fpamr, amrFrame, &stdFrameSize, &stdFrameHeader);
+    
+
     
     nTemp = ReadAMRFrameFirstData(rfile,pos,maxLen, amrFrame, &stdFrameSize, &stdFrameHeader);
     if (nTemp==0) {
@@ -565,8 +567,8 @@ NSData* EncodeWAVEToAMR(NSData* data, int nChannels, int nBitsPerSample)
     }
     
     int nPos  = 0;
-    char* buf = [data bytes];
-    int maxLen = [data length];
+    char* buf = (char *)[data bytes];
+    int maxLen = (int)[data length];
     
 
     nPos += SkipCaffHead(buf);

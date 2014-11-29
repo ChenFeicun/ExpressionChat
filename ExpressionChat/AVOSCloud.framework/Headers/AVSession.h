@@ -72,6 +72,7 @@ typedef enum : NSUInteger {
  *  @param peerIds peer id 数组
  */
 - (void)watchPeerIds:(NSArray *)peerIds;
+- (void)watchPeerIds:(NSArray *)peerIds callback:(AVBooleanResultBlock)callback;
 
 - (BOOL)watchPeers:(NSArray *)peerIds  AVDeprecated("2.6.4");
 
@@ -80,6 +81,7 @@ typedef enum : NSUInteger {
  *  @param peerIds peer id 数组
  */
 - (void)unwatchPeerIds:(NSArray *)peerIds;
+- (void)unwatchPeerIds:(NSArray *)peerIds callback:(AVBooleanResultBlock)callback;
 
 - (void)unwatchPeers:(NSArray *)peerIds AVDeprecated("2.6.4");
 
@@ -96,6 +98,13 @@ typedef enum : NSUInteger {
  *         如果设置为 NO, 则该条消息会设法通过各种途径发到 peer 客户端，比如即时通信、推送、离线消息等。
  */
 - (void)sendMessage:(AVMessage *)message transient:(BOOL)transient;
+
+/*!
+ *  发送消息
+ *  @param message 消息对象
+ *  @param requestReceipt 是否需要回执。
+ */
+- (void)sendMessage:(AVMessage *)message requestReceipt:(BOOL)requestReceipt;
 
 - (void)sendMessage:(NSString *)message isTransient:(BOOL)transient toPeerIds:(NSArray *)peerIds AVDeprecated("2.6.4");
 
@@ -182,8 +191,24 @@ typedef enum : NSUInteger {
 - (void)sessionFailed:(AVSession *)session error:(NSError *)error;
 - (void)session:(AVSession *)session didReceiveMessage:(AVMessage *)message;
 - (void)session:(AVSession *)session didReceiveStatus:(AVPeerStatus)status peerIds:(NSArray *)peerIds;
+/*!
+ *  消息发送成功
+ *  回调表示消息已经成功发送到服务器
+ */
 - (void)session:(AVSession *)session messageSendFinished:(AVMessage *)message;
+
+/*!
+ *  消息发送失败
+ *  回调表示消息长时间没得到服务器确认或网络故障
+ */
 - (void)session:(AVSession *)session messageSendFailed:(AVMessage *)message error:(NSError *)error;
+
+/*!
+ *  消息到达接收方，需要消息设置requestReceipt为YES，默认为NO
+ *  回调表示消息已经发送到接收方
+ */
+- (void)session:(AVSession *)session messageArrived:(AVMessage *)message;
+
 
 - (void)onSessionOpen:(AVSession *)session AVDeprecated("2.6.4");
 - (void)onSessionPaused:(AVSession *)session AVDeprecated("2.6.4");

@@ -82,6 +82,7 @@ typedef void (^AVGroupResultBlock)(AVGroup *group, NSError *error);
  *  @return 无异常返回YES，否则返回NO
  */
 - (void)kickPeerIds:(NSArray *)peerIds;
+- (void)kickPeerIds:(NSArray *)peerIds callback:(AVArrayResultBlock)callback;
 
 - (BOOL)kick:(NSArray *)peerIds AVDeprecated("2.6.4");
 
@@ -91,6 +92,7 @@ typedef void (^AVGroupResultBlock)(AVGroup *group, NSError *error);
  *  @return 无异常返回YES，否则返回NO
  */
 - (void)invitePeerIds:(NSArray *)peerIds;
+- (void)invitePeerIds:(NSArray *)peerIds callback:(AVArrayResultBlock)callback;
 
 - (BOOL)invite:(NSArray *)peerIds  AVDeprecated("2.6.4");
 

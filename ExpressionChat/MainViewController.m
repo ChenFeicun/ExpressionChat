@@ -95,6 +95,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"MainTip"]) {
+        _all = [Friends allFriendsInManagedObjectContext:_context];
+        if ([_all count]) {
+            [[Toast makeTip] pageTip:@"添加好友" andCenter:@"" andBottom:@"通讯录好友"];
+        } else 
         [[Toast makeTip] pageTip:@"添加好友" andCenter:@"您还未添加好友" andBottom:@"通讯录好友"];
     }
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MainTip"];
@@ -200,8 +204,8 @@
         if (indexPath)
         {
             Friends *friend = [_all objectAtIndex:indexPath.row];
-            [Friends deleteFriend:friend inManagedObjectContext:_context];
             [NotifyMsg deleteFriendMsg:friend inManagedObjectContext:_context];
+            [Friends deleteFriend:friend inManagedObjectContext:_context];
             //deleteRowsAtIndexPaths 执行完会自动删除
             //[self.all removeObjectAtIndex:indexPath.row];
             [self.friendsTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];

@@ -176,14 +176,20 @@ static CGFloat VIEW_HEIGHT;
             if ([msg.type isEqualToString:@"0"]) {
                 [self dropEmoji:biuMsg upOrDown:DOWN];
             } else if ([msg.type isEqualToString:@"1"]) {
-                if (msg.audiourl) {
-                    AVFile *file = [AVFile fileWithURL:msg.audiourl];
-                    [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                        if (data && !error) {
-                            [recordAudio play:data];
-                            [self dropEmoji:biuMsg upOrDown:DOWN];
-                            [file deleteInBackground];
-                            [file clearCachedFile];
+                if (msg.audioid) {
+                    [AVFile getFileWithObjectId:msg.audioid withBlock:^(AVFile *file, NSError *error) {
+                        if (file && !error) {
+                            AVFile *dataFile = [AVFile fileWithURL:file.url];
+                            [dataFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                                NSLog(@"%@", error.localizedDescription);
+                                if (data && !error) {
+                                    
+                                    [recordAudio play:data];
+                                    [self dropEmoji:biuMsg upOrDown:DOWN];
+                                    [file deleteInBackground];
+                                    [file clearCachedFile];
+                                }
+                            }];
                         }
                     }];
                 }
@@ -219,15 +225,20 @@ static CGFloat VIEW_HEIGHT;
     if ([type isEqualToString:@"0"]) {
         [self dropEmoji:biuMsg upOrDown:DOWN];
     } else if ([type isEqualToString:@"1"]) {
-        NSString *fileUrl = [dict objectForKey:@"audioUrl"];
-        if (fileUrl) {
-            AVFile *file = [AVFile fileWithURL:fileUrl];
-            [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                if (data && !error) {
-                    [recordAudio play:data];
-                    [self dropEmoji:biuMsg upOrDown:DOWN];
-                    [file deleteInBackground];
-                    [file clearCachedFile];
+        //NSString *fileUrl = [dict objectForKey:@"audioUrl"];
+        NSString *fileId = [dict objectForKey:@"audioID"];
+        if (fileId) {
+            [AVFile getFileWithObjectId:fileId withBlock:^(AVFile *file, NSError *error) {
+                if (file && !error) {
+                    AVFile *dataFile = [AVFile fileWithURL:file.url];
+                    [dataFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                        if (data && !error) {
+                            [recordAudio play:data];
+                            [self dropEmoji:biuMsg upOrDown:DOWN];
+                            [file deleteInBackground];
+                            [file clearCachedFile];
+                        }
+                    }];
                 }
             }];
         }
@@ -282,7 +293,7 @@ static CGFloat VIEW_HEIGHT;
             Emoji *emj = [[ResourceManager sharedInstance].emojiArray objectAtIndex:[str integerValue] - 1];
             if (emj.isRecord) {
                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"]) {
-                    [recordAudio playWithNoSound:emj.emojiData];
+                    //[recordAudio playWithNoSound:emj.emojiData];
                 } else {
                     [recordAudio play:emj.emojiData];
                 }
@@ -465,11 +476,14 @@ static CGFloat VIEW_HEIGHT;
         type = 1;
         AVFile *file = [AVFile fileWithName:emj.avosName data:emj.emojiData];
         [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            NSLog(@"%@", error.localizedDescription);
             if (succeeded && !error) {
                 emj.avosURL = file.url;
                 emj.avosID = file.objectId;
                 [self didSelectEmoji:emj passingXRatio:resXRatio andType:type];
                 [file clearCachedFile];
+            } else if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]) {
+                [[Toast makeToast:@"网络连接异常"] show];
             }
         }];
     } else {
@@ -633,7 +647,7 @@ static CGFloat VIEW_HEIGHT;
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     //通知session 当前聊天用户为空
-    [recordAudio stopPlay];
+    //[recordAudio stopPlay];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ClearCurrentFriend" object:nil];
     [self performSegueWithIdentifier:@"BackToMain" sender:self];
 }

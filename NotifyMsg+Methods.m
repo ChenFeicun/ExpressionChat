@@ -8,6 +8,7 @@
 
 #import "NotifyMsg+Methods.h"
 #import "Friends.h"
+#import <AVOSCloud/AVOSCloud.h>
 
 @implementation NotifyMsg (Methods)
 
@@ -70,6 +71,14 @@
     NSArray *array = [self getOfflineMsg:friend inManagedObjectContext:context];
     if (array) {
         for (NotifyMsg *msg in array) {
+            //LeanCloud端也要删掉
+            if (msg.audioid) {
+                [AVFile getFileWithObjectId:msg.audioid withBlock:^(AVFile *file, NSError *error) {
+                    if (file && !error) {
+                        [file deleteInBackground];
+                    }
+                 }];
+            }
             [context deleteObject:msg];
         }
         if ([context save:nil]) {
@@ -86,6 +95,13 @@
     NSArray *array = [context executeFetchRequest:request error:&error];
     if (!error && array) {
         for (NotifyMsg *msg in array) {
+            if (msg.audioid) {
+                [AVFile getFileWithObjectId:msg.audioid withBlock:^(AVFile *file, NSError *error) {
+                    if (file && !error) {
+                        [file deleteInBackground];
+                    }
+                }];
+            }
             [context deleteObject:msg];
         }
         if ([context save:nil]) {

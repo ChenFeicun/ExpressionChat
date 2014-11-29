@@ -19,17 +19,17 @@
 @property (strong, nonatomic) AVUser *user;
 @property (strong, nonatomic) Toast *loadToast;
 @end
-//
-static BOOL editingOrNot = NO;
 
 @implementation LoginViewController
+
+static BOOL editingOrNot = YES;
 
 - (IBAction)userLogin:(id)sender {
     [self enter];
 }
-//
+
 - (IBAction)finishInput:(id)sender {
-    [self enter];
+    [_loginPassword becomeFirstResponder];
 }
 
 - (void)enter {
@@ -83,21 +83,32 @@ static BOOL editingOrNot = NO;
 
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    editingOrNot = YES;
-    [Animation moveViewForEditing:self.view orNot:editingOrNot];
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    editingOrNot = NO;
-    [Animation moveViewForEditing:self.view orNot:editingOrNot];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     //设置委托
     _loginUserName.delegate = self;
     _loginPassword.delegate = self;
+    //键盘将出现事件监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    //键盘将隐藏事件监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+}
+
+
+- (void)handleKeyboardWillShow:(NSNotification *)notification {
+    if (editingOrNot) {
+        [Animation moveViewForEditing:self.view orNot:editingOrNot];
+        editingOrNot = !editingOrNot;
+    }
+    
+}
+
+- (void)handleKeyboardWillHide:(NSNotification *)notification {
+    if (!editingOrNot) {
+        [Animation moveViewForEditing:self.view orNot:editingOrNot];
+        editingOrNot = !editingOrNot;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

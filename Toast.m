@@ -53,6 +53,7 @@
     [_toastView addSubview:imgView];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, TOAST_WH * 2 / 3, TOAST_WH, TOAST_WH / 3)];
+    label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont boldSystemFontOfSize:15.0f];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = _toastLabelText;
@@ -100,6 +101,7 @@
     [view addSubview:aiView];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, TOAST_WH * 2 / 3, TOAST_WH, TOAST_WH / 3)];
+    label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont boldSystemFontOfSize:17.0f];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = _toastLabelText;
@@ -127,18 +129,21 @@
     _tipView.alpha = 0.7;
     
     UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, [[UIScreen mainScreen] applicationFrame].origin.y, _tipView.frame.size.width, 40)];
+    topLabel.backgroundColor = [UIColor clearColor];
     topLabel.font = [UIFont boldSystemFontOfSize:17.0f];
     topLabel.textAlignment = NSTextAlignmentCenter;
     topLabel.text = top;
     topLabel.textColor = [UIColor whiteColor];
     
     UILabel *centerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (_tipView.frame.size.height - 40) / 2, _tipView.frame.size.width, 40)];
+    centerLabel.backgroundColor = [UIColor clearColor];
     centerLabel.font = [UIFont boldSystemFontOfSize:17.0f];
     centerLabel.textAlignment = NSTextAlignmentCenter;
     centerLabel.text = center;
     centerLabel.textColor = [UIColor whiteColor];
     
     UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _tipView.frame.size.height - 40, _tipView.frame.size.width, 40)];
+    bottomLabel.backgroundColor = [UIColor clearColor];
     bottomLabel.font = [UIFont boldSystemFontOfSize:17.0f];
     bottomLabel.textAlignment = NSTextAlignmentCenter;
     bottomLabel.text = bottom;

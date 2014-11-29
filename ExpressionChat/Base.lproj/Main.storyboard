@@ -215,7 +215,7 @@
                                 </constraints>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
                                 <connections>
                                     <action selector="finishInput:" destination="Hrx-LQ-J5E" eventType="editingDidEndOnExit" id="gvo-Vi-uPF"/>
                                 </connections>
@@ -227,9 +227,9 @@
                                     <constraint firstAttribute="height" constant="40" id="8Xt-BO-MiN"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
                                 <connections>
-                                    <action selector="finishInput:" destination="Hrx-LQ-J5E" eventType="editingDidEndOnExit" id="1ul-sA-bzg"/>
+                                    <action selector="userLogin:" destination="Hrx-LQ-J5E" eventType="editingDidEndOnExit" id="yXR-fC-bm5"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e66-tf-9jv">
@@ -324,9 +324,9 @@
                                     <constraint firstAttribute="height" constant="40" id="jMX-eR-57P"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <state key="normal" title="发送">
+                                <state key="normal" title="发送" backgroundImage="highLight.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="send:" destination="zSA-eO-bLW" eventType="touchUpInside" id="xsv-DH-GSr"/>
@@ -512,6 +512,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="sendEmail:" destination="h8Y-JH-ush" eventType="touchUpInside" id="ssM-1z-Svm"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RWd-LB-ZW9">
                                 <rect key="frame" x="0.0" y="354" width="375" height="40"/>
@@ -524,6 +527,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="leanCloud:" destination="h8Y-JH-ush" eventType="touchUpInside" id="Yzs-YB-9Zz"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vqv-th-94h">
                                 <rect key="frame" x="0.0" y="274" width="375" height="40"/>
@@ -532,9 +538,9 @@
                                     <constraint firstAttribute="height" constant="40" id="V3g-Jt-yVs"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <state key="normal" title="Version 1.0.0">
+                                <state key="normal" title="Version 1.0.0" backgroundImage="highLight.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
                         </subviews>
@@ -583,11 +589,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="highLight.png" width="1368" height="97"/>
         <image name="normal.png" width="1206" height="71"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="C45-AN-du8"/>
-        <segue reference="mSf-C4-Ic6"/>
+        <segue reference="IFy-1z-vZk"/>
         <segue reference="Nc4-lu-kpa"/>
     </inferredMetricsTieBreakers>
 </document>

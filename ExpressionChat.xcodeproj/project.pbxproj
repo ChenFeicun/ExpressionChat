@@ -24,7 +24,7 @@
 		183560C81A1ECA9D0079BCE2 /* Friends.m in Sources */ = {isa = PBXBuildFile; fileRef = 183560C71A1ECA9D0079BCE2 /* Friends.m */; };
 		183560CB1A1EE85E0079BCE2 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183560CA1A1EE85E0079BCE2 /* AboutViewController.m */; };
 		183560D01A1F08ED0079BCE2 /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 183560CF1A1F08ED0079BCE2 /* warning.png */; };
-		183CD7EB1A086C0700117537 /* AVOSCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 183CD7EA1A086C0700117537 /* AVOSCloud.framework */; };
+		183C19FC1A255E4600150D4E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 183C19FB1A255E4600150D4E /* MessageUI.framework */; };
 		183EE39019EE06BC0096DC26 /* EmojiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183EE38F19EE06BC0096DC26 /* EmojiViewController.m */; };
 		183EE39319EE09810096DC26 /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 183EE39219EE09810096DC26 /* Emoji.plist */; };
 		1840F8DC19EB59A600F64F7C /* BiuSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840F8DB19EB59A600F64F7C /* BiuSessionManager.m */; };
@@ -51,16 +51,16 @@
 		185267F51A1B5A490078BB0E /* NotifyMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 185267F41A1B5A490078BB0E /* NotifyMsg.m */; };
 		18531ECC1A11995600C38B07 /* lame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18531ECB1A11995600C38B07 /* lame.framework */; };
 		18531ECE1A119CCD00C38B07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18531ECD1A119CCD00C38B07 /* Foundation.framework */; };
-		18531ED11A11DF7200C38B07 /* EmojiSoundCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18531ED01A11DF7200C38B07 /* EmojiSoundCell.m */; };
 		18580A9B1A01132D00C1539E /* Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18580A9A1A01132D00C1539E /* Animation.m */; };
 		185914BF1A15A0EF00BFDEBE /* amrFileCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 185914BE1A15A0EF00BFDEBE /* amrFileCodec.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		185914CC1A15A1CC00BFDEBE /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 185914C81A15A1CC00BFDEBE /* libopencore-amrnb.a */; };
 		185914CD1A15A1CC00BFDEBE /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 185914C91A15A1CC00BFDEBE /* libopencore-amrwb.a */; };
-		185914CE1A15A1CC00BFDEBE /* RecordAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 185914CB1A15A1CC00BFDEBE /* RecordAudio.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		187570DF1A2221CD008B86E3 /* EmojiBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187570DE1A2221CD008B86E3 /* EmojiBoardView.m */; };
 		1887AE8A1A1F5B2600760AAD /* UINavigationController+YRBackGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 1887AE891A1F5B2600760AAD /* UINavigationController+YRBackGesture.m */; };
 		18912ADD1A01CF6500BF0797 /* JZSwipeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18912ADC1A01CF6500BF0797 /* JZSwipeCell.m */; };
 		1891BA8E1A20A6F000347A20 /* biu_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1891BA8D1A20A6F000347A20 /* biu_logo.png */; };
+		1897652E1A272CF400C4B050 /* RecordAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 185914CB1A15A1CC00BFDEBE /* RecordAudio.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1897652F1A27431100C4B050 /* AVOSCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1848FCBF1A26B77A004F08D1 /* AVOSCloud.framework */; };
 		189BE4241A046BD5002FF4FA /* ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189BE4231A046BD5002FF4FA /* ResourceManager.m */; };
 		189BE4401A067760002FF4FA /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189BE43F1A067760002FF4FA /* SettingsViewController.m */; };
 		18B6A1A219FF2B08008C4EE9 /* Friends+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6A1A119FF2B08008C4EE9 /* Friends+Methods.m */; };
@@ -82,7 +82,7 @@
 
 /* Begin PBXFileReference section */
 		18017E8119F8EF9800BB9B29 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		180C237319E4D419008F8C0E /* Biu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Biu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		180C237319E4D419008F8C0E /* ExpressionChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpressionChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		180C237719E4D41A008F8C0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		180C237819E4D41A008F8C0E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		180C237A19E4D41A008F8C0E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 		183560C91A1EE85E0079BCE2 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		183560CA1A1EE85E0079BCE2 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		183560CF1A1F08ED0079BCE2 /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
-		183CD7EA1A086C0700117537 /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloud.framework; sourceTree = "<group>"; };
+		183C19FB1A255E4600150D4E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		183EE38E19EE06BC0096DC26 /* EmojiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiViewController.h; sourceTree = "<group>"; };
 		183EE38F19EE06BC0096DC26 /* EmojiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiViewController.m; sourceTree = "<group>"; };
 		183EE39219EE09810096DC26 /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
@@ -115,6 +115,8 @@
 		1840F8DB19EB59A600F64F7C /* BiuSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiuSessionManager.m; sourceTree = "<group>"; };
 		1841E3DD19E5270400859B58 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		1841E3DE19E5270400859B58 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		1848FCBF1A26B77A004F08D1 /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloud.framework; sourceTree = "<group>"; };
+		1848FCC11A26C0E5004F08D1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		185211F11A1D742500CA86B4 /* record_animate_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record_animate_01.png; sourceTree = "<group>"; };
 		185211F21A1D742500CA86B4 /* record_animate_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record_animate_02.png; sourceTree = "<group>"; };
 		185211F31A1D742500CA86B4 /* record_animate_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record_animate_03.png; sourceTree = "<group>"; };
@@ -139,8 +141,6 @@
 		185267F41A1B5A490078BB0E /* NotifyMsg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotifyMsg.m; path = ../NotifyMsg.m; sourceTree = "<group>"; };
 		18531ECB1A11995600C38B07 /* lame.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = lame.framework; sourceTree = "<group>"; };
 		18531ECD1A119CCD00C38B07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		18531ECF1A11DF7200C38B07 /* EmojiSoundCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiSoundCell.h; sourceTree = "<group>"; };
-		18531ED01A11DF7200C38B07 /* EmojiSoundCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiSoundCell.m; sourceTree = "<group>"; };
 		18580A991A01132D00C1539E /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Animation.h; path = ExpressionChat/Animation.h; sourceTree = "<group>"; };
 		18580A9A1A01132D00C1539E /* Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Animation.m; path = ExpressionChat/Animation.m; sourceTree = "<group>"; };
 		185914BD1A15A0EF00BFDEBE /* amrFileCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amrFileCodec.h; sourceTree = "<group>"; };
@@ -180,6 +180,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1897652F1A27431100C4B050 /* AVOSCloud.framework in Frameworks */,
+				183C19FC1A255E4600150D4E /* MessageUI.framework in Frameworks */,
 				18531ECE1A119CCD00C38B07 /* Foundation.framework in Frameworks */,
 				182EBE0019FCEB7100D3AC01 /* AudioToolbox.framework in Frameworks */,
 				180C23A719E4D590008F8C0E /* libicucore.dylib in Frameworks */,
@@ -189,7 +191,6 @@
 				185914CD1A15A1CC00BFDEBE /* libopencore-amrwb.a in Frameworks */,
 				180C23A319E4D56E008F8C0E /* CoreTelephony.framework in Frameworks */,
 				180C23A119E4D563008F8C0E /* MobileCoreServices.framework in Frameworks */,
-				183CD7EB1A086C0700117537 /* AVOSCloud.framework in Frameworks */,
 				180C239F19E4D556008F8C0E /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,7 +217,7 @@
 		180C237419E4D419008F8C0E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				180C237319E4D419008F8C0E /* Biu.app */,
+				180C237319E4D419008F8C0E /* ExpressionChat.app */,
 				180C238C19E4D41A008F8C0E /* ExpressionChatTests.xctest */,
 			);
 			name = Products;
@@ -242,9 +243,10 @@
 		180C237619E4D419008F8C0E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1848FCBF1A26B77A004F08D1 /* AVOSCloud.framework */,
+				183C19FB1A255E4600150D4E /* MessageUI.framework */,
 				18531ECD1A119CCD00C38B07 /* Foundation.framework */,
 				18531ECB1A11995600C38B07 /* lame.framework */,
-				183CD7EA1A086C0700117537 /* AVOSCloud.framework */,
 				182EBDFF19FCEB7100D3AC01 /* AudioToolbox.framework */,
 				180C23A619E4D590008F8C0E /* libicucore.dylib */,
 				180C23A419E4D576008F8C0E /* CoreLocation.framework */,
@@ -399,8 +401,6 @@
 				183EE39219EE09810096DC26 /* Emoji.plist */,
 				18912ADB1A01CF6500BF0797 /* JZSwipeCell.h */,
 				18912ADC1A01CF6500BF0797 /* JZSwipeCell.m */,
-				18531ECF1A11DF7200C38B07 /* EmojiSoundCell.h */,
-				18531ED01A11DF7200C38B07 /* EmojiSoundCell.m */,
 				187570DD1A2221CD008B86E3 /* EmojiBoardView.h */,
 				187570DE1A2221CD008B86E3 /* EmojiBoardView.m */,
 				1887AE881A1F5B2600760AAD /* UINavigationController+YRBackGesture.h */,
@@ -448,7 +448,7 @@
 			);
 			name = ExpressionChat;
 			productName = ExpressionChat;
-			productReference = 180C237319E4D419008F8C0E /* Biu.app */;
+			productReference = 180C237319E4D419008F8C0E /* ExpressionChat.app */;
 			productType = "com.apple.product-type.application";
 		};
 		180C238B19E4D41A008F8C0E /* ExpressionChatTests */ = {
@@ -558,6 +558,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1897652E1A272CF400C4B050 /* RecordAudio.m in Sources */,
 				1887AE8A1A1F5B2600760AAD /* UINavigationController+YRBackGesture.m in Sources */,
 				183EE39019EE06BC0096DC26 /* EmojiViewController.m in Sources */,
 				18580A9B1A01132D00C1539E /* Animation.m in Sources */,
@@ -567,7 +568,6 @@
 				18B78AFF1A09C62300540327 /* Toast.m in Sources */,
 				18B6A1A219FF2B08008C4EE9 /* Friends+Methods.m in Sources */,
 				1840F8DC19EB59A600F64F7C /* BiuSessionManager.m in Sources */,
-				185914CE1A15A1CC00BFDEBE /* RecordAudio.m in Sources */,
 				187570DF1A2221CD008B86E3 /* EmojiBoardView.m in Sources */,
 				185267F51A1B5A490078BB0E /* NotifyMsg.m in Sources */,
 				185267F21A1B317E0078BB0E /* BiuMessage.m in Sources */,
@@ -582,7 +582,6 @@
 				1841E3DF19E5270400859B58 /* MainViewController.m in Sources */,
 				180C237919E4D41A008F8C0E /* main.m in Sources */,
 				183560CB1A1EE85E0079BCE2 /* AboutViewController.m in Sources */,
-				18531ED11A11DF7200C38B07 /* EmojiSoundCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,6 +608,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				180C238119E4D41A008F8C0E /* Base */,
+				1848FCC11A26C0E5004F08D1 /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -719,7 +719,7 @@
 					"$(PROJECT_DIR)/ExpressionChat",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = Biu;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -748,7 +748,7 @@
 					"$(PROJECT_DIR)/ExpressionChat",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = Biu;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

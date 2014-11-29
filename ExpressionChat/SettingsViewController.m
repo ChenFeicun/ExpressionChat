@@ -30,9 +30,6 @@
 @end
 
 @implementation SettingsViewController
-//- (IBAction)swipeToBack:(id)sender {
-//    [self performSegueWithIdentifier:@"SettingsToMain" sender:self];
-//}
 
 - (IBAction)openOrCloseSound:(id)sender {
     BOOL oOrC = [[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"];
@@ -48,18 +45,15 @@
 - (IBAction)logout:(id)sender {
     //弹出提醒
     //清除数据库
-    //[Animation setBackgroundColorWithDark:sender];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登出" message:@"此操作将删除本地数据" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alert show];
 }
 
 - (IBAction)validatePhone:(id)sender {
-    //[Animation setBackgroundColorWithDark:sender];
     [self performSegueWithIdentifier:@"ValidatePhone" sender:self];
 }
 
 - (IBAction)addFriendsFromPeople:(id)sender {
-    //[Animation setBackgroundColorWithDark:sender];
     [self readAllPhoneNumber];
 }
 
@@ -94,7 +88,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationController setEnableBackGesture:YES];
-    if ([AVUser currentUser].mobilePhoneNumber) {
+    if ([AVUser currentUser].mobilePhoneVerified) {
         [_phoneButton setTitle:[AVUser currentUser].mobilePhoneNumber forState:UIControlStateNormal];
         _phoneButton.enabled = NO;
     }
@@ -120,39 +114,44 @@
     ABAddressBookRequestAccessWithCompletion(tmpAddressBook, ^(bool greanted, CFErrorRef error){
         NSLog(@"%@", error);
         if (greanted) {
-            //_loadToast = [Toast makeToast:@"请稍候"];
-            //[_loadToast loading:self.view];
-            if (ABAddressBookGetAuthorizationStatus() != kABAuthorizationStatusAuthorized) {
-                return ;
-            }
-            CFErrorRef error = NULL;
-            ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
-            //查询所有
-            NSArray *people = CFBridgingRelease(ABAddressBookCopyArrayOfAllPeople(addressBook));
-
-            NSMutableArray *phoneArray = [[NSMutableArray alloc] init];
-            for (id person in people) {
-                ABMultiValueRef phone = ABRecordCopyValue((__bridge ABRecordRef)(person), kABPersonPhoneProperty);
-                for (int k = 0; k < ABMultiValueGetCount(phone); k++)
-                {
-                    //获取該Label下的电话值
-                    NSString * personPhone = (__bridge NSString*)ABMultiValueCopyValueAtIndex(phone, k);
-                    //去掉+86 以及中间的 -
-                    personPhone = [personPhone stringByReplacingOccurrencesOfString:@"+86" withString:@""];
-                    personPhone = [personPhone stringByReplacingOccurrencesOfString:@"-" withString:@""];
-                    [phoneArray addObject:personPhone];
-                    NSLog(@"%@", personPhone);
+            _loadToast = [Toast makeToast:@"请稍候"];
+            [_loadToast loading];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                if (ABAddressBookGetAuthorizationStatus() != kABAuthorizationStatusAuthorized) {
+                    return ;
                 }
-            }
-            CFRelease(addressBook);
-            [self searchAndAddFriends:phoneArray];
+                CFErrorRef error = NULL;
+                ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+                //查询所有
+                NSArray *people = CFBridgingRelease(ABAddressBookCopyArrayOfAllPeople(addressBook));
+                
+                NSMutableArray *phoneArray = [[NSMutableArray alloc] init];
+                for (id person in people) {
+                    ABMultiValueRef phone = ABRecordCopyValue((__bridge ABRecordRef)(person), kABPersonPhoneProperty);
+                    for (int k = 0; k < ABMultiValueGetCount(phone); k++)
+                    {
+                        //获取該Label下的电话值
+                        NSString * personPhone = (__bridge NSString*)ABMultiValueCopyValueAtIndex(phone, k);
+                        //去掉+86 以及中间的 -
+                        personPhone = [personPhone stringByReplacingOccurrencesOfString:@"+86" withString:@""];
+                        personPhone = [personPhone stringByReplacingOccurrencesOfString:@"-" withString:@""];
+//                        personPhone = [personPhone stringByReplacingOccurrencesOfString:@")" withString:@""];
+//                        personPhone = [personPhone stringByReplacingOccurrencesOfString:@"(" withString:@""];
+//                        personPhone = [personPhone stringByReplacingOccurrencesOfString:@" " withString:@""];
+                        [phoneArray addObject:personPhone];
+                        NSLog(@"%@", personPhone);
+                    }
+                }
+                CFRelease(addressBook);
+                [self searchAndAddFriends:phoneArray];
+            });
         }
     });
 }
 
 - (void)searchAndAddFriends:(NSMutableArray *)phoneArray {
     if (![phoneArray count]) {
-        //[_loadToast endLoading];
+        [_loadToast endLoading];
         [self performSegueWithIdentifier:@"SettingsToMain" sender:self];
     } else {
         //NSLog(@"%i", [phoneArray count]);
@@ -170,7 +169,7 @@
                     }
                 }
             }
-            //[_loadToast endLoading];
+            [_loadToast endLoading];
             [self performSegueWithIdentifier:@"SettingsToMain" sender:self];
         }];
     }

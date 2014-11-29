@@ -34,13 +34,15 @@
         //since we are going to do both lets set it up once.
         [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error: &error];
     
-        UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
-        AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,
-								 sizeof (audioRouteOverride),
-								 &audioRouteOverride);
-        
+        //UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+        //AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute, sizeof (audioRouteOverride), &audioRouteOverride);
+        //ovrd  spkr
+        [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&error];
         //Activate the session
-        [audioSession setActive:YES error: &error];
+        if (!error) {
+            [audioSession setActive:YES error: &error];
+        }
+        
     }
     return self;
 }
@@ -70,9 +72,12 @@
     
     if (status!=0) {
         if (avPlayer!=nil) {
-            [avPlayer stop];
-            [avPlayer release];
-            avPlayer = nil;
+            if (![avPlayer isPlaying]) {
+                [avPlayer stop];
+                [avPlayer release];
+                avPlayer = nil;
+               // NSLog(@"结束播放!!!!!!!!");
+            }
         }
     }
 }
@@ -103,26 +108,12 @@
 //    } 
     NSLog(@"start decode");
     NSData* o = [self decodeAmr:data];
-        NSLog(@"end decode");
+    NSLog(@"end decode");
     avPlayer = [[AVAudioPlayer alloc] initWithData:o error:&error];
     avPlayer.delegate = self;
 	[avPlayer prepareToPlay];
     [avPlayer setVolume:1.0];
 	if(![avPlayer play]){
-        [self sendStatus:1];
-    } else {
-        [self sendStatus:0];
-    }
-}
-
-- (void)playWithNoSound:(NSData *)data {
-    NSData* o = [self decodeAmr:data];
-    NSLog(@"end decode");
-    avPlayer = [[AVAudioPlayer alloc] initWithData:o error:&error];
-    avPlayer.delegate = self;
-    [avPlayer prepareToPlay];
-    [avPlayer setVolume:0.0];
-    if(![avPlayer play]){
         [self sendStatus:1];
     } else {
         [self sendStatus:0];

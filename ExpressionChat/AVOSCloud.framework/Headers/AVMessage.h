@@ -24,6 +24,7 @@ typedef enum : NSUInteger {
 @property(nonatomic, strong)NSString *toPeerId;
 @property(nonatomic, strong)NSString *groupId;
 @property(nonatomic)int64_t timestamp;
+@property(nonatomic)int64_t receiptTimestamp;
 @property(nonatomic)BOOL offline;
 
 /*!

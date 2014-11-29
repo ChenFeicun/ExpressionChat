@@ -1,0 +1,51 @@
+
+/* Class = "IBUITextField"; placeholder = "验证码"; ObjectID = "AhG-aC-3nV"; */
+"AhG-aC-3nV.placeholder" = "验证码";
+
+/* Class = "IBUIButton"; normalTitle = "关于Biu"; ObjectID = "DE4-JA-MDD"; */
+"DE4-JA-MDD.normalTitle" = "关于Biu";
+
+/* Class = "IBUIButton"; normalTitle = "由树下见开发"; ObjectID = "MWh-jV-VVY"; */
+"MWh-jV-VVY.normalTitle" = "由树下见开发";
+
+/* Class = "IBUIButton"; normalTitle = "使用 LeanCloud 构建"; ObjectID = "RWd-LB-ZW9"; */
+"RWd-LB-ZW9.normalTitle" = "使用 LeanCloud 构建";
+
+/* Class = "IBUIButton"; normalTitle = "登出"; ObjectID = "SiM-c4-CmE"; */
+"SiM-c4-CmE.normalTitle" = "登出";
+
+/* Class = "IBUIButton"; normalTitle = "验证"; ObjectID = "UrF-vD-va9"; */
+"UrF-vD-va9.normalTitle" = "验证";
+
+/* Class = "IBUITextField"; placeholder = "用户名"; ObjectID = "UyX-Cn-AOg"; */
+"UyX-Cn-AOg.placeholder" = "用户名";
+
+/* Class = "IBUIButton"; normalTitle = "Version 1.0.0"; ObjectID = "Vqv-th-94h"; */
+"Vqv-th-94h.normalTitle" = "Version 1.0.0";
+
+/* Class = "IBUITextField"; placeholder = "手机号码"; ObjectID = "XWh-su-8Aq"; */
+"XWh-su-8Aq.placeholder" = "手机号码";
+
+/* Class = "IBUIButton"; normalTitle = "开始"; ObjectID = "e66-tf-9jv"; */
+"e66-tf-9jv.normalTitle" = "开始";
+
+/* Class = "IBUIButton"; normalTitle = "查找通讯录好友"; ObjectID = "jL9-fv-AoR"; */
+"jL9-fv-AoR.normalTitle" = "查找通讯录好友";
+
+/* Class = "IBUITextField"; placeholder = "+"; ObjectID = "l1f-af-0YS"; */
+"l1f-af-0YS.placeholder" = "+";
+
+/* Class = "IBUIButton"; normalTitle = "关闭声音"; ObjectID = "lIK-71-PE4"; */
+"lIK-71-PE4.normalTitle" = "关闭声音";
+
+/* Class = "IBUITextField"; placeholder = "密码"; ObjectID = "nMQ-c7-WzZ"; */
+"nMQ-c7-WzZ.placeholder" = "密码";
+
+/* Class = "IBUILabel"; text = "Label"; ObjectID = "qTk-h9-aUi"; */
+"qTk-h9-aUi.text" = "Label";
+
+/* Class = "IBUIButton"; normalTitle = "验证手机号码"; ObjectID = "xks-l8-vKs"; */
+"xks-l8-vKs.normalTitle" = "验证手机号码";
+
+/* Class = "IBUIButton"; normalTitle = "发送"; ObjectID = "y9t-JM-YeJ"; */
+"y9t-JM-YeJ.normalTitle" = "发送";

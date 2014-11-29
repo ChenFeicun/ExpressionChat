@@ -73,7 +73,7 @@
     NSMutableArray *all = nil;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Friends"];
     //排序！！！
-    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO]];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO], [NSSortDescriptor sortDescriptorWithKey:@"username" ascending:YES selector:@selector(localizedStandardCompare:)]];
     request.predicate = nil;
     
     NSError *error;
