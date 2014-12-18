@@ -29,6 +29,7 @@
  The 5 available types of swipes.
  @discussion `JZSwipeTypeShortRight`, `JZSwipeTypeLongRight`, `JZSwipeTypeShortLeft` and `JZSwipeTypeLongLeft` are all active swipe types. `JZSwipeTypeNone` is an inactive swipe type and does not trigger an animation which causes the `contentView` to slide off screen.
  */
+
 typedef enum {
 	JZSwipeTypeNone,
 	//JZSwipeTypeShortRight,
@@ -91,5 +92,12 @@ typedef enum {
  @param type The type of swipe you would like the cell to trigger.
  */
 - (void)triggerSwipeWithType:(JZSwipeType)type;
+
+@end
+
+
+@interface CellLabel : UILabel
+
+- (void)showBang:(BOOL)yesOrNo;
 
 @end

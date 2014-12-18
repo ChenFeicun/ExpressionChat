@@ -12,11 +12,12 @@
 
 + (Toast *)makeToast:(NSString *)text;
 + (Toast *)makeTip;
-- (void)show;
+- (void)show:(BOOL)isCorrect;
 - (void)loading;
 - (void)loading:(UIView *)parentView;
 - (void)endLoading;
 - (void)pageTip:(NSString *)top andCenter:(NSString *)center andBottom:(NSString *)bottom;
+- (void)chatPageTip:(CGFloat)y;
 @end
 
 @interface TipView : UIView <UIGestureRecognizerDelegate>

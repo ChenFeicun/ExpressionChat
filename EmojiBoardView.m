@@ -35,22 +35,7 @@
             EmojiCellView *cellView = [[EmojiCellView alloc] initWithFrame:CGRectMake( x, y, FACE_ICON_SIZE, FACE_ICON_SIZE) andImgIndex:[NSString stringWithFormat:@"%02d", i]];
             cellView.delegate = self;
             [emojiScrollView addSubview:cellView];
-//            EmojiImgView *emjImgView = [[EmojiImgView alloc] initWithFrame:CGRectMake( x, y, FACE_ICON_SIZE, FACE_ICON_SIZE)];
-//           
-//            emjImgView.emojiIndex = [NSString stringWithFormat:@"%02d", i];
-//            emjImgView.image = [UIImage imageNamed:[@"emoji_" stringByAppendingString:emjImgView.emojiIndex]];
-//            emjImgView.delegate = self;
-//            [emojiScrollView addSubview:emjImgView];
-//            [emojiScrollView sendSubviewToBack:emjImgView];
-//            EmojiButton *emojiButton = [[EmojiButton alloc] initWithFrame:CGRectMake( x, y, FACE_ICON_SIZE, FACE_ICON_SIZE)];
-//            emojiButton.buttonIndex = [NSString stringWithFormat:@"%02d", i];
-//            emojiButton.delegate = self;
-//            [emojiButton addTarget:self action:@selector(clickEmojiButton:) forControlEvents:UIControlEventTouchUpInside];
-//            
-//            [emojiButton setImage:[UIImage imageNamed:[@"emoji_" stringByAppendingString:emojiButton.buttonIndex]] forState:UIControlStateNormal];
-//            
-//            [emojiScrollView addSubview:emojiButton];
-//        
+
             Emoji *emj = [[ResourceManager sharedInstance].emojiArray objectAtIndex:(i - 1)];
             if (emj.isRecord) {
                 [cellView showPointView];
@@ -60,7 +45,7 @@
         //添加PageControl
         emojiPageControl = [[UIPageControl alloc]initWithFrame:CGRectMake((EMOJI_BOARD_WIDTH - 100) / 2, FACE_ICON_SIZE * 3, 100, 20)];
         emojiPageControl.currentPageIndicatorTintColor = [[UIColor alloc] initWithRed:0 green:188.0 / 255.0 blue:212.0 / 255.0 alpha:1.0];
-        emojiPageControl.pageIndicatorTintColor = [[UIColor alloc] initWithRed:117.0 / 255.0 green:117.0 / 255.0 blue:117.0 / 255.0 alpha:1.0];
+        emojiPageControl.pageIndicatorTintColor = [[UIColor alloc] initWithRed:195.0 / 255.0 green:195.0 / 255.0 blue:195.0 / 255.0 alpha:1.0];
         [emojiPageControl addTarget:self action:@selector(pageChange:) forControlEvents:UIControlEventValueChanged];
         
         emojiPageControl.numberOfPages = FACE_COUNT_ALL / FACE_COUNT_PAGE + 1;
@@ -100,91 +85,6 @@
 }
 
 @end
-//
-//@interface EmojiButton()
-//@property (nonatomic, strong) UILongPressGestureRecognizer *gesture;
-//@property (nonatomic, strong) UIView *pointView;
-//@end
-//@implementation EmojiButton
-//
-//
-//- (id)initWithFrame:(CGRect)frame {
-//    
-//    self = [super initWithFrame:frame];
-//    CGFloat pointSize = 5 * RATIO;
-//    self.pointView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - pointSize, pointSize, pointSize)];
-//    self.pointView.backgroundColor = [[UIColor alloc] initWithRed:0 green:188.0 / 255.0 blue:212.0 / 255.0 alpha:1.0];
-//    self.pointView.hidden = YES;
-//    [self addSubview:self.pointView];
-//    
-//    if (self) {
-//        self.gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(gestureHappened:)];
-//        self.gesture.minimumPressDuration = 1.0f;
-//        self.gesture.numberOfTouchesRequired = 1;
-//        self.gesture.delegate = self;
-//        [self addGestureRecognizer:self.gesture];
-//    }
-//    return self;
-//}
-//
-//- (void)gestureHappened:(UILongPressGestureRecognizer *)sender {
-//    if (sender.state == UIGestureRecognizerStateBegan) {
-//        if ([self.delegate respondsToSelector:@selector(recordEmojiCell:)]) {
-//            //[self.delegate recordEmojiCell:self];
-//        }
-//    }
-//}
-//
-//- (void)showPointView {
-//    self.pointView.hidden = NO;
-//}
-//
-//@end
-//
-//
-//
-//@interface EmojiImgView()
-//@property (nonatomic, strong) UILongPressGestureRecognizer *gesture;
-//
-//@property (nonatomic, strong) UIView *pointView;
-//@end
-//@implementation EmojiImgView
-//
-//- (id)initWithFrame:(CGRect)frame {
-//    
-//    self = [super initWithFrame:frame];
-//    if (self) {
-//       
-//        CGFloat pointSize = 5 * RATIO;
-//        self.pointView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - pointSize, pointSize, pointSize)];
-//        self.pointView.backgroundColor = [[UIColor alloc] initWithRed:0 green:188.0 / 255.0 blue:212.0 / 255.0 alpha:1.0];
-//    
-//        self.pointView.hidden = YES;
-//        [self addSubview:self.pointView];
-//        self.userInteractionEnabled = YES;
-//        self.gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(gestureHappened:)];
-//        self.gesture.minimumPressDuration = 1.0f;
-//        self.gesture.numberOfTouchesRequired = 1;
-//        self.gesture.delegate = self;
-//        [self addGestureRecognizer:self.gesture];
-//    }
-//    return self;
-//}
-//
-//- (void)gestureHappened:(UILongPressGestureRecognizer *)sender {
-//    if (sender.state == UIGestureRecognizerStateBegan) {
-//        if ([self.delegate respondsToSelector:@selector(recordEmojiCell:)]) {
-//            //[self.delegate recordEmojiCell:self];
-//        }
-//    }
-//}
-//
-//- (void)showPointView {
-//    self.pointView.hidden = NO;
-//}
-//
-
-//@end
 
 @interface EmojiCellView()
 @property (nonatomic, strong) UILongPressGestureRecognizer *gesture;
@@ -233,7 +133,6 @@
 
 - (void)tapHappened:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
-        //self.backgroundColor =  [[UIColor alloc] initWithRed:117.0 / 255.0 green:117.0 / 255.0 blue:117.0 / 255.0 alpha:1.0];
         if ([self.delegate respondsToSelector:@selector(clickEmojiCell:)]) {
             [self.delegate clickEmojiCell:self];
         }
@@ -242,7 +141,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
-    [self setBackgroundColor:[[UIColor alloc] initWithRed:117.0 / 255.0 green:117.0 / 255.0 blue:117.0 / 255.0 alpha:1.0]];
+    [self setBackgroundColor:[[UIColor alloc] initWithRed:195.0 / 255.0 green:195.0 / 255.0 blue:195.0 / 255.0 alpha:1.0]];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {

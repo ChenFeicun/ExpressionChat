@@ -44,21 +44,6 @@
 @end
 
 
-//@interface EmojiButton : UIButton <UIGestureRecognizerDelegate>
-//
-//@property NSString *buttonIndex;
-//@property (nonatomic, assign) id<EmojiCellDelegate> delegate;
-//- (void)showPointView;
-//
-//@end
-//
-//@interface EmojiImgView : UIImageView <UIGestureRecognizerDelegate>
-//
-//@property NSString *emojiIndex;
-//@property (nonatomic, assign) id<EmojiCellDelegate> delegate;
-//
-//@end
-
 @interface EmojiCellView : UIView <UIGestureRecognizerDelegate>
 @property NSString *emojiIndex;
 @property (nonatomic, assign) id<EmojiCellDelegate> delegate;

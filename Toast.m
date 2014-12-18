@@ -33,14 +33,11 @@
     return toast;
 }
 
-- (void)show {
+- (void)show:(BOOL)isCorrect {
     //1 可以使通知在键盘上
     UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:1];
     CGPoint center = window.center;
     CGFloat TOAST_WH = window.frame.size.width * 3 / 7;
-//    if (_toastLabelText.length * 15 > TOAST_WH) {
-//        TOAST_WH = _toastLabelText.length * 15;
-//    }
     
     _toastView = [[UIView alloc] initWithFrame:CGRectMake(center.x - TOAST_WH / 2, center.y - TOAST_WH / 2,  TOAST_WH, TOAST_WH)];
     _toastView.backgroundColor = [UIColor blackColor];
@@ -48,8 +45,15 @@
     _toastView.clipsToBounds = YES;
     _toastView.alpha = 0.7;
     
+    NSString *imgName;
+    if (isCorrect) {
+        imgName = @"correct.png";
+    } else {
+        imgName = @"warning.png";
+    }
+    
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(TOAST_WH / 6, 0, TOAST_WH * 2 / 3, TOAST_WH * 2 / 3)];
-    imgView.image = [UIImage imageNamed:@"warning.png"];
+    imgView.image = [UIImage imageNamed:imgName];
     [_toastView addSubview:imgView];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, TOAST_WH * 2 / 3, TOAST_WH, TOAST_WH / 3)];
@@ -154,6 +158,45 @@
     [_tipView addSubview:bottomLabel];
     
     [window addSubview:_tipView];
+}
+
+
+- (void)chatPageTip:(CGFloat)y {
+    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+    _tipView = [[TipView alloc] initWithFrame:window.frame];
+    _tipView.backgroundColor = [UIColor grayColor];
+    _tipView.alpha = 0.7;
+    
+    UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, [[UIScreen mainScreen] applicationFrame].origin.y, _tipView.frame.size.width, 40)];
+    topLabel.backgroundColor = [UIColor clearColor];
+    topLabel.font = [UIFont boldSystemFontOfSize:17.0f];
+    topLabel.textAlignment = NSTextAlignmentCenter;
+    topLabel.text = @"查看离线消息";
+    topLabel.textColor = [UIColor whiteColor];
+    
+    UILabel *centerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (_tipView.frame.size.height - 40) / 2, _tipView.frame.size.width, 40)];
+    centerLabel.backgroundColor = [UIColor clearColor];
+    centerLabel.font = [UIFont boldSystemFontOfSize:17.0f];
+    centerLabel.textAlignment = NSTextAlignmentCenter;
+    centerLabel.text = @"向右滑动返回主界面";
+    centerLabel.textColor = [UIColor whiteColor];
+    
+    UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, y, _tipView.frame.size.width, 40 * 2)];
+    bottomLabel.backgroundColor = [UIColor clearColor];
+    bottomLabel.font = [UIFont boldSystemFontOfSize:17.0f];
+    bottomLabel.textAlignment = NSTextAlignmentCenter;
+    //设置换行
+    bottomLabel.lineBreakMode = NSLineBreakByCharWrapping;
+    bottomLabel.numberOfLines = 0;
+    bottomLabel.text = @"短按即发送\n长按为表情录制2秒音频";
+    bottomLabel.textColor = [UIColor whiteColor];
+    
+    [_tipView addSubview:topLabel];
+    [_tipView addSubview:centerLabel];
+    [_tipView addSubview:bottomLabel];
+    
+    [window addSubview:_tipView];
+
 }
 
 @end

@@ -34,7 +34,7 @@
 - (IBAction)openOrCloseSound:(id)sender {
     BOOL oOrC = [[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"];
     [[NSUserDefaults standardUserDefaults] setBool:!oOrC forKey:@"OpenOrClose"];
-    NSString *soundTitle = !oOrC ? @"打开声音" : @"关闭声音";
+    NSString *soundTitle = !oOrC ? @"声音: 关" : @"声音: 开";
     [_soundButton setTitle:soundTitle forState:UIControlStateNormal];
 }
 
@@ -98,7 +98,7 @@
         _context = _document.managedObjectContext;
     }
 
-    NSString *soundTitle = [[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"] ? @"打开声音" : @"关闭声音";
+    NSString *soundTitle = [[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"] ? @"声音: 关" : @"声音: 开";
     [_soundButton setTitle:soundTitle forState:UIControlStateNormal];
     // Do any additional setup after loading the view.
 }
@@ -135,9 +135,6 @@
                         //去掉+86 以及中间的 -
                         personPhone = [personPhone stringByReplacingOccurrencesOfString:@"+86" withString:@""];
                         personPhone = [personPhone stringByReplacingOccurrencesOfString:@"-" withString:@""];
-//                        personPhone = [personPhone stringByReplacingOccurrencesOfString:@")" withString:@""];
-//                        personPhone = [personPhone stringByReplacingOccurrencesOfString:@"(" withString:@""];
-//                        personPhone = [personPhone stringByReplacingOccurrencesOfString:@" " withString:@""];
                         [phoneArray addObject:personPhone];
                         NSLog(@"%@", personPhone);
                     }

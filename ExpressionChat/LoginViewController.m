@@ -38,15 +38,15 @@ static BOOL editingOrNot = YES;
     //特殊字符判断
     _user.password = [_loginPassword.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
-    if (_user.username.length > 12 || _user.username.length <= 2) {
+    if (_user.username.length > 16 || _user.username.length <= 2) {
         //提醒
         [Animation shakeView:_loginUserName];
         //[[Toast makeToast:@"请稍候"] loading];
-        [[Toast makeToast:@"长度为3-16个字符"] show];
-    } else if (_user.password.length > 12 || _user.password.length <= 2) {
+        [[Toast makeToast:@"长度为3-16个字符"] show:NO];
+    } else if (_user.password.length > 16 || _user.password.length <= 2) {
         //提醒
         [Animation shakeView:_loginPassword];
-        [[Toast makeToast:@"长度为3-16个字符"] show];
+        [[Toast makeToast:@"长度为3-16个字符"] show:NO];
     } else {
         _loadToast = [Toast makeToast:@"请稍候"];
         [_loadToast loading];
@@ -56,13 +56,13 @@ static BOOL editingOrNot = YES;
 
 - (void)avosLogin:(NSTimer *)timer {
     [AVUser logInWithUsernameInBackground:_user.username password:_user.password block:^(AVUser *user, NSError *error) {
-        //NSLog(@"-----%@-----", error.localizedDescription);
+        NSLog(@"-----%@-----", error.localizedDescription);
         [_loadToast endLoading];
         if (user) {
             [self performSegueWithIdentifier:@"LoginToMain" sender:self];
-        } else if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]) {
+        } else if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline." ] || [error.localizedDescription isEqualToString:@"似乎已断开与互联网的连接。"]) {
             //没有网络连接
-            [[Toast makeToast:@"网络连接异常"] show];
+            [[Toast makeToast:@"网络连接异常"] show:NO];
         } else if ([error.localizedDescription isEqualToString:@"Could not find user"]) {
             [_user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
@@ -74,10 +74,10 @@ static BOOL editingOrNot = YES;
             }];
         } else if ([error.localizedDescription isEqualToString:@"The request timed out."]) {
             //用户名密码不匹配  The request timed out.
-            [[Toast makeToast:@"登录请求超时"] show];
-        } else {
+            [[Toast makeToast:@"登录请求超时"] show:NO];
+        } else if ([error.localizedDescription isEqualToString:@"he username and password mismatch."]){
             [Animation shakeView:_loginButton];
-            [[Toast makeToast:@"用户名与密码不匹配"] show];
+            [[Toast makeToast:@"用户名与密码不匹配"] show:NO];
         }
     }];
 
@@ -92,7 +92,6 @@ static BOOL editingOrNot = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     //键盘将隐藏事件监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
 }
 
 
@@ -119,6 +118,6 @@ static BOOL editingOrNot = YES;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    //https://github.com/hhuai/ios-amr
 }
-//https://github.com/hhuai/ios-amr
 @end

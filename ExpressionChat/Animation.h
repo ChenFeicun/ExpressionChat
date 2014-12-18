@@ -14,7 +14,6 @@ typedef NS_ENUM(NSInteger, ShakeDirection) {
 };
 
 @interface Animation : NSObject
-//+ (void)showAlertView:(NSString *)message;
 + (void)shakeView:(UIView *)view;
 + (void)moveViewForEditing:(UIView *)view orNot:(BOOL)editingOrNot;
 + (void)setBackgroundColorWithGrey:(UIView *)view;

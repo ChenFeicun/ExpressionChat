@@ -66,6 +66,7 @@
 		18B6A1A219FF2B08008C4EE9 /* Friends+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6A1A119FF2B08008C4EE9 /* Friends+Methods.m */; };
 		18B6A1A519FF2D29008C4EE9 /* NotifyMsg+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6A1A419FF2D29008C4EE9 /* NotifyMsg+Methods.m */; };
 		18B78AFF1A09C62300540327 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78AFE1A09C62300540327 /* Toast.m */; };
+		18C675D21A2AB9B000A21CDB /* correct.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C675D11A2AB9B000A21CDB /* correct.png */; };
 		18E009311A0723560071F471 /* ValidateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E009301A0723560071F471 /* ValidateViewController.m */; };
 		18EF7FB119E685B60018AC26 /* DBBiu.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 18EF7FAF19E685B60018AC26 /* DBBiu.xcdatamodeld */; };
 /* End PBXBuildFile section */
@@ -82,7 +83,7 @@
 
 /* Begin PBXFileReference section */
 		18017E8119F8EF9800BB9B29 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		180C237319E4D419008F8C0E /* ExpressionChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpressionChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		180C237319E4D419008F8C0E /* Biu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Biu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		180C237719E4D41A008F8C0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		180C237819E4D41A008F8C0E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		180C237A19E4D41A008F8C0E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -170,6 +171,7 @@
 		18B6A1A419FF2D29008C4EE9 /* NotifyMsg+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NotifyMsg+Methods.m"; path = "../NotifyMsg+Methods.m"; sourceTree = "<group>"; };
 		18B78AFD1A09C62300540327 /* Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Toast.h; sourceTree = "<group>"; };
 		18B78AFE1A09C62300540327 /* Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toast.m; sourceTree = "<group>"; };
+		18C675D11A2AB9B000A21CDB /* correct.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = correct.png; sourceTree = "<group>"; };
 		18E0092F1A0723560071F471 /* ValidateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidateViewController.h; sourceTree = "<group>"; };
 		18E009301A0723560071F471 /* ValidateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidateViewController.m; sourceTree = "<group>"; };
 		18EF7FB019E685B60018AC26 /* DBBiu.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DBBiu.xcdatamodel; sourceTree = "<group>"; };
@@ -217,7 +219,7 @@
 		180C237419E4D419008F8C0E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				180C237319E4D419008F8C0E /* ExpressionChat.app */,
+				180C237319E4D419008F8C0E /* Biu.app */,
 				180C238C19E4D41A008F8C0E /* ExpressionChatTests.xctest */,
 			);
 			name = Products;
@@ -316,6 +318,7 @@
 		185211F01A1D740E00CA86B4 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				18C675D11A2AB9B000A21CDB /* correct.png */,
 				1891BA8D1A20A6F000347A20 /* biu_logo.png */,
 				183560CF1A1F08ED0079BCE2 /* warning.png */,
 				185211F11A1D742500CA86B4 /* record_animate_01.png */,
@@ -448,7 +451,7 @@
 			);
 			name = ExpressionChat;
 			productName = ExpressionChat;
-			productReference = 180C237319E4D419008F8C0E /* ExpressionChat.app */;
+			productReference = 180C237319E4D419008F8C0E /* Biu.app */;
 			productType = "com.apple.product-type.application";
 		};
 		180C238B19E4D41A008F8C0E /* ExpressionChatTests */ = {
@@ -522,6 +525,7 @@
 				183EE39319EE09810096DC26 /* Emoji.plist in Resources */,
 				1852120B1A1D742500CA86B4 /* record_animate_11.png in Resources */,
 				185212101A1D742500CA86B4 /* record_bg.png in Resources */,
+				18C675D21A2AB9B000A21CDB /* correct.png in Resources */,
 				185212061A1D742500CA86B4 /* record_animate_06.png in Resources */,
 				185212021A1D742500CA86B4 /* record_animate_02.png in Resources */,
 				1852120F1A1D742500CA86B4 /* record_animate_15.png in Resources */,
@@ -702,8 +706,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengxin Peng (9UJ995B4PR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zhengxin Peng (9UJ995B4PR)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/apple/Desktop/iOS/release-v2.6.5.1",
@@ -719,8 +723,8 @@
 					"$(PROJECT_DIR)/ExpressionChat",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PRODUCT_NAME = Biu;
+				PROVISIONING_PROFILE = "1479114e-7db7-40c7-b5e6-0aa31a754c58";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -731,8 +735,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengxin Peng (9UJ995B4PR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zhengxin Peng (9UJ995B4PR)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/apple/Desktop/iOS/release-v2.6.5.1",
@@ -748,8 +752,8 @@
 					"$(PROJECT_DIR)/ExpressionChat",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PRODUCT_NAME = Biu;
+				PROVISIONING_PROFILE = "1479114e-7db7-40c7-b5e6-0aa31a754c58";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

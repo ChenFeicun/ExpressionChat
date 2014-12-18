@@ -18,13 +18,13 @@
 - (IBAction)sendEmail:(id)sender {
     Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
     if (!mailClass) {
-        [[Toast makeToast:@"当前系统版本不支持应用内发送邮件功能"] show];
+        [[Toast makeToast:@"当前系统版本不支持应用内发送邮件功能"] show:NO];
         //[self alertWithMessage:@"当前系统版本不支持应用内发送邮件功能，您可以使用mailto方法代替"];
         return;
     }
     //[self launchMailAppOnDevice];
     if (![mailClass canSendMail]) {
-        [[Toast makeToast:@"您尚未设置邮件账户"] show];
+        [[Toast makeToast:@"您尚未设置邮件账户"] show:NO];
         return;
     }
     [self displayMailPicker];
@@ -35,12 +35,12 @@
     mailPicker.mailComposeDelegate = self;
     
     //设置主题
-    [mailPicker setSubject: @"树下见"];
+    [mailPicker setSubject: @"Biu"];
     //添加收件人
-    NSArray *toRecipients = [NSArray arrayWithObject: @"276549366@qq.com"];
+    NSArray *toRecipients = [NSArray arrayWithObject: @"shuxiajian@outlook.com"];
     [mailPicker setToRecipients: toRecipients];
     
-    NSString *emailBody = @"<font color='red'></font> 正文";
+    NSString *emailBody = @"<font color='red'></font>";
     [mailPicker setMessageBody:emailBody isHTML:YES];
 
     [self presentViewController:mailPicker animated:YES completion:^{
@@ -53,6 +53,7 @@
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     //关闭邮件发送窗口
+    BOOL successed;
     [controller dismissViewControllerAnimated:YES completion:^{
         ;
     }];
@@ -61,22 +62,28 @@
     switch (result) {
         case MFMailComposeResultCancelled:
             msg = @"邮件发送取消";
+            successed = NO;
             break;
         case MFMailComposeResultSaved:
+            successed = YES;
             msg = @"邮件保存成功";
             break;
         case MFMailComposeResultSent:
+            successed = YES;
             msg = @"邮件发送成功";
             break;
         case MFMailComposeResultFailed:
+            successed = NO;
             msg = @"邮件发送失败";
             break;
         default:
             //msg = @"";
             break;
     }
-    if (![msg isEqualToString:@"邮件发送成功"] && ![msg isEqualToString:@"邮件保存成功"])
-        [[Toast makeToast:msg] show];
+    if (!successed)
+        [[Toast makeToast:msg] show:NO];
+    else
+        [[Toast makeToast:msg] show:YES];
     //[self alertWithMessage:msg];
 }
 @end

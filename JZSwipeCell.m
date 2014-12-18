@@ -30,6 +30,8 @@ static CGFloat const kDefaultIconSize = 40;
 @property (nonatomic, strong) UIPanGestureRecognizer *gesture;
 @property (nonatomic, assign) CGFloat dragStart;
 @property (nonatomic, assign) JZSwipeType currentSwipe;
+
+//@property (nonatomic, strong) CellLabel *cellLabel;
 @end
 
 @implementation JZSwipeCell
@@ -89,8 +91,15 @@ static CGFloat const kDefaultIconSize = 40;
 
 - (void)configureCell
 {
-	self.selectionStyle = UITableViewCellSelectionStyleNone;
-	
+//	self.selectionStyle = UITableViewCellSelectionStyleNone;
+//	
+//    self.cellLabel = [[CellLabel alloc] initWithFrame:self.contentView.frame];
+//    self.cellLabel.textAlignment = NSTextAlignmentCenter;
+//    self.cellLabel.font = [UIFont boldSystemFontOfSize:17.0f];
+//    self.cellLabel.textColor = [[UIColor alloc] initWithRed:0 green:188.0 / 255.0 blue:212.0 / 255.0 alpha:1.0];
+//
+//    [self.contentView addSubview:self.cellLabel];
+    
 	if (!self.contentView.backgroundColor)
 		self.contentView.backgroundColor = [UIColor clearColor];
 	
@@ -268,6 +277,54 @@ static CGFloat const kDefaultIconSize = 40;
 - (BOOL)isLeftSwipeType:(JZSwipeType)type
 {
 	return type == JZSwipeTypeLongLeft;
+}
+
+@end
+
+
+
+@interface CellLabel()
+
+@property (nonatomic, strong) UILabel *bangLabel;
+
+@end
+
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+@implementation CellLabel
+
+- (instancetype)init {
+    if (self = [super init]) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self commonInit];
+}
+
+- (void)commonInit {
+
+    NSLog(@"%f, %f", self.frame.origin.x, self.frame.size.width);
+    _bangLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - self.frame.size.height, 0, self.frame.size.height, self.frame.size.height)];
+    NSLog(@"%f, %f", _bangLabel.frame.origin.x, self.frame.size.height);
+    _bangLabel.backgroundColor = [UIColor colorWithRed:245.0 / 255.0 green:245.0 / 255.0 blue:245.0 / 255.0 alpha:1];
+    _bangLabel.font = [UIFont boldSystemFontOfSize:17.0f];
+    _bangLabel.textAlignment = NSTextAlignmentCenter;
+    _bangLabel.text = @"!!!";
+    _bangLabel.textColor = [[UIColor alloc] initWithRed:195.0 / 255.0 green:195.0 / 255.0 blue:195.0 / 255.0 alpha:1.0];
+    _bangLabel.hidden = YES;
+    //_bangLabel.tag = 101;
+    [self addSubview:_bangLabel];
+}
+
+- (void)showBang:(BOOL)yesOrNo {
+    if (yesOrNo) {
+        _bangLabel.hidden = NO;
+    } else {
+        _bangLabel.hidden = YES;
+    }
 }
 
 @end

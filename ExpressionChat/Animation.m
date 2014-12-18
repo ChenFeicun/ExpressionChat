@@ -9,19 +9,6 @@
 #import "Animation.h"
 
 @implementation Animation
-//static UIAlertView *alertView;
-//+ (void)showAlertView:(NSString *)message {
-//    alertView = [[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:nil, nil];
-//    [alertView show];
-//    
-//    [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(performDismiss:) userInfo:nil repeats:NO];
-//
-//}
-//
-//+ (void) performDismiss:(NSTimer *)timer {
-//    [timer invalidate];
-//    [alertView dismissWithClickedButtonIndex:0 animated:NO];
-//}
 
 + (void)shakeView:(UIView *)view {
     [self shakeView:view
@@ -64,7 +51,7 @@
 }
 
 + (void)setBackgroundColorWithGrey:(UIView *)view {
-    [view setBackgroundColor:[[UIColor alloc] initWithRed:117.0 / 255.0 green:117.0 / 255.0 blue:117.0 / 255.0 alpha:1.0]];
+    [view setBackgroundColor:[[UIColor alloc] initWithRed:195.0 / 255.0 green:195.0 / 255.0 blue:195.0 / 255.0 alpha:1.0]];
 }
 
 + (void)setBackgroundColorWithDark:(UIView *)view {

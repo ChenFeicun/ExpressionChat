@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *searchFriendTextField;
 @property (weak, nonatomic) IBOutlet UIButton *curButton;
 @property (weak, nonatomic) IBOutlet UITableView *friendsTableView;
+//@property (strong, nonatomic) UITableView *friendsTableView;
 //数据库用
 @property (strong, nonatomic) UIManagedDocument *document;
 @property (strong, nonatomic) NSManagedObjectContext *context;
@@ -43,7 +44,7 @@
     if ([self.searchFriendTextField.text isEqualToString:self.curUser.username]) {
         //是否要进入Settings页面
         //NSLog(@"yourself");
-        [[Toast makeToast:@"就是你!"] show];
+        [[Toast makeToast:@"就是你!"] show:NO];
     } else {
         Friends *friend = [Friends isFriendExistInDB:_searchFriendTextField.text inManagedObjectContext:_context];
         if (!friend) {
@@ -61,7 +62,7 @@
                     [self.friendsTableView reloadData];
                 } else {
                     //NSLog(@"No such user");
-                    [[Toast makeToast:@"查无此人"] show];
+                    [[Toast makeToast:@"查无此人"] show:NO];
                     [Animation shakeView:_searchFriendTextField];
                 }
             }];
@@ -92,6 +93,17 @@
     [self.friendsTableView reloadData];
 }
 
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+//- (void)initTableView {
+//    CGFloat tvY = _searchFriendTextField.frame.origin.y + _searchFriendTextField.frame.size.height;
+//    _friendsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, tvY, SCREEN_WIDTH, _curButton.frame.origin.y - tvY)];
+//    _friendsTableView.delegate = self;
+//    _friendsTableView.dataSource = self;
+//    _friendsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    [_friendsTableView registerClass:[JZSwipeCell class] forCellReuseIdentifier:@"friend"];
+//    [self.view addSubview:_friendsTableView];
+//}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"MainTip"]) {
@@ -102,12 +114,14 @@
         [[Toast makeTip] pageTip:@"添加好友" andCenter:@"您还未添加好友" andBottom:@"通讯录好友"];
     }
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MainTip"];
-
     [self.friendsTableView reloadData];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //[self initTableView];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
     [self.navigationController setEnableBackGesture:YES];
     self.curUser = [AVUser currentUser];
@@ -116,8 +130,13 @@
     self.document = self.appDelegate.document;
     self.sessionManager = [BiuSessionManager sharedInstance];
     [self documentIsReady];
+    [_searchFriendTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     
     //[[Toast makeToast:@""] mainPageTip];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -144,22 +163,28 @@
     }
     cell.delegate = self;
     if (self.all) {
-        UILabel *label = (UILabel *)[cell viewWithTag:100];
+        CellLabel *label = (CellLabel *)[cell viewWithTag:100];
         Friends *friend = self.all[indexPath.row];
         NSLog(@"%@", friend.id);
         label.text = friend.username;
         //在这里根据friendid查找数据库 看是否有离线消息
         NSInteger count = [NotifyMsg getOfflineMsgCount:friend inManagedObjectContext:_context];
-        UILabel *lab = (UILabel *)[cell viewWithTag:101];
         if (count) {
-            lab.text = @"!!!";
-            [Animation shakeView:cell];
-        } else
-            lab.text = @"";
-//        [Animation setBackgroundColorWithWhite:label];
-//        [Animation setBackgroundColorWithWhite:lab];
+            [label showBang:YES];
+            [Animation shakeView:label];
+        } else {
+            [label showBang:NO];
+        }
     }
     return cell;
+}
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return tableView.frame.size.height;
+//}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
 }
 
 - (IBAction)toSettings:(id)sender {
@@ -167,27 +192,11 @@
     [self performSegueWithIdentifier:@"MainToSettings" sender:self];
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        //
-        Friends *friend = [self.all objectAtIndex:indexPath.row];
-        [Friends deleteFriend:friend inManagedObjectContext:_context];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-}
-
 //2
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     JZSwipeCell *cell = (JZSwipeCell*)[tableView cellForRowAtIndexPath:indexPath];
     cell.delegate = self;
     [cell triggerSwipeWithType:JZSwipeTypeNone];
-    
-//    [Animation setBackgroundColorWithLight:[cell viewWithTag:100]];
-//    [Animation setBackgroundColorWithLight:[cell viewWithTag:101]];
 }
 //1
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

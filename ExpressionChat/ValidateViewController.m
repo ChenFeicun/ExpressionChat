@@ -45,11 +45,11 @@ static bool editingOrNot = YES;
                  }
              }];
          } else if ([error.localizedDescription isEqualToString:@"The mobile phone number was invalid."]) {
-             [[Toast makeToast:@"无效的手机号码"] show];
+             [[Toast makeToast:@"无效的手机号码"] show:NO];
              [Animation shakeView:_phoneTextField];
          } else if ([error.localizedDescription isEqualToString:@"Mobile phone number has already been taken"]) {
              [Animation shakeView:_phoneTextField];
-             [[Toast makeToast:@"该号码已经被注册"] show];
+             [[Toast makeToast:@"该号码已经被注册"] show:NO];
          }
      }];
  }
@@ -75,7 +75,7 @@ static bool editingOrNot = YES;
              [self performSegueWithIdentifier:@"BackToSettings" sender:self];
          } else if ([error.localizedDescription isEqualToString:@"Invalid sms code."]) {
              [Animation shakeView:_codeTextField];
-             [[Toast makeToast:@"无效的验证码"] show];
+             [[Toast makeToast:@"无效的验证码"] show:NO];
          }
      }];
  }
@@ -105,14 +105,13 @@ static bool editingOrNot = YES;
      [super viewWillDisappear:animated];
      AVUser *user = [AVUser currentUser];
      if (!user.mobilePhoneVerified) {
-         NSLog(@"%@", [user dictionaryForObject]);
-         user.mobilePhoneNumber = nil;
-         [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-             NSLog(@"%@", error.localizedDescription);
-             if (succeeded && !error) {
-                 NSLog(@"%@", [user dictionaryForObject]);
-             }
-        }];
+         //NSLog(@"%@", [user dictionaryForObject]);
+         if (user.mobilePhoneNumber) {
+             user.mobilePhoneNumber = (NSString *)[NSNull null];
+             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+             }];
+         }
      }
  }
  

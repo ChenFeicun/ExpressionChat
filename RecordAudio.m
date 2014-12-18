@@ -101,11 +101,7 @@
 
 - (void)play:(NSData*) data{
 	//Setup the AVAudioPlayer to play the file that we just recorded.
-    //在播放时，只停止
-//    if (avPlayer!=nil) {
-//        [self stopPlay];
-//        return;
-//    } 
+
     NSLog(@"start decode");
     NSData* o = [self decodeAmr:data];
     NSLog(@"end decode");

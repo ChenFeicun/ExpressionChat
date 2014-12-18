@@ -2,11 +2,11 @@
 /* Class = "IBUITextField"; placeholder = "验证码"; ObjectID = "AhG-aC-3nV"; */
 "AhG-aC-3nV.placeholder" = "验证码";
 
-/* Class = "IBUIButton"; normalTitle = "关于Biu"; ObjectID = "DE4-JA-MDD"; */
-"DE4-JA-MDD.normalTitle" = "关于Biu";
+/* Class = "IBUIButton"; normalTitle = "关于 Biu"; ObjectID = "DE4-JA-MDD"; */
+"DE4-JA-MDD.normalTitle" = "关于 Biu";
 
-/* Class = "IBUIButton"; normalTitle = "由树下见开发"; ObjectID = "MWh-jV-VVY"; */
-"MWh-jV-VVY.normalTitle" = "由树下见开发";
+/* Class = "IBUIButton"; normalTitle = "联系我们"; ObjectID = "MWh-jV-VVY"; */
+"MWh-jV-VVY.normalTitle" = "联系我们";
 
 /* Class = "IBUIButton"; normalTitle = "使用 LeanCloud 构建"; ObjectID = "RWd-LB-ZW9"; */
 "RWd-LB-ZW9.normalTitle" = "使用 LeanCloud 构建";

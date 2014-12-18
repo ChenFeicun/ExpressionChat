@@ -19,11 +19,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGFloat img_wh = self.view.frame.size.width / 2;
+    CGFloat img_wh = self.view.frame.size.width / 3;
     CGRect frame = CGRectMake((self.view.frame.size.width - img_wh) / 2, (self.view.frame.size.height - img_wh) / 2, img_wh, img_wh);
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:frame];
     imgView.image = [UIImage imageNamed:@"biu_logo.png"];
     [self.view addSubview:imgView];
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
