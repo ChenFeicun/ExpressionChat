@@ -2,8 +2,8 @@
 //  Friends.h
 //  ExpressionChat
 //
-//  Created by Feicun on 14/11/21.
-//  Copyright (c) 2014年 Feicun. All rights reserved.
+//  Created by Feicun on 15/1/5.
+//  Copyright (c) 2015年 Feicun. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,8 +12,8 @@
 
 @interface Friends : NSManagedObject
 
-@property (nonatomic, retain) NSString * username;
 @property (nonatomic, retain) NSString * id;
 @property (nonatomic, retain) NSNumber * time;
+@property (nonatomic, retain) NSString * username;
 
 @end

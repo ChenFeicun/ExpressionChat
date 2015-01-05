@@ -24,7 +24,7 @@
     [super dealloc];
 }
 
--(id)init {
+- (id)init {
     self = [super init];
     if (self) {
         //Instanciate an instance of the AVAudioSession object.
@@ -32,7 +32,7 @@
         //Setup the audioSession for playback and record. 
         //We could just use record and then switch it to playback leter, but
         //since we are going to do both lets set it up once.
-        [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error: &error];
+        //[audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error: &error];
     
         //UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
         //AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute, sizeof (audioRouteOverride), &audioRouteOverride);
@@ -55,7 +55,7 @@
     return [url autorelease];
 }
 
-+(NSTimeInterval) getAudioTime:(NSData *) data {
++ (NSTimeInterval) getAudioTime:(NSData *) data {
     NSError * error;
     AVAudioPlayer*play = [[AVAudioPlayer alloc] initWithData:data error:&error];
     NSTimeInterval n = [play duration];
@@ -64,7 +64,7 @@
 }
 
 //0 播放 1 播放完成 2出错
--(void)sendStatus:(int)status {
+- (void)sendStatus:(int)status {
     
     if ([self.delegate respondsToSelector:@selector(RecordStatus:)]) {
         [self.delegate RecordStatus:status];
@@ -82,7 +82,7 @@
     }
 }
 
--(void) stopPlay {
+- (void)stopPlay {
     if (avPlayer!=nil) {
         [avPlayer stop];
         [avPlayer release];
@@ -91,7 +91,7 @@
     }
 }
 
--(NSData *)decodeAmr:(NSData *)data{
+- (NSData *)decodeAmr:(NSData *)data{
     if (!data) {
         return data;
     }
@@ -124,7 +124,7 @@
     [self sendStatus:2];
 }
 
--(void) startRecord {
+- (void) startRecord {
     //Begin the recording session.
     //Error handling removed.  Please add to your own code.
     

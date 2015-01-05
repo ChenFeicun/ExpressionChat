@@ -57,14 +57,19 @@ static BOOL initialized = NO;
     initialized = YES;
 }
 
+- (void)closeSession {
+    [_session close];
+    initialized = NO;
+}
+
 - (void)clearCurrentFriend {
     _chatFriendCurrent = nil;
 }
 
 - (void)addWatchPeerId:(NSString *)peerId andSetCurFriend:(Friends *)friend{
-    //先判断是否peerId已经重复 每次都重新设置friend
+    // 每次都重新设置friend
     NSArray *array = [[NSArray alloc] initWithObjects:peerId, nil];
-    NSLog(@"!!!!!%@!!!!%@", array, peerId);
+    //NSLog(@"!!!!!%@!!!!%@", array, peerId);
     [_session watchPeerIds:array];
     _chatFriendCurrent = friend;
 }

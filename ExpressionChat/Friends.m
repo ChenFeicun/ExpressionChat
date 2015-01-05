@@ -2,8 +2,8 @@
 //  Friends.m
 //  ExpressionChat
 //
-//  Created by Feicun on 14/11/21.
-//  Copyright (c) 2014年 Feicun. All rights reserved.
+//  Created by Feicun on 15/1/5.
+//  Copyright (c) 2015年 Feicun. All rights reserved.
 //
 
 #import "Friends.h"
@@ -11,8 +11,8 @@
 
 @implementation Friends
 
-@dynamic username;
 @dynamic id;
 @dynamic time;
+@dynamic username;
 
 @end

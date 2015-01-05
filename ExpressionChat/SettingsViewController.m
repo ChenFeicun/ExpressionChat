@@ -10,9 +10,9 @@
 #import "Friends+Methods.h"
 #import "NotifyMsg+Methods.h"
 #import "AppDelegate.h"
-//#import "SoundManager.h"
 #import "Animation.h"
 #import "ResourceManager.h"
+#import "BiuSessionManager.h"
 #import "Toast.h"
 #import "UINavigationController+YRBackGesture.h"
 #import <AddressBook/AddressBook.h>
@@ -71,6 +71,8 @@
         [AVFile clearAllCachedFiles];
         [[ResourceManager sharedInstance] removeAllSoundFile];
         [AVUser logOut];
+        //Session关闭
+        [[BiuSessionManager sharedInstance] closeSession];
         //跳至登录页面
         [self performSegueWithIdentifier:@"Logout" sender:self];
     }

@@ -34,8 +34,9 @@
 }
 
 - (void)show:(BOOL)isCorrect {
-    //1 可以使通知在键盘上
-    UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:1];
+    //1 可以使通知在键盘上 但在IOS7上未出现键盘时只有一个元素 index 1 会闪退
+    //NSLog(@"%lu", (unsigned long)[[[UIApplication sharedApplication] windows] count]);
+    UIWindow *window = [[[UIApplication sharedApplication] windows] lastObject];
     CGPoint center = window.center;
     CGFloat TOAST_WH = window.frame.size.width * 3 / 7;
     

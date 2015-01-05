@@ -73,10 +73,10 @@ static CGFloat VIEW_HEIGHT;
 - (void)RecordStatus:(int)status {
     if (status == 0){
         //播放中
-    } else if(status == 1){
+    } else if (status == 1){
         //完成
         NSLog(@"播放完成");
-    }else if(status == 2){
+    }else if (status == 2){
         //出错
         NSLog(@"播放出错");
     }
@@ -104,6 +104,8 @@ static CGFloat VIEW_HEIGHT;
    int powerImg = (int)([recordAudio getPeakPower] * 15);
     if (powerImg == 0) {
         powerImg = 1;
+    } else if (powerImg > 15) {
+        powerImg = 15;
     }
     //NSLog(@"%i", powerImg);
     _recordImgView.image = [UIImage imageNamed:[NSString stringWithFormat:@"record_animate_%02i.png", powerImg]];
@@ -116,6 +118,7 @@ static CGFloat VIEW_HEIGHT;
 #pragma mark - 消息处理
 - (IBAction)dropOfflineMsg:(id)sender {
     if ([_msgArray count]) {
+        [_timer invalidate];
         for (NotifyMsg *msg in _msgArray) {
             //下载文件
             BiuMessage *biuMsg = [[BiuMessage alloc] initWithNotifyMsg:msg];
@@ -129,7 +132,6 @@ static CGFloat VIEW_HEIGHT;
                             [dataFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                                 NSLog(@"%@", error.localizedDescription);
                                 if (data && !error) {
-                                    
                                     [recordAudio play:data];
                                     [self dropEmoji:biuMsg upOrDown:DOWN];
                                     [file deleteInBackground];
@@ -144,7 +146,6 @@ static CGFloat VIEW_HEIGHT;
             //}
         }
         [_friendButton setTitle:_chatFriend.username forState:UIControlStateNormal];
-        [_timer invalidate];
         [NotifyMsg deleteFriendMsg:_chatFriend inManagedObjectContext:_context];
     }
 }
@@ -256,6 +257,11 @@ static CGFloat VIEW_HEIGHT;
 - (void)didSelectEmoji:(Emoji *)emj passingXRatio:(float)resXRatio andType:(NSInteger)type {
     BiuMessage *biuMsg = [[BiuMessage alloc] initWithAudioID:emj.avosID audioName:emj.avosName audioUrl:emj.avosURL fromName:[AVUser currentUser].username resName:emj.emojiName resXRatio:resXRatio type:type];
     [self sendBiuMessage:biuMsg];
+    //[self dropEmoji:biuMsg upOrDown:UP];
+}
+
+- (void)preDrop:(Emoji *)emj passingXRatio:(float)resXRatio andType:(NSInteger)type {
+    BiuMessage *biuMsg = [[BiuMessage alloc] initWithResName:emj.emojiName resXRatio:resXRatio type:type];
     [self dropEmoji:biuMsg upOrDown:UP];
 }
 
@@ -271,12 +277,14 @@ static CGFloat VIEW_HEIGHT;
     Emoji *emj = [[ResourceManager sharedInstance].emojiArray objectAtIndex:([cellView.emojiIndex integerValue] - 1)];
     if (emj.isRecord) {
         type = 1;
+        [self preDrop:emj passingXRatio:resXRatio andType:type];
         AVFile *file = [AVFile fileWithName:emj.avosName data:emj.emojiData];
         [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             NSLog(@"%@", error.localizedDescription);
             if (succeeded && !error) {
                 emj.avosURL = file.url;
                 emj.avosID = file.objectId;
+                //使本地可实时显示表情声音 不必等待上传结束
                 [self didSelectEmoji:emj passingXRatio:resXRatio andType:type];
                 [file clearCachedFile];
             } else if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]) {
@@ -285,6 +293,7 @@ static CGFloat VIEW_HEIGHT;
         }];
     } else {
         type = 0;
+        [self preDrop:emj passingXRatio:resXRatio andType:type];
         [self didSelectEmoji:emj passingXRatio:resXRatio andType:type];
     }
 }

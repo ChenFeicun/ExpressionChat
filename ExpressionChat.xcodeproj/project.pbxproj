@@ -21,7 +21,6 @@
 		180C23A719E4D590008F8C0E /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 180C23A619E4D590008F8C0E /* libicucore.dylib */; };
 		180C23AA19E522D7008F8C0E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180C23A919E522D7008F8C0E /* LoginViewController.m */; };
 		182EBE0019FCEB7100D3AC01 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182EBDFF19FCEB7100D3AC01 /* AudioToolbox.framework */; };
-		183560C81A1ECA9D0079BCE2 /* Friends.m in Sources */ = {isa = PBXBuildFile; fileRef = 183560C71A1ECA9D0079BCE2 /* Friends.m */; };
 		183560CB1A1EE85E0079BCE2 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183560CA1A1EE85E0079BCE2 /* AboutViewController.m */; };
 		183560D01A1F08ED0079BCE2 /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 183560CF1A1F08ED0079BCE2 /* warning.png */; };
 		183C19FC1A255E4600150D4E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 183C19FB1A255E4600150D4E /* MessageUI.framework */; };
@@ -48,7 +47,6 @@
 		185267ED1A1AD67B0078BB0E /* highLight.png in Resources */ = {isa = PBXBuildFile; fileRef = 185267EC1A1AD67B0078BB0E /* highLight.png */; };
 		185267EF1A1AD96C0078BB0E /* normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 185267EE1A1AD96C0078BB0E /* normal.png */; };
 		185267F21A1B317E0078BB0E /* BiuMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 185267F11A1B317E0078BB0E /* BiuMessage.m */; };
-		185267F51A1B5A490078BB0E /* NotifyMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 185267F41A1B5A490078BB0E /* NotifyMsg.m */; };
 		18531ECC1A11995600C38B07 /* lame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18531ECB1A11995600C38B07 /* lame.framework */; };
 		18531ECE1A119CCD00C38B07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18531ECD1A119CCD00C38B07 /* Foundation.framework */; };
 		18580A9B1A01132D00C1539E /* Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18580A9A1A01132D00C1539E /* Animation.m */; };
@@ -63,6 +61,8 @@
 		1897652F1A27431100C4B050 /* AVOSCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1848FCBF1A26B77A004F08D1 /* AVOSCloud.framework */; };
 		189BE4241A046BD5002FF4FA /* ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189BE4231A046BD5002FF4FA /* ResourceManager.m */; };
 		189BE4401A067760002FF4FA /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189BE43F1A067760002FF4FA /* SettingsViewController.m */; };
+		18AA172F1A5A7DE900518CC6 /* NotifyMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AA172E1A5A7DE900518CC6 /* NotifyMsg.m */; };
+		18AA17321A5A7DEA00518CC6 /* Friends.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AA17311A5A7DEA00518CC6 /* Friends.m */; };
 		18B6A1A219FF2B08008C4EE9 /* Friends+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6A1A119FF2B08008C4EE9 /* Friends+Methods.m */; };
 		18B6A1A519FF2D29008C4EE9 /* NotifyMsg+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6A1A419FF2D29008C4EE9 /* NotifyMsg+Methods.m */; };
 		18B78AFF1A09C62300540327 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78AFE1A09C62300540327 /* Toast.m */; };
@@ -103,8 +103,6 @@
 		180C23A819E522D7008F8C0E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		180C23A919E522D7008F8C0E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		182EBDFF19FCEB7100D3AC01 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		183560C61A1ECA9D0079BCE2 /* Friends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Friends.h; path = ../Friends.h; sourceTree = "<group>"; };
-		183560C71A1ECA9D0079BCE2 /* Friends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Friends.m; path = ../Friends.m; sourceTree = "<group>"; };
 		183560C91A1EE85E0079BCE2 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		183560CA1A1EE85E0079BCE2 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		183560CF1A1F08ED0079BCE2 /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
@@ -138,8 +136,6 @@
 		185267EE1A1AD96C0078BB0E /* normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = normal.png; path = ExpressionChat/normal.png; sourceTree = "<group>"; };
 		185267F01A1B317E0078BB0E /* BiuMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BiuMessage.h; sourceTree = "<group>"; };
 		185267F11A1B317E0078BB0E /* BiuMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BiuMessage.m; sourceTree = "<group>"; };
-		185267F31A1B5A490078BB0E /* NotifyMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotifyMsg.h; path = ../NotifyMsg.h; sourceTree = "<group>"; };
-		185267F41A1B5A490078BB0E /* NotifyMsg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotifyMsg.m; path = ../NotifyMsg.m; sourceTree = "<group>"; };
 		18531ECB1A11995600C38B07 /* lame.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = lame.framework; sourceTree = "<group>"; };
 		18531ECD1A119CCD00C38B07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18580A991A01132D00C1539E /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Animation.h; path = ExpressionChat/Animation.h; sourceTree = "<group>"; };
@@ -165,6 +161,10 @@
 		189BE4231A046BD5002FF4FA /* ResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResourceManager.m; path = ../ResourceManager.m; sourceTree = "<group>"; };
 		189BE43E1A067760002FF4FA /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		189BE43F1A067760002FF4FA /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		18AA172D1A5A7DE900518CC6 /* NotifyMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyMsg.h; sourceTree = "<group>"; };
+		18AA172E1A5A7DE900518CC6 /* NotifyMsg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyMsg.m; sourceTree = "<group>"; };
+		18AA17301A5A7DEA00518CC6 /* Friends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friends.h; sourceTree = "<group>"; };
+		18AA17311A5A7DEA00518CC6 /* Friends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friends.m; sourceTree = "<group>"; };
 		18B6A1A019FF2B08008C4EE9 /* Friends+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Friends+Methods.h"; path = "../Friends+Methods.h"; sourceTree = "<group>"; };
 		18B6A1A119FF2B08008C4EE9 /* Friends+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Friends+Methods.m"; path = "../Friends+Methods.m"; sourceTree = "<group>"; };
 		18B6A1A319FF2D29008C4EE9 /* NotifyMsg+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NotifyMsg+Methods.h"; path = "../NotifyMsg+Methods.h"; sourceTree = "<group>"; };
@@ -281,15 +281,15 @@
 		18414CDA19ED08F800B072C4 /* DBBiu */ = {
 			isa = PBXGroup;
 			children = (
-				183560C61A1ECA9D0079BCE2 /* Friends.h */,
-				183560C71A1ECA9D0079BCE2 /* Friends.m */,
-				185267F31A1B5A490078BB0E /* NotifyMsg.h */,
-				185267F41A1B5A490078BB0E /* NotifyMsg.m */,
 				18B6A1A019FF2B08008C4EE9 /* Friends+Methods.h */,
 				18B6A1A119FF2B08008C4EE9 /* Friends+Methods.m */,
 				18B6A1A319FF2D29008C4EE9 /* NotifyMsg+Methods.h */,
 				18B6A1A419FF2D29008C4EE9 /* NotifyMsg+Methods.m */,
 				18EF7FAF19E685B60018AC26 /* DBBiu.xcdatamodeld */,
+				18AA17301A5A7DEA00518CC6 /* Friends.h */,
+				18AA17311A5A7DEA00518CC6 /* Friends.m */,
+				18AA172D1A5A7DE900518CC6 /* NotifyMsg.h */,
+				18AA172E1A5A7DE900518CC6 /* NotifyMsg.m */,
 				185267F01A1B317E0078BB0E /* BiuMessage.h */,
 				185267F11A1B317E0078BB0E /* BiuMessage.m */,
 			);
@@ -567,17 +567,17 @@
 				183EE39019EE06BC0096DC26 /* EmojiViewController.m in Sources */,
 				18580A9B1A01132D00C1539E /* Animation.m in Sources */,
 				189BE4401A067760002FF4FA /* SettingsViewController.m in Sources */,
-				183560C81A1ECA9D0079BCE2 /* Friends.m in Sources */,
 				18E009311A0723560071F471 /* ValidateViewController.m in Sources */,
 				18B78AFF1A09C62300540327 /* Toast.m in Sources */,
 				18B6A1A219FF2B08008C4EE9 /* Friends+Methods.m in Sources */,
 				1840F8DC19EB59A600F64F7C /* BiuSessionManager.m in Sources */,
 				187570DF1A2221CD008B86E3 /* EmojiBoardView.m in Sources */,
-				185267F51A1B5A490078BB0E /* NotifyMsg.m in Sources */,
+				18AA172F1A5A7DE900518CC6 /* NotifyMsg.m in Sources */,
 				185267F21A1B317E0078BB0E /* BiuMessage.m in Sources */,
 				18EF7FB119E685B60018AC26 /* DBBiu.xcdatamodeld in Sources */,
 				189BE4241A046BD5002FF4FA /* ResourceManager.m in Sources */,
 				180C23AA19E522D7008F8C0E /* LoginViewController.m in Sources */,
+				18AA17321A5A7DEA00518CC6 /* Friends.m in Sources */,
 				185914BF1A15A0EF00BFDEBE /* amrFileCodec.m in Sources */,
 				180C237F19E4D41A008F8C0E /* ViewController.m in Sources */,
 				18B6A1A519FF2D29008C4EE9 /* NotifyMsg+Methods.m in Sources */,
@@ -716,7 +716,7 @@
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = ExpressionChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -745,7 +745,7 @@
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = ExpressionChat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

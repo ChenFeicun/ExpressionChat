@@ -54,4 +54,13 @@
     return self;
 }
 
+- (instancetype)initWithResName:(NSString *)resName resXRatio:(float)resXRatio type:(NSInteger)type {
+    if (self = [super init]) {
+        _resName = resName;
+        _resXRatio = resXRatio;
+        _type = type;
+    }
+    return self;
+}
+
 @end

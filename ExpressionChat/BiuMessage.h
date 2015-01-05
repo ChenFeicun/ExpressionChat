@@ -23,4 +23,5 @@
 - (instancetype)initWithAudioID:(NSString *)audioID audioName:(NSString *)audioName audioUrl:(NSString *)audioUrl fromName:(NSString *)fromName resName:(NSString *)resName resXRatio:(float)resXRatio type:(NSInteger)type;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithNotifyMsg:(NotifyMsg *)msg;
+- (instancetype)initWithResName:(NSString *)resName resXRatio:(float)resXRatio type:(NSInteger)type;
 @end

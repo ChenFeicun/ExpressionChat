@@ -94,18 +94,11 @@
 }
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
-//- (void)initTableView {
-//    CGFloat tvY = _searchFriendTextField.frame.origin.y + _searchFriendTextField.frame.size.height;
-//    _friendsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, tvY, SCREEN_WIDTH, _curButton.frame.origin.y - tvY)];
-//    _friendsTableView.delegate = self;
-//    _friendsTableView.dataSource = self;
-//    _friendsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    [_friendsTableView registerClass:[JZSwipeCell class] forCellReuseIdentifier:@"friend"];
-//    [self.view addSubview:_friendsTableView];
-//}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    _searchFriendTextField.text = @"";
+    [self.sessionManager clearCurrentFriend];
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"MainTip"]) {
         _all = [Friends allFriendsInManagedObjectContext:_context];
         if ([_all count]) {
@@ -131,6 +124,9 @@
     self.sessionManager = [BiuSessionManager sharedInstance];
     [self documentIsReady];
     [_searchFriendTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    
+    
+    NSLog(@"%@-----%@", [AVUser currentUser].objectId, [AVUser currentUser].username);
     
     //[[Toast makeToast:@""] mainPageTip];
 }
@@ -169,6 +165,7 @@
         label.text = friend.username;
         //在这里根据friendid查找数据库 看是否有离线消息
         NSInteger count = [NotifyMsg getOfflineMsgCount:friend inManagedObjectContext:_context];
+        NSLog(@"------%ld------", (long)count);
         if (count) {
             [label showBang:YES];
             [Animation shakeView:label];

@@ -2,8 +2,8 @@
 //  NotifyMsg.m
 //  ExpressionChat
 //
-//  Created by Feicun on 14/11/18.
-//  Copyright (c) 2014年 Feicun. All rights reserved.
+//  Created by Feicun on 15/1/5.
+//  Copyright (c) 2015年 Feicun. All rights reserved.
 //
 
 #import "NotifyMsg.h"
@@ -11,13 +11,13 @@
 
 @implementation NotifyMsg
 
-@dynamic type;
-@dynamic resname;
-@dynamic xratio;
 @dynamic audioid;
 @dynamic audioname;
 @dynamic audiourl;
 @dynamic fromid;
+@dynamic resname;
 @dynamic time;
+@dynamic type;
+@dynamic xratio;
 
 @end

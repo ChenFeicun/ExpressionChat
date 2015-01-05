@@ -46,6 +46,20 @@
     }
 }
 
++ (NSArray *)getOfflineMsgByPeerId:(NSString *)peerId inManagedObjectContext:(NSManagedObjectContext *)context {
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"NotifyMsg"];
+    request.predicate = [NSPredicate predicateWithFormat:@"fromid = %@", peerId];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO]];
+    NSError *error;
+    NSArray *array = [context executeFetchRequest:request error:&error];
+    if (!error && array) {
+        return array;
+    } else {
+        return nil;
+    }
+}
+
+
 + (void)addMsgWithDictionary:(NSDictionary *)dict andPeerId:(NSString *)peerId andTime:(int64_t)time inManagedObjectContext:(NSManagedObjectContext *)context {
     NotifyMsg *msg = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyMsg" inManagedObjectContext:context];
     msg.fromid = peerId;
@@ -61,6 +75,12 @@
     }
     
     if ([context save:nil]) {
+        //删掉 使其始终保持5条
+        NSMutableArray *offLineMsg = [[NSMutableArray alloc] initWithArray:[self getOfflineMsgByPeerId:peerId inManagedObjectContext:context]];
+        if ( [offLineMsg count] > 5) {
+            //删掉最老的那条
+            [context deleteObject:[offLineMsg lastObject]];
+        }
         NSLog(@"msg%@ : %@", msg.fromid, msg.resname);
     } else {
         NSLog(@"add message failed");

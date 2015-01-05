@@ -13,7 +13,7 @@
 
 @protocol RecordAudioDelegate <NSObject>
 //0 播放 1 播放完成 2出错
--(void)RecordStatus:(int)status;
+-(void) RecordStatus:(int)status;
 @end
 
 @interface RecordAudio : NSObject <AVAudioRecorderDelegate,AVAudioPlayerDelegate>
@@ -27,8 +27,8 @@
 
 @property (nonatomic,assign)id<RecordAudioDelegate> delegate;
 
-- (NSURL *) stopRecord ;
-- (void) startRecord;
+-(NSURL *) stopRecord;
+-(void) startRecord;
 
 -(void) play:(NSData*) data;
 -(void) stopPlay;
