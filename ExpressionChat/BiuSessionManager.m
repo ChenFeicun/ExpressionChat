@@ -39,10 +39,7 @@ static BOOL initialized = NO;
 - (instancetype)init {
     
     if (self = [super init]) {
-        AVSession *session = [[AVSession alloc] init];
-        session.sessionDelegate = self;
-        //session.signatureDelegate = self;
-        _session = session;
+        
     }
     [self commonInit];
     return self;
@@ -50,6 +47,11 @@ static BOOL initialized = NO;
 
 - (void)commonInit {
     //NSLog(@"%@",[AVUser currentUser].objectId);
+    AVSession *session = [[AVSession alloc] init];
+    session.sessionDelegate = self;
+    //session.signatureDelegate = self;
+    _session = session;
+    
     _appDelegate = [[UIApplication sharedApplication] delegate];
     [_session openWithPeerId:[AVUser currentUser].objectId];
     _context = _appDelegate.document.managedObjectContext;
@@ -85,29 +87,6 @@ static BOOL initialized = NO;
     }
 }
 
-//- (void)sendNotifyMsgWithDictionary:(NSMutableDictionary *)dict toPeerId:(NSString *)peerId {
-//    NSError *error = nil;
-//    NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
-//    if (!error) {
-//        NSString *payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//        AVMessage *messageObject = [AVMessage messageForPeerWithSession:_session toPeerId:peerId payload:payload];
-//        [_session sendMessage:messageObject transient:NO];
-//    }
-//}
-//
-//- (void)sendMessage:(NSString *)message toPeerId:(NSString *)peerId {
-//    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-//    [dict setObject:_session.peerId forKey:@"fromId"];
-//    [dict setObject:@"text" forKey:@"type"];
-//    [dict setObject:message forKey:@"msg"];
-//    NSError *error = nil;
-//    NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
-//    NSString *payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//    AVMessage *messageObject = [AVMessage messageForPeerWithSession:_session toPeerId:peerId payload:payload];
-//    [_session sendMessage:messageObject transient:NO];
-//    //[_session sendMessage:messageObject];
-//}
-
 - (void)sessionOpened:(AVSession *)session {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     NSLog(@"session:%@", session.peerId);
@@ -139,10 +118,10 @@ static BOOL initialized = NO;
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
         Friends *friend = [Friends isFriendExistWithId:message.fromPeerId inManagedObjectContext:_context];
         if (!friend) {
-            [Friends addFriendWithUsername:[dict objectForKey:@"fromName"] andId:message.fromPeerId andTime:message.timestamp inManagedObjectContext:_context];
+            [Friends addFriendWithUsername:[dict objectForKey:@"fromName"] andId:message.fromPeerId andTime:message.timestamp andUnread:YES inManagedObjectContext:_context];
         } else {
             //更新朋友表时间戳
-            [Friends updateFriend:friend time:message.timestamp inManagedObjectContext:_context];
+            [Friends updateFriend:friend time:message.timestamp unread:YES inManagedObjectContext:_context];
         }
         
         [NotifyMsg addMsgWithDictionary:dict andPeerId:message.fromPeerId andTime:message.timestamp inManagedObjectContext:_context];
@@ -160,7 +139,13 @@ static BOOL initialized = NO;
     NSLog(@"%s", __PRETTY_FUNCTION__);
     NSLog(@"session:%@ message:%@ toPeerId:%@", session.peerId, message, message.toPeerId);
     Friends *friend = [Friends isFriendExistWithId:message.toPeerId inManagedObjectContext:_context];
-    [Friends updateFriend:friend time:message.timestamp inManagedObjectContext:_context];
+    BOOL unread;
+    if ([_chatFriendCurrent.username isEqualToString:friend.username]) {
+        unread = NO;
+    } else {
+        unread = YES;
+    }
+    [Friends updateFriend:friend time:message.timestamp unread:unread inManagedObjectContext:_context];
 }
 
 - (void)session:(AVSession *)session didReceiveStatus:(AVPeerStatus)status peerIds:(NSArray *)peerIds {

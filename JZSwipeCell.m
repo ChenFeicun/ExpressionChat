@@ -306,9 +306,9 @@ static CGFloat const kDefaultIconSize = 40;
 
 - (void)commonInit {
 
-    NSLog(@"%f, %f", self.frame.origin.x, self.frame.size.width);
+    //NSLog(@"%f, %f", self.frame.origin.x, self.frame.size.width);
     _bangLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - self.frame.size.height, 0, self.frame.size.height, self.frame.size.height)];
-    NSLog(@"%f, %f", _bangLabel.frame.origin.x, self.frame.size.height);
+    //NSLog(@"%f, %f", _bangLabel.frame.origin.x, self.frame.size.height);
     _bangLabel.backgroundColor = [UIColor colorWithRed:245.0 / 255.0 green:245.0 / 255.0 blue:245.0 / 255.0 alpha:1];
     _bangLabel.font = [UIFont boldSystemFontOfSize:17.0f];
     _bangLabel.textAlignment = NSTextAlignmentCenter;

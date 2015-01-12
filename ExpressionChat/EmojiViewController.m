@@ -10,6 +10,7 @@
 #import "BiuSessionManager.h"
 #import "ResourceManager.h"
 #import "Friends.h"
+#import "Friends+Methods.h"
 #import "NotifyMsg.h"
 #import "NotifyMsg+Methods.h"
 #import "AppDelegate.h"
@@ -83,7 +84,6 @@ static CGFloat VIEW_HEIGHT;
 }
 
 - (void)endRecord {
-    
     endRecordTime = [NSDate timeIntervalSinceReferenceDate];
     [_powerTimer invalidate];
     NSURL *url = [recordAudio stopRecord];
@@ -117,6 +117,8 @@ static CGFloat VIEW_HEIGHT;
 
 #pragma mark - 消息处理
 - (IBAction)dropOfflineMsg:(id)sender {
+    //将Friend表的unread置0
+    [Friends updateUnreadByName:_chatFriend.username inManagedObjectContext:_context];
     if ([_msgArray count]) {
         [_timer invalidate];
         for (NotifyMsg *msg in _msgArray) {
@@ -130,7 +132,7 @@ static CGFloat VIEW_HEIGHT;
                         if (file && !error) {
                             AVFile *dataFile = [AVFile fileWithURL:file.url];
                             [dataFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                                NSLog(@"%@", error.localizedDescription);
+                                //NSLog(@"%@", error.localizedDescription);
                                 if (data && !error) {
                                     [recordAudio play:data];
                                     [self dropEmoji:biuMsg upOrDown:DOWN];
@@ -142,8 +144,6 @@ static CGFloat VIEW_HEIGHT;
                     }];
                 }
             }
-
-            //}
         }
         [_friendButton setTitle:_chatFriend.username forState:UIControlStateNormal];
         [NotifyMsg deleteFriendMsg:_chatFriend inManagedObjectContext:_context];
@@ -240,18 +240,25 @@ static CGFloat VIEW_HEIGHT;
 }
 
 - (void)sendBiuMessage:(BiuMessage *)biuMsg {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    //[dict setObject:[AVUser currentUser].objectId forKey:@"fromid"];
-    [dict setObject:[AVUser currentUser].username forKey:@"fromName"];
-    [dict setObject:[NSString stringWithFormat:@"%f", biuMsg.resXRatio] forKey:@"resXRatio"];
-    [dict setObject:[NSNumber numberWithInteger:biuMsg.type] forKey:@"type"];
-    [dict setObject:biuMsg.resName forKey:@"resName"];
-    if (biuMsg.type == 1) {
-        [dict setObject:biuMsg.audioID forKey:@"audioID"];
-        [dict setObject:biuMsg.audioName forKey:@"audioName"];
-        [dict setObject:biuMsg.audioUrl forKey:@"audioUrl"];
+    
+    if ([_chatFriend.username isEqualToString:@"Biu"]) {
+        //引导
+        [self dropUpOrDown:DOWN withResXRatio:biuMsg.resXRatio andResName:[NSString stringWithFormat:@"emoji_%02d", arc4random() % 74 + 1]];
+        
+    } else {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        //[dict setObject:[AVUser currentUser].objectId forKey:@"fromid"];
+        [dict setObject:[AVUser currentUser].username forKey:@"fromName"];
+        [dict setObject:[NSString stringWithFormat:@"%f", biuMsg.resXRatio] forKey:@"resXRatio"];
+        [dict setObject:[NSNumber numberWithInteger:biuMsg.type] forKey:@"type"];
+        [dict setObject:biuMsg.resName forKey:@"resName"];
+        if (biuMsg.type == 1) {
+            [dict setObject:biuMsg.audioID forKey:@"audioID"];
+            [dict setObject:biuMsg.audioName forKey:@"audioName"];
+            [dict setObject:biuMsg.audioUrl forKey:@"audioUrl"];
+        }
+        [_sessionManager sendBiuMessageWithDictionary:dict toPeerId:_chatFriend.id];
     }
-    [_sessionManager sendBiuMessageWithDictionary:dict toPeerId:_chatFriend.id];
 }
 
 - (void)didSelectEmoji:(Emoji *)emj passingXRatio:(float)resXRatio andType:(NSInteger)type {
@@ -280,7 +287,7 @@ static CGFloat VIEW_HEIGHT;
         [self preDrop:emj passingXRatio:resXRatio andType:type];
         AVFile *file = [AVFile fileWithName:emj.avosName data:emj.emojiData];
         [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            NSLog(@"%@", error.localizedDescription);
+            //NSLog(@"%@", error.localizedDescription);
             if (succeeded && !error) {
                 emj.avosURL = file.url;
                 emj.avosID = file.objectId;
@@ -384,6 +391,7 @@ static CGFloat VIEW_HEIGHT;
     if (_timer) {
         [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
     }
+//#warning 引导
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -396,7 +404,7 @@ static CGFloat VIEW_HEIGHT;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"EmojiTip"]) {
-        NSLog(@"%f, %f", _emojiBoard.frame.origin.y, (_emojiBoard.frame.origin.y + _emojiBoard.frame.size.height / 2));
+        //NSLog(@"%f, %f", _emojiBoard.frame.origin.y, (_emojiBoard.frame.origin.y + _emojiBoard.frame.size.height / 2));
         [[Toast makeTip] chatPageTip:(_emojiBoard.frame.origin.y + _emojiBoard.frame.size.height / 2 - 40)];//[[Toast makeTip] pageTip:@"查看离线消息" andCenter:@"向右滑动返回主界面" andBottom:@"长按表情录音"];
     }
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"EmojiTip"];

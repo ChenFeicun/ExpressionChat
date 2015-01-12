@@ -46,10 +46,11 @@
     }
 }
 
-+ (void)addFriendWithUsername:(NSString *)username andId:(NSString *)id andTime:(int64_t)time inManagedObjectContext:(NSManagedObjectContext *)context {
++ (void)addFriendWithUsername:(NSString *)username andId:(NSString *)id andTime:(int64_t)time andUnread:(BOOL)unread inManagedObjectContext:(NSManagedObjectContext *)context {
     Friends *friend = [NSEntityDescription insertNewObjectForEntityForName:@"Friends" inManagedObjectContext:context];
     friend.username = username;
     friend.id = id;
+    friend.unread = [NSNumber numberWithBool:unread];
     friend.time = [NSNumber numberWithLongLong:time];
     if ([context save:nil]) {
         NSLog(@"save friend successed");
@@ -100,16 +101,27 @@
     }
 }
 
-+ (void)updateFriend:(Friends *)friend time:(int64_t)time inManagedObjectContext:(NSManagedObjectContext *)context {
++ (void)updateFriend:(Friends *)friend time:(int64_t)time unread:(BOOL)unread  inManagedObjectContext:(NSManagedObjectContext *)context {
     //NSLog(@"%@", friend.time);
     friend.time = [NSNumber numberWithLongLong:time];
+    friend.unread = [NSNumber numberWithBool:unread];
     //NSLog(@"%@", friend.time);
     if ([context save:nil]) {
         NSLog(@"update successd");
     } else {
         NSLog(@"update failed");
     }
-    
+}
+
++ (void)updateUnreadByName:(NSString *)username inManagedObjectContext:(NSManagedObjectContext *)context {
+    Friends *friend = [self isFriendExistInDB:username inManagedObjectContext:context];
+    friend.unread = [NSNumber numberWithBool:NO];
+    NSLog(@"%@", friend.unread);
+    if ([context save:nil]) {
+        NSLog(@"update successd");
+    } else {
+        NSLog(@"update failed");
+    }
 }
 
 @end

@@ -23,6 +23,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *searchFriendTextField;
 @property (weak, nonatomic) IBOutlet UIButton *curButton;
 @property (weak, nonatomic) IBOutlet UITableView *friendsTableView;
+//Biu用户
+//@property (strong, nonatomic) NSTimer *biuTimer;
+//@property (strong, nonatomic) CellLabel *biuLabel;
 //@property (strong, nonatomic) UITableView *friendsTableView;
 //数据库用
 @property (strong, nonatomic) UIManagedDocument *document;
@@ -100,13 +103,15 @@
     _searchFriendTextField.text = @"";
     [self.sessionManager clearCurrentFriend];
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"MainTip"]) {
+//#warning 没考虑加Biu的情况
         _all = [Friends allFriendsInManagedObjectContext:_context];
         if ([_all count]) {
             [[Toast makeTip] pageTip:@"添加好友" andCenter:@"" andBottom:@"通讯录好友"];
-        } else 
-        [[Toast makeTip] pageTip:@"添加好友" andCenter:@"您还未添加好友" andBottom:@"通讯录好友"];
+        } else{
+            [[Toast makeTip] pageTip:@"添加好友" andCenter:@"您还未添加好友" andBottom:@"通讯录好友"];
+        }
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MainTip"];
     }
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MainTip"];
     [self.friendsTableView reloadData];
 }
 
@@ -125,10 +130,12 @@
     [self documentIsReady];
     [_searchFriendTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     
-    
-    NSLog(@"%@-----%@", [AVUser currentUser].objectId, [AVUser currentUser].username);
-    
-    //[[Toast makeToast:@""] mainPageTip];
+//    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Biu"]) {
+//        //添加Biu好友 (写死的)
+//        [Friends addFriendWithUsername:@"Biu" andId:@"54a9f5bce4b08a3aeaece545" andTime:0 andUnread:YES inManagedObjectContext:self.context];
+//        
+//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"Biu"];
+//    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -161,23 +168,31 @@
     if (self.all) {
         CellLabel *label = (CellLabel *)[cell viewWithTag:100];
         Friends *friend = self.all[indexPath.row];
-        NSLog(@"%@", friend.id);
+        //NSLog(@"%@", friend.id);
         label.text = friend.username;
         //在这里根据friendid查找数据库 看是否有离线消息
-        NSInteger count = [NotifyMsg getOfflineMsgCount:friend inManagedObjectContext:_context];
-        NSLog(@"------%ld------", (long)count);
-        if (count) {
+        //现在改成判断unread属性
+        
+        if ([friend.unread boolValue]) {
+//#warning 如果是Biu的话 加定时器 2s抖一下 解决
+//            if ([friend.username isEqualToString:@"Biu"]) {
+//                _biuLabel = label;
+//                _biuTimer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(biuShake) userInfo:nil repeats:YES];
+//            }
             [label showBang:YES];
             [Animation shakeView:label];
         } else {
+//            if ([friend.username isEqualToString:@"Biu"]) {
+//                [_biuTimer invalidate];
+//            }
             [label showBang:NO];
         }
     }
     return cell;
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return tableView.frame.size.height;
+//- (void)biuShake {
+//    [Animation shakeView:_biuLabel];
 //}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -221,6 +236,6 @@
 
 - (void)swipeCell:(JZSwipeCell *)cell swipeTypeChangedFrom:(JZSwipeType)from to:(JZSwipeType)to {
     // perform custom state changes here
-    NSLog(@"Swipe Changed From (%d) To (%d)", from, to);
+    //NSLog(@"Swipe Changed From (%d) To (%d)", from, to);
 }
 @end

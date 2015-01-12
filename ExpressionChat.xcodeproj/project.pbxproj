@@ -50,6 +50,7 @@
 		18531ECC1A11995600C38B07 /* lame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18531ECB1A11995600C38B07 /* lame.framework */; };
 		18531ECE1A119CCD00C38B07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18531ECD1A119CCD00C38B07 /* Foundation.framework */; };
 		18580A9B1A01132D00C1539E /* Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18580A9A1A01132D00C1539E /* Animation.m */; };
+		185877921A5D636200DDF404 /* Friends.m in Sources */ = {isa = PBXBuildFile; fileRef = 185877911A5D636200DDF404 /* Friends.m */; };
 		185914BF1A15A0EF00BFDEBE /* amrFileCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 185914BE1A15A0EF00BFDEBE /* amrFileCodec.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		185914CC1A15A1CC00BFDEBE /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 185914C81A15A1CC00BFDEBE /* libopencore-amrnb.a */; };
 		185914CD1A15A1CC00BFDEBE /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 185914C91A15A1CC00BFDEBE /* libopencore-amrwb.a */; };
@@ -62,7 +63,6 @@
 		189BE4241A046BD5002FF4FA /* ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 189BE4231A046BD5002FF4FA /* ResourceManager.m */; };
 		189BE4401A067760002FF4FA /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 189BE43F1A067760002FF4FA /* SettingsViewController.m */; };
 		18AA172F1A5A7DE900518CC6 /* NotifyMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AA172E1A5A7DE900518CC6 /* NotifyMsg.m */; };
-		18AA17321A5A7DEA00518CC6 /* Friends.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AA17311A5A7DEA00518CC6 /* Friends.m */; };
 		18B6A1A219FF2B08008C4EE9 /* Friends+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6A1A119FF2B08008C4EE9 /* Friends+Methods.m */; };
 		18B6A1A519FF2D29008C4EE9 /* NotifyMsg+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6A1A419FF2D29008C4EE9 /* NotifyMsg+Methods.m */; };
 		18B78AFF1A09C62300540327 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78AFE1A09C62300540327 /* Toast.m */; };
@@ -140,6 +140,8 @@
 		18531ECD1A119CCD00C38B07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18580A991A01132D00C1539E /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Animation.h; path = ExpressionChat/Animation.h; sourceTree = "<group>"; };
 		18580A9A1A01132D00C1539E /* Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Animation.m; path = ExpressionChat/Animation.m; sourceTree = "<group>"; };
+		185877901A5D636200DDF404 /* Friends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friends.h; sourceTree = "<group>"; };
+		185877911A5D636200DDF404 /* Friends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friends.m; sourceTree = "<group>"; };
 		185914BD1A15A0EF00BFDEBE /* amrFileCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amrFileCodec.h; sourceTree = "<group>"; };
 		185914BE1A15A0EF00BFDEBE /* amrFileCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = amrFileCodec.m; sourceTree = "<group>"; };
 		185914C11A15A11B00BFDEBE /* interf_dec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = interf_dec.h; sourceTree = "<group>"; };
@@ -163,8 +165,6 @@
 		189BE43F1A067760002FF4FA /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		18AA172D1A5A7DE900518CC6 /* NotifyMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyMsg.h; sourceTree = "<group>"; };
 		18AA172E1A5A7DE900518CC6 /* NotifyMsg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyMsg.m; sourceTree = "<group>"; };
-		18AA17301A5A7DEA00518CC6 /* Friends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friends.h; sourceTree = "<group>"; };
-		18AA17311A5A7DEA00518CC6 /* Friends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friends.m; sourceTree = "<group>"; };
 		18B6A1A019FF2B08008C4EE9 /* Friends+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Friends+Methods.h"; path = "../Friends+Methods.h"; sourceTree = "<group>"; };
 		18B6A1A119FF2B08008C4EE9 /* Friends+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Friends+Methods.m"; path = "../Friends+Methods.m"; sourceTree = "<group>"; };
 		18B6A1A319FF2D29008C4EE9 /* NotifyMsg+Methods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NotifyMsg+Methods.h"; path = "../NotifyMsg+Methods.h"; sourceTree = "<group>"; };
@@ -286,8 +286,8 @@
 				18B6A1A319FF2D29008C4EE9 /* NotifyMsg+Methods.h */,
 				18B6A1A419FF2D29008C4EE9 /* NotifyMsg+Methods.m */,
 				18EF7FAF19E685B60018AC26 /* DBBiu.xcdatamodeld */,
-				18AA17301A5A7DEA00518CC6 /* Friends.h */,
-				18AA17311A5A7DEA00518CC6 /* Friends.m */,
+				185877901A5D636200DDF404 /* Friends.h */,
+				185877911A5D636200DDF404 /* Friends.m */,
 				18AA172D1A5A7DE900518CC6 /* NotifyMsg.h */,
 				18AA172E1A5A7DE900518CC6 /* NotifyMsg.m */,
 				185267F01A1B317E0078BB0E /* BiuMessage.h */,
@@ -577,7 +577,7 @@
 				18EF7FB119E685B60018AC26 /* DBBiu.xcdatamodeld in Sources */,
 				189BE4241A046BD5002FF4FA /* ResourceManager.m in Sources */,
 				180C23AA19E522D7008F8C0E /* LoginViewController.m in Sources */,
-				18AA17321A5A7DEA00518CC6 /* Friends.m in Sources */,
+				185877921A5D636200DDF404 /* Friends.m in Sources */,
 				185914BF1A15A0EF00BFDEBE /* amrFileCodec.m in Sources */,
 				180C237F19E4D41A008F8C0E /* ViewController.m in Sources */,
 				18B6A1A519FF2D29008C4EE9 /* NotifyMsg+Methods.m in Sources */,

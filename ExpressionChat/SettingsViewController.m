@@ -54,6 +54,8 @@
 }
 
 - (IBAction)addFriendsFromPeople:(id)sender {
+    _loadToast = [Toast makeToast:@"请稍候"];
+    [_loadToast loading];
     [self readAllPhoneNumber];
 }
 
@@ -64,6 +66,7 @@
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MainTip"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"EmojiTip"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SettingsTip"];
+        //[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Biu"];
         [Friends deleteAllFriends:_context];
         [NotifyMsg deleteAllMsg:_context];
         //删除录音文件
@@ -116,8 +119,6 @@
     ABAddressBookRequestAccessWithCompletion(tmpAddressBook, ^(bool greanted, CFErrorRef error){
         NSLog(@"%@", error);
         if (greanted) {
-            _loadToast = [Toast makeToast:@"请稍候"];
-            [_loadToast loading];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 if (ABAddressBookGetAuthorizationStatus() != kABAuthorizationStatusAuthorized) {
                     return ;

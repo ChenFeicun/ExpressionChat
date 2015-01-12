@@ -33,7 +33,7 @@ static bool editingOrNot = YES;
      AVUser *user = [AVUser currentUser];
      user.mobilePhoneNumber = _phoneTextField.text;;
      [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-         NSLog(@"%@", error.localizedDescription);
+         //NSLog(@"%@", error.localizedDescription);
          if (succeeded && !error) {
              //NSLog(@"phoneNumber: %@", [AVUser currentUser].mobilePhoneNumber);
              phoneNumber = _phoneTextField.text;
@@ -70,7 +70,7 @@ static bool editingOrNot = YES;
  - (IBAction)validate:(id)sender {
      [Animation setBackgroundColorWithDark:sender];
      [AVUser verifyMobilePhone:_codeTextField.text withBlock:^(BOOL succeeded, NSError *error) {
-         NSLog(@"%@", error.localizedDescription);
+         //NSLog(@"%@", error.localizedDescription);
          if (succeeded && !error) {
              [self performSegueWithIdentifier:@"BackToSettings" sender:self];
          } else if ([error.localizedDescription isEqualToString:@"Invalid sms code."]) {

@@ -22,7 +22,7 @@
     
     [ResourceManager sharedInstance];
     
-    NSLog(@"initDocument !!!!!!");
+    //NSLog(@"initDocument !!!!!!");
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *documentsDirectory = [[fileManager URLsForDirectory:NSDocumentDirectory
                                                      inDomains:NSUserDomainMask] firstObject];
@@ -36,7 +36,8 @@
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"docInitSuccess" object:@"YES"];
                 //NSLog(@"Document open success");
             } else
-                NSLog(@"couldn’t open document at %@", url);
+                ;
+                //NSLog(@"couldn’t open document at %@", url);
         }];
     } else {
         [self.document saveToURL:url forSaveOperation:UIDocumentSaveForCreating
@@ -45,7 +46,8 @@
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"docInitSuccess" object:@"YES"];
                 //NSLog(@"Document open success");
             } else
-                NSLog(@"couldn’t create document at %@", url);
+                ;
+                //NSLog(@"couldn’t create document at %@", url);
         }];
     }
 }
@@ -86,7 +88,7 @@
 
 //接收远程消息 应用处于打开状态
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"didReceiveRemoteNotification");
+    //NSLog(@"didReceiveRemoteNotification");
     if ([UIApplication sharedApplication].applicationIconBadgeNumber == 0) {
         UILocalNotification *localNotification = [[UILocalNotification alloc] init];
         localNotification.userInfo = userInfo;
@@ -108,7 +110,7 @@
 }
 //注册失败
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"Failed!!!!!!!!!!!!!!!!! %@", error.description);
+    //NSLog(@"Failed!!!!!!!!!!!!!!!!! %@", error.description);
 }
 
 #pragma mark - 应用的生命周期
@@ -130,6 +132,12 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    //将LeanCloud表中的badge清0  就能正确显示未读消息数量
+    AVInstallation *curInstallation = [AVInstallation currentInstallation];
+    if (curInstallation) {
+        [curInstallation setObject:@0 forKey:@"badge"];
+        [curInstallation saveInBackground];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

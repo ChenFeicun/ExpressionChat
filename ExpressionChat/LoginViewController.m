@@ -56,9 +56,9 @@ static BOOL editingOrNot = YES;
 
 - (void)avosLogin:(NSTimer *)timer {
     [AVUser logInWithUsernameInBackground:_user.username password:_user.password block:^(AVUser *user, NSError *error) {
-        NSLog(@"-----%@-----", error.localizedDescription);
+        //NSLog(@"-----%@-----", error.localizedDescription);
         [_loadToast endLoading];
-        if (user) {
+        if (user && !error) {
             [self performSegueWithIdentifier:@"LoginToMain" sender:self];
         } else if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline." ] || [error.localizedDescription isEqualToString:@"似乎已断开与互联网的连接。"]) {
             //没有网络连接
@@ -73,9 +73,9 @@ static BOOL editingOrNot = YES;
                 }
             }];
         } else if ([error.localizedDescription isEqualToString:@"The request timed out."]) {
-            //用户名密码不匹配  The request timed out.
+            //The request timed out.
             [[Toast makeToast:@"登录请求超时"] show:NO];
-        } else if ([error.localizedDescription isEqualToString:@"he username and password mismatch."]){
+        } else if ([error.localizedDescription isEqualToString:@"The username and password mismatch."]){
             [Animation shakeView:_loginButton];
             [[Toast makeToast:@"用户名与密码不匹配"] show:NO];
         }

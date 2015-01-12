@@ -37,6 +37,7 @@
         //UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
         //AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute, sizeof (audioRouteOverride), &audioRouteOverride);
         //ovrd  spkr
+        
         [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&error];
         //Activate the session
         if (!error) {
@@ -100,11 +101,12 @@
 }
 
 - (void)play:(NSData*) data{
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&error];
 	//Setup the AVAudioPlayer to play the file that we just recorded.
 
-    NSLog(@"start decode");
-    NSData* o = [self decodeAmr:data];
-    NSLog(@"end decode");
+    //NSLog(@"start decode");
+    NSData *o = [self decodeAmr:data];
+    //NSLog(@"end decode");
     avPlayer = [[AVAudioPlayer alloc] initWithData:o error:&error];
     avPlayer.delegate = self;
 	[avPlayer prepareToPlay];
@@ -125,6 +127,7 @@
 }
 
 - (void) startRecord {
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryRecord withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&error];
     //Begin the recording session.
     //Error handling removed.  Please add to your own code.
     
@@ -168,12 +171,12 @@
     //will not overwrite an existing one.
     //I know this is a mess of collapsed things into 1 call.  I can break it out if need be.
     recordedTmpFile = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent: [NSString stringWithFormat: @"%.0f.%@", [NSDate timeIntervalSinceReferenceDate] * 1000.0, @"caf"]]];
-    NSLog(@"Using File called: %@",recordedTmpFile);
+    //NSLog(@"Using File called: %@",recordedTmpFile);
 
     
     //Setup the recorder to use this file and record to it.
     recorder = [[ AVAudioRecorder alloc] initWithURL:recordedTmpFile settings:recordSetting error:&error];
-    NSLog(@"1");
+    //NSLog(@"1");
     //Use the recorder to start the recording.
     //Im not sure why we set the delegate to self yet.  
     //Found this in antother example, but Im fuzzy on this still.
@@ -181,11 +184,11 @@
     //We call this to start the recording process and initialize 
     //the subsstems so that when we actually say "record" it starts right away.
     [recorder prepareToRecord];
-        NSLog(@"2");
+     //   NSLog(@"2");
     //Start the actual Recording
     recorder.meteringEnabled = YES;
     [recorder record];
-        NSLog(@"3");
+     //   NSLog(@"3");
     //There is an optional method for doing the recording for a limited time see 
     //[recorder recordForDuration:(NSTimeInterval) 10]
 }

@@ -15,7 +15,7 @@
           withTimes:10
           direction:1
        currentTimes:0
-          withDelta:5
+          withDelta:12
            andSpeed:0.04
      shakeDirection:ShakeDirectionHorizontal];
 }
