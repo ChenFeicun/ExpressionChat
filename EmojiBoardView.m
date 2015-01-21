@@ -71,9 +71,9 @@
     [emojiPageControl setCurrentPage:emojiPageControl.currentPage];
 }
 
-- (void)recordEmojiCell:(EmojiCellView *)cellView{
-    if ([self.delegate respondsToSelector:@selector(recordEmojiCell:)]) {
-        [self.delegate recordEmojiCell:cellView];
+- (void)longPressEmojiCell:(EmojiCellView *)cellView{
+    if ([self.delegate respondsToSelector:@selector(longPressEmojiCell:)]) {
+        [self.delegate longPressEmojiCell:cellView];
     }
 }
 //
@@ -125,8 +125,8 @@
 
 - (void)gestureHappened:(UILongPressGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateBegan) {
-        if ([self.delegate respondsToSelector:@selector(recordEmojiCell:)]) {
-            [self.delegate recordEmojiCell:self];
+        if ([self.delegate respondsToSelector:@selector(longPressEmojiCell:)]) {
+            [self.delegate longPressEmojiCell:self];
         }
     }
 }
@@ -158,6 +158,13 @@
     self.pointView.hidden = NO;
 }
 
+- (void)hidePointView {
+    self.pointView.hidden = YES;
+}
+
+- (BOOL)isPointViewHide {
+    return self.pointView.hidden;
+}
 @end
 
 

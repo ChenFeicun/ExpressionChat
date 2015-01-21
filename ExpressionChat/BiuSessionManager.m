@@ -8,8 +8,6 @@
 
 #import "BiuSessionManager.h"
 #import "AppDelegate.h"
-#import "Friends.h"
-#import "NotifyMsg.h"
 #import "Friends+Methods.h"
 #import "NotifyMsg+Methods.h"
 

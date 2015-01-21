@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "EmojiBoardView.h"
+#import "BDSSpeechSynthesizerDelegate.h"
+#import "OptionalView.h"
 
 @class Friends;
 
-@interface EmojiViewController : UIViewController <UIDynamicAnimatorDelegate, EmojiCellDelegate>
+@interface EmojiViewController : UIViewController <UIDynamicAnimatorDelegate, EmojiCellDelegate, BDSSpeechSynthesizerDelegate, OptionalViewDelegate>
 @property (strong, nonatomic) Friends *chatFriend;
 @end

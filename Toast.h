@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Toast : NSObject
-
+@property (nonatomic, retain) UIView *toastView;
 + (Toast *)makeToast:(NSString *)text;
 + (Toast *)makeTip;
 - (void)show:(BOOL)isCorrect;

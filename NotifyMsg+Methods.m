@@ -72,6 +72,8 @@
         msg.audiourl = [dict objectForKey:@"audioUrl"];
         msg.audioname = [dict objectForKey:@"audioName"];
         msg.audioid = [dict objectForKey:@"audioID"];
+    } else if ([msg.type integerValue] == 2) {
+        msg.ttsstring = [dict objectForKey:@"ttsString"];
     }
     
     if ([context save:nil]) {

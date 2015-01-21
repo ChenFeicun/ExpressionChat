@@ -18,9 +18,10 @@
 @property (strong, nonatomic) NSString *fromName;
 @property (strong, nonatomic) NSString *resName;
 @property (nonatomic) float resXRatio;
+@property (strong, nonatomic) NSString *ttsString;
 @property (nonatomic) NSInteger type;
 
-- (instancetype)initWithAudioID:(NSString *)audioID audioName:(NSString *)audioName audioUrl:(NSString *)audioUrl fromName:(NSString *)fromName resName:(NSString *)resName resXRatio:(float)resXRatio type:(NSInteger)type;
+- (instancetype)initWithAudioID:(NSString *)audioID audioName:(NSString *)audioName audioUrl:(NSString *)audioUrl fromName:(NSString *)fromName resName:(NSString *)resName resXRatio:(float)resXRatio type:(NSInteger)type ttsString:(NSString *)ttsString;;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithNotifyMsg:(NotifyMsg *)msg;
 - (instancetype)initWithResName:(NSString *)resName resXRatio:(float)resXRatio type:(NSInteger)type;

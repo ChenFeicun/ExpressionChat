@@ -66,7 +66,7 @@
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MainTip"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"EmojiTip"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SettingsTip"];
-        //[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Biu"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Biu"];
         [Friends deleteAllFriends:_context];
         [NotifyMsg deleteAllMsg:_context];
         //删除录音文件

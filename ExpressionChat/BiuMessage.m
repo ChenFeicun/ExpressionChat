@@ -11,7 +11,7 @@
 
 @implementation BiuMessage
 
-- (instancetype)initWithAudioID:(NSString *)audioID audioName:(NSString *)audioName audioUrl:(NSString *)audioUrl fromName:(NSString *)fromName resName:(NSString *)resName resXRatio:(float)resXRatio type:(NSInteger)type {
+- (instancetype)initWithAudioID:(NSString *)audioID audioName:(NSString *)audioName audioUrl:(NSString *)audioUrl fromName:(NSString *)fromName resName:(NSString *)resName resXRatio:(float)resXRatio type:(NSInteger)type ttsString:(NSString *)ttsString {
     if (self = [super init]) {
         _audioID = audioID;
         _audioName = audioName;
@@ -20,6 +20,7 @@
         _resName = resName;
         _resXRatio = resXRatio;
         _type = type;
+        _ttsString = ttsString;
     }
     return self;
 }
@@ -34,6 +35,8 @@
             _audioID = [dict objectForKey:@"audioID"];
             _audioName = [dict objectForKey:@"audioName"];
             _audioUrl = [dict objectForKey:@"audioUrl"];
+        } else if (_type == 2) {
+            _ttsString = [dict objectForKey:@"ttsString"];
         }
     }
     return self;
@@ -49,6 +52,8 @@
             _audioID = msg.audioid;
             _audioName = msg.audioname;
             _audioUrl = msg.audiourl;
+        } else if (_type == 2) {
+            _ttsString = msg.ttsstring;
         }
     }
     return self;

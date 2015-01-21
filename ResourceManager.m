@@ -64,6 +64,7 @@ static id instance = nil;
         NSURL *url = [self searchAmrFile:emj.emojiName];
         if (url) {
             NSData *data = [NSData dataWithContentsOfURL:url];
+            emj.soundURL = url;
             emj.isRecord = YES;
             emj.emojiData = data;
         }
@@ -94,6 +95,13 @@ static id instance = nil;
     }
 }
 
+- (void)removeSoundFileByIndex:(NSInteger)Index {
+    Emoji *emj = [self.emojiArray objectAtIndex:Index];
+    [self removeSoundFileByUrl:emj.soundURL];
+    emj.isRecord = NO;
+    emj.soundURL = nil;
+}
+
 - (NSURL *)searchAmrFile:(NSString *)emojiName {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *documentsDirectory = [[fileManager URLsForDirectory:NSDocumentDirectory
@@ -110,6 +118,14 @@ static id instance = nil;
     NSURL *documentsDirectory = [[fileManager URLsForDirectory:NSDocumentDirectory
                                                      inDomains:NSUserDomainMask] firstObject];
     NSURL *url = [[documentsDirectory URLByAppendingPathComponent:@"audio"] URLByAppendingPathComponent:[emojiName stringByAppendingString:@".amr"]];
+    [data writeToURL:url atomically:YES];
+    return url;
+}
+- (NSURL *)dataWriteToFileMp3:(NSString *)emojiName withData:(NSData *)data {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *documentsDirectory = [[fileManager URLsForDirectory:NSDocumentDirectory
+                                                     inDomains:NSUserDomainMask] firstObject];
+    NSURL *url = [[documentsDirectory URLByAppendingPathComponent:@"audio"] URLByAppendingPathComponent:[emojiName stringByAppendingString:@".mp3"]];
     [data writeToURL:url atomically:YES];
     return url;
 }

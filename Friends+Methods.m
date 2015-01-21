@@ -102,7 +102,7 @@
 }
 
 + (void)updateFriend:(Friends *)friend time:(int64_t)time unread:(BOOL)unread  inManagedObjectContext:(NSManagedObjectContext *)context {
-    //NSLog(@"%@", friend.time);
+    //NSLog(@"time: %@", friend.time);
     friend.time = [NSNumber numberWithLongLong:time];
     friend.unread = [NSNumber numberWithBool:unread];
     //NSLog(@"%@", friend.time);

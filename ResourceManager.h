@@ -17,8 +17,10 @@
 //- (NSDictionary *)readVoiceInfo;
 - (NSMutableArray *)emojiSoundInfo;
 - (void)removeAllSoundFile;
+- (void)removeSoundFileByIndex:(NSInteger)Index;
 - (void)removeSoundFileByUrl:(NSURL *)url;
 - (NSURL *)dataWriteToFile:(NSString *)emojiName withData:(NSData *)data;
+- (NSURL *)dataWriteToFileMp3:(NSString *)emojiName withData:(NSData *)data;
 //- (SystemSoundID)getSoundIdByVoicePath:(NSString *)content;
 //- (void)createSystemSoundID;
 

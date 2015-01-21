@@ -67,8 +67,8 @@
 //0 播放 1 播放完成 2出错
 - (void)sendStatus:(int)status {
     
-    if ([self.delegate respondsToSelector:@selector(RecordStatus:)]) {
-        [self.delegate RecordStatus:status];
+    if ([self.delegate respondsToSelector:@selector(recordStatus:)]) {
+        [self.delegate recordStatus:status];
     }
     
     if (status!=0) {
@@ -112,6 +112,20 @@
 	[avPlayer prepareToPlay];
     [avPlayer setVolume:1.0];
 	if(![avPlayer play]){
+        [self sendStatus:1];
+    } else {
+        [self sendStatus:0];
+    }
+}
+
+- (void)playMp3:(NSData*) data{
+    //Setup the AVAudioPlayer to play the file that we just recorded.
+    
+    avPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
+    avPlayer.delegate = self;
+    [avPlayer prepareToPlay];
+    [avPlayer setVolume:1.0];
+    if(![avPlayer play]){
         [self sendStatus:1];
     } else {
         [self sendStatus:0];

@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-//@class EmojiButton;
-//@class EmojiImgView;
 #define FACE_COUNT_ALL  74
 
 #define FACE_COUNT_ROW  3
@@ -19,6 +17,8 @@
 #define FACE_COUNT_PAGE ( FACE_COUNT_ROW * FACE_COUNT_CLU )
 
 #define EMOJI_BOARD_WIDTH [UIScreen mainScreen].bounds.size.width
+
+#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 #define FACE_ICON_SIZE (EMOJI_BOARD_WIDTH / FACE_COUNT_CLU)
 
@@ -30,7 +30,7 @@
 
 @protocol EmojiCellDelegate <NSObject>
 
-- (void)recordEmojiCell:(EmojiCellView *)cellView;
+- (void)longPressEmojiCell:(EmojiCellView *)cellView;
 
 @optional
 - (void)clickEmojiCell:(EmojiCellView *)cellView;
@@ -49,6 +49,8 @@
 @property (nonatomic, assign) id<EmojiCellDelegate> delegate;
 - (id)initWithFrame:(CGRect)frame andImgIndex:(NSString *)imgIndex;
 - (void)showPointView;
+- (void)hidePointView;
+- (BOOL)isPointViewHide;
 @end
 
 @interface Emoji : NSObject
@@ -61,6 +63,8 @@
 @property (nonatomic, strong) NSString *avosName;
 @property (nonatomic, strong) NSString *avosURL;
 @property (nonatomic, strong) NSString *avosID;
+//TTS
+@property (nonatomic, strong) NSString *ttsString;
 
 - (instancetype)initWithEmojiName:(NSString *)emojiName;
 

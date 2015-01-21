@@ -7,15 +7,14 @@
 //
 
 #import "MainViewController.h"
-#import "Friends.h"
 #import "Friends+Methods.h"
 #import "NotifyMsg+Methods.h"
 #import "AppDelegate.h"
 #import "EmojiViewController.h"
 #import "BiuSessionManager.h"
-#import "NotifyMsg.h"
 #import "Animation.h"
 #import "Toast.h"
+#import "GuideView.h"
 #import "UINavigationController+YRBackGesture.h"
 #import <AVOSCloud/AVOSCloud.h>
 
@@ -24,9 +23,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *curButton;
 @property (weak, nonatomic) IBOutlet UITableView *friendsTableView;
 //Biu用户
-//@property (strong, nonatomic) NSTimer *biuTimer;
-//@property (strong, nonatomic) CellLabel *biuLabel;
-//@property (strong, nonatomic) UITableView *friendsTableView;
+@property (strong, nonatomic) NSTimer *biuTimer;
+@property (strong, nonatomic) CellLabel *biuLabel;
+//引导
+@property (strong, nonatomic) GuideView *guideView;
+
 //数据库用
 @property (strong, nonatomic) UIManagedDocument *document;
 @property (strong, nonatomic) NSManagedObjectContext *context;
@@ -101,17 +102,31 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     _searchFriendTextField.text = @"";
+
     [self.sessionManager clearCurrentFriend];
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"MainTip"]) {
-//#warning 没考虑加Biu的情况
-        _all = [Friends allFriendsInManagedObjectContext:_context];
-        if ([_all count]) {
-            [[Toast makeTip] pageTip:@"添加好友" andCenter:@"" andBottom:@"通讯录好友"];
-        } else{
-            [[Toast makeTip] pageTip:@"添加好友" andCenter:@"您还未添加好友" andBottom:@"通讯录好友"];
+    //if (![[NSUserDefaults standardUserDefaults] boolForKey:@"MainTip"]) {
+    //第一次进来 即使有离线消息，也会在viewWillAppear之后 reload
+    _all = [Friends allFriendsInManagedObjectContext:_context];
+    if ([_all count] == 1) {
+        Friends *first = [_all firstObject];
+        if (!_guideView && [first.username isEqualToString:@"Biu"]) {
+            _guideView = [GuideView initWithArray];
+            [_guideView guideViewForView:self.view andTop:_friendsTableView.frame.origin.y andBottom:_friendsTableView.frame.origin.y + 40];
+            [_guideView noticeTextForView:self.view withText:@""];
+        } else if (_guideView) {
+            [_guideView removeAll];
         }
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MainTip"];
+    } else if (_guideView) {
+        [_guideView removeAll];
     }
+
+//            [[Toast makeTip] pageTip:@"添加好友" andCenter:@"" andBottom:@"通讯录好友"];
+//        } else {
+//            
+//            //[[Toast makeTip] pageTip:@"添加好友" andCenter:@"您还未添加好友" andBottom:@"通讯录好友"];
+//        }
+    //   [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MainTip"];
+    //}
     [self.friendsTableView reloadData];
 }
 
@@ -128,14 +143,16 @@
     self.document = self.appDelegate.document;
     self.sessionManager = [BiuSessionManager sharedInstance];
     [self documentIsReady];
+    //使 + 为白色
     [_searchFriendTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     
-//    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Biu"]) {
-//        //添加Biu好友 (写死的)
-//        [Friends addFriendWithUsername:@"Biu" andId:@"54a9f5bce4b08a3aeaece545" andTime:0 andUnread:YES inManagedObjectContext:self.context];
-//        
-//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"Biu"];
-//    }
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Biu"]) {
+        //添加Biu好友 (写死的)
+        //时间戳设到很大的值 保证Biu是在第一个 13位
+        [Friends addFriendWithUsername:@"Biu" andId:@"54a9f5bce4b08a3aeaece545" andTime:9999999999999 andUnread:YES inManagedObjectContext:self.context];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"Biu"];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -152,6 +169,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     _all = [Friends allFriendsInManagedObjectContext:_context];
     if (_all) {
+        
         return [self.all count];
     } else {
         return 0;
@@ -174,26 +192,23 @@
         //现在改成判断unread属性
         
         if ([friend.unread boolValue]) {
-//#warning 如果是Biu的话 加定时器 2s抖一下 解决
-//            if ([friend.username isEqualToString:@"Biu"]) {
-//                _biuLabel = label;
-//                _biuTimer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(biuShake) userInfo:nil repeats:YES];
-//            }
+            if ([friend.username isEqualToString:@"Biu"]) {
+                _biuLabel = label;
+                _biuTimer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(biuShake) userInfo:nil repeats:YES];
+                //[[NSRunLoop currentRunLoop] addTimer:_biuTimer forMode:NSDefaultRunLoopMode];
+            }
             [label showBang:YES];
             [Animation shakeView:label];
         } else {
-//            if ([friend.username isEqualToString:@"Biu"]) {
-//                [_biuTimer invalidate];
-//            }
             [label showBang:NO];
         }
     }
     return cell;
 }
 
-//- (void)biuShake {
-//    [Animation shakeView:_biuLabel];
-//}
+- (void)biuShake {
+    [Animation shakeView:_biuLabel];
+}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
@@ -209,6 +224,12 @@
     JZSwipeCell *cell = (JZSwipeCell*)[tableView cellForRowAtIndexPath:indexPath];
     cell.delegate = self;
     [cell triggerSwipeWithType:JZSwipeTypeNone];
+    Friends *friend = self.all[indexPath.row];
+    if ([friend.username isEqualToString:@"Biu"]) {
+        [_biuTimer invalidate];
+        _biuTimer = nil;
+    }
+    //[_guideView removeAll];
 }
 //1
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -222,8 +243,7 @@
 - (void)swipeCell:(JZSwipeCell*)cell triggeredSwipeWithType:(JZSwipeType)swipeType {
     if (swipeType != JZSwipeTypeNone) {
         NSIndexPath *indexPath = [self.friendsTableView indexPathForCell:cell];
-        if (indexPath)
-        {
+        if (indexPath) {
             Friends *friend = [_all objectAtIndex:indexPath.row];
             [NotifyMsg deleteFriendMsg:friend inManagedObjectContext:_context];
             [Friends deleteFriend:friend inManagedObjectContext:_context];

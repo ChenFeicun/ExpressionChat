@@ -13,7 +13,7 @@
 
 @protocol RecordAudioDelegate <NSObject>
 //0 播放 1 播放完成 2出错
--(void) RecordStatus:(int)status;
+-(void) recordStatus:(int)status;
 @end
 
 @interface RecordAudio : NSObject <AVAudioRecorderDelegate,AVAudioPlayerDelegate>
@@ -31,6 +31,7 @@
 -(void) startRecord;
 
 -(void) play:(NSData*) data;
+-(void)playMp3:(NSData*) data;
 -(void) stopPlay;
 +(NSTimeInterval) getAudioTime:(NSData *) data;
 - (float)getPeakPower;

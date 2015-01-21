@@ -12,7 +12,6 @@
 @interface Toast()
 
 @property (nonatomic, copy) NSString *toastLabelText;
-@property (nonatomic, retain) UIView *toastView;
 @property (nonatomic, retain) TipView *tipView;
 
 @end
