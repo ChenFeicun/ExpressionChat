@@ -57,9 +57,9 @@
 -(void)guideViewForView:(UIView *)supperView withFrame:(CGRect)frame andStepIndex:(int)stepIndex {
     UIView *topView, *bottomView, *leftView, *rightView;
     if (stepIndex == 0) {
-        topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height - 5)];
+        topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         //下方遮板
-        bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height + 40 + 5, frame.size.width, SCREEN_HEIGHT - frame.size.height - 40)];
+        bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height + 40, frame.size.width, SCREEN_HEIGHT - frame.size.height - 40)];
         //左侧遮板
         leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         //右侧遮板
@@ -69,12 +69,13 @@
         [self->guideArray insertObject:leftView atIndex:0];
         [self->guideArray insertObject:bottomView atIndex:0];
         [self->guideArray insertObject:topView atIndex:0];
- 
+
         for (UIView *view in self->guideArray) {
             view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
             [supperView addSubview:view];
         }
-
+        [self noticeTextForView:supperView andText:@"向右滑动退出引导"];
+        //withFrame:CGRectMake(0, supperView.frame.size.height / 2 - 20, SCREEN_WIDTH, 40)
     } else {
         topView = guideArray[0];
         bottomView = guideArray[1];
@@ -86,6 +87,8 @@
             bottomView.frame = CGRectMake(0, frame.origin.y + frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT - frame.origin.y - frame.size.height);
             leftView.frame = CGRectMake(0, frame.origin.y, frame.origin.x, frame.size.height);
             rightView.frame = CGRectMake(frame.origin.x + frame.size.width, frame.origin.y, SCREEN_WIDTH - frame.origin.x - frame.size.width, frame.size.height);
+            [self noticeTextForView:supperView andText:@"点击发送表情"];
+            //CGRectMake(0, frame.origin.y - 40, SCREEN_WIDTH, 40)
         } else if (stepIndex == 2) {
             [UIView animateWithDuration:0.5 animations:^{
                 topView.frame = CGRectMake(0, 0, SCREEN_WIDTH, frame.origin.y);
@@ -93,40 +96,10 @@
                 leftView.frame = CGRectMake(0, frame.origin.y, frame.origin.x, frame.size.height);
                 rightView.frame = CGRectMake(frame.origin.x + frame.size.width, frame.origin.y, SCREEN_WIDTH - frame.origin.x - frame.size.width, frame.size.height);
             }];
-
+            [self noticeTextForView:supperView andText:@"长按表情获取更多操作"];
+            //CGRectMake(0, frame.origin.y - 40, SCREEN_WIDTH, 40)
         }
     }
-
-//    if ([self->guideArray count] != 0) {
-//        [UIView animateWithDuration:0.5 animations:^{
-//            UIView *topView = guideArray[0];
-//            UIView *bottomView = guideArray[1];
-//            UIView *leftView = guideArray[2];
-//            UIView *rightView = guideArray[3];
-//            topView.frame = CGRectMake(0, 0, SCREEN_WIDTH, frame.origin.y);
-//            bottomView.frame = CGRectMake(0, frame.origin.y + frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT - frame.origin.y - frame.size.height);
-//            leftView.frame = CGRectMake(0, frame.origin.y, frame.origin.x, frame.size.height);
-//            rightView.frame = CGRectMake(frame.origin.x + frame.size.width, frame.origin.y, SCREEN_WIDTH - frame.origin.x - frame.size.width, frame.size.height);
-//        }];
-//
-//    } else {
-//        //上侧遮板
-//        UIView * topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, frame.origin.y)];
-//        //下方遮板
-//        UIView * bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.origin.y + frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT - frame.origin.y - frame.size.height)];
-//        //左侧遮板
-//        UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.origin.y, frame.origin.x, frame.size.height)];
-//        //右侧遮板
-//        UIView * rightView = [[UIView alloc] initWithFrame:CGRectMake(frame.origin.x + frame.size.width, frame.origin.y, SCREEN_WIDTH - frame.origin.x - frame.size.width, frame.size.height)];
-//        
-//        [self->guideArray insertObject:rightView atIndex:0];
-//        [self->guideArray insertObject:leftView atIndex:0];
-//        [self->guideArray insertObject:bottomView atIndex:0];
-//        [self->guideArray insertObject:topView atIndex:0];
-//
-//    }
-//    //上方遮板
-//    
 }
 
 //清楚所有遮板
@@ -138,16 +111,21 @@
     [noticeText removeFromSuperview];
 }
 
-//添加提示性文字
--(void)noticeTextForView:(UIView *)supperView withText:(NSString *)str {
-    CGRect frame = CGRectMake(0, supperView.frame.size.height / 2 - 20, supperView.frame.size.width, 40);
-    noticeText.frame = frame;
+-(void)changeNoticeText:(NSString *)text {
+    noticeText.text = text;
+}
 
+//添加提示性文字
+-(void)noticeTextForView:(UIView *)supperView andText:(NSString *)str {
+    if (noticeText) {
+        [noticeText removeFromSuperview];
+    }
+    noticeText.frame = CGRectMake(0, SCREEN_HEIGHT / 2 - 20, SCREEN_WIDTH, 40);
     noticeText.text = str;
     noticeText.textAlignment = NSTextAlignmentCenter;
     noticeText.textColor = [UIColor whiteColor];
     noticeText.numberOfLines = 0;
-    [noticeText setFont:[UIFont boldSystemFontOfSize:20]];
+    [noticeText setFont:[UIFont boldSystemFontOfSize:17]];
     
     [supperView addSubview:noticeText];
     

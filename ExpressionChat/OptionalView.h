@@ -13,6 +13,7 @@
 - (void)tapTTSButton;
 - (void)tapClearButton;
 - (void)tapCheckButton;
+- (void)tapShadowArea;
 - (void)confrimTTS:(NSString *)ttsString;
 - (void)closeTTS;
 
@@ -22,7 +23,7 @@
 @property (nonatomic) BOOL menuActive;
 @property (nonatomic) CGRect tempFrame;
 @property (nonatomic, assign) id<OptionalViewDelegate> delegate;
-@property (nonatomic, strong) UITextField *ttsEditView;
+@property (nonatomic, strong) UIView *ttsEditView;
 @property (nonatomic, strong) UIView *shadowView;
 @property (nonatomic, strong) UIView *blueView;
 @property (nonatomic, strong) UIButton *emojiView;
@@ -38,4 +39,9 @@
 -(void)disAppearOptionalView;
 -(void)hiddenPointView;
 -(void)showPointView;
+
+-(void)isRecord:(BOOL)isRecord;
+-(void)ttsBegin;
+-(void)ttsrcdEnd:(BOOL)isRecord;
+-(void)rcdBegin;
 @end

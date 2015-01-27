@@ -80,8 +80,41 @@
 }
 
 - (void)loading:(UIView *)parentView {
-    [self loadingView];
+    [self loadingView:parentView];
     [parentView addSubview:_toastView];
+}
+
+- (void)loadingView:(UIView *)parentView {
+    //UIWindow *window = [[[UIApplication sharedApplication] windows] objectAtIndex:0];
+    CGPoint center = parentView.center;
+    _toastView = [[UIView alloc] initWithFrame:parentView.frame];
+    _toastView.backgroundColor = [UIColor grayColor];
+    _toastView.alpha = 0.7;
+    
+    CGFloat TOAST_WH = parentView.frame.size.width * 3 / 7;
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(center.x - TOAST_WH / 2, center.y - TOAST_WH / 2,TOAST_WH, TOAST_WH)];
+    
+    view.backgroundColor = [UIColor blackColor];
+    view.layer.cornerRadius = 10;
+    view.clipsToBounds = YES;
+    
+    UIActivityIndicatorView *aiView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(TOAST_WH / 6, 0, TOAST_WH * 2 / 3, TOAST_WH * 2 / 3)];
+    [aiView setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    //[aiView setCenter:CGPointMake(center.x, center.y)];
+    [aiView startAnimating];
+    [view addSubview:aiView];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, TOAST_WH * 2 / 3, TOAST_WH, TOAST_WH / 3)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:17.0f];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = _toastLabelText;
+    label.textColor = [UIColor whiteColor];
+    [view addSubview:label];
+    //[aiView startAnimating];
+    //view.alpha = 0.7;
+    
+    [_toastView addSubview:view];
 }
 
 - (void)loadingView {

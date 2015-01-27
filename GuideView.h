@@ -15,6 +15,7 @@
 //添加四方遮板
 -(void) guideViewForView:(UIView *)supperView withFrame:(CGRect)frame andStepIndex:(int)stepIndex;
 //添加提示性文字
--(void) noticeTextForView:(UIView *)supperView withText:(NSString *)str;
+//-(void) noticeTextForView:(UIView *)supperView withFrame:(CGRect)frame andText:(NSString *)str textAlignment:(NSTextAlignment)alignment;
+-(void)changeNoticeText:(NSString *)text;
 -(void) removeAll;
 @end

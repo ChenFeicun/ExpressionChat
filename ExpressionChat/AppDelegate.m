@@ -61,7 +61,7 @@
     [AVOSCloud setApplicationId:@"f9usm1eb6gw2qiadlw2ylqciindz78zvxe68psg66fkpz8ww"
                       clientKey:@"giq92vh6f4mnfoy5vfxkfd6t00dyjpvxe9kw74g0r0gizlke"];
     //开启调试日志
-    //setenv("LOG_CURL", "YES", 0);
+    setenv("LOG_CURL", "YES", 0);
     //图标上的数字 通过推送推过来的 需要在服务器端做增加
     
     //推送过来的消息在这里 应用未启动
@@ -145,7 +145,8 @@
     AVUser *user = [AVUser currentUser];
     if (!user.mobilePhoneVerified) {
         if (user.mobilePhoneNumber) {
-            user.mobilePhoneNumber = (NSString *)[NSNull null];
+            [user removeObjectForKey:@"mobilePhoneNumber"];
+            //user.mobilePhoneNumber = (NSString *)[NSNull null];
             [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 
             }];

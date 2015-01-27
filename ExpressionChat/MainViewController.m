@@ -26,7 +26,7 @@
 @property (strong, nonatomic) NSTimer *biuTimer;
 @property (strong, nonatomic) CellLabel *biuLabel;
 //引导
-@property (strong, nonatomic) GuideView *guideView;
+//@property (strong, nonatomic) GuideView *guideView;
 
 //数据库用
 @property (strong, nonatomic) UIManagedDocument *document;
@@ -107,19 +107,20 @@
     //if (![[NSUserDefaults standardUserDefaults] boolForKey:@"MainTip"]) {
     //第一次进来 即使有离线消息，也会在viewWillAppear之后 reload
     _all = [Friends allFriendsInManagedObjectContext:_context];
-    if ([_all count] == 1) {
-        Friends *first = [_all firstObject];
-        if (!_guideView && [first.username isEqualToString:@"Biu"]) {
-            _guideView = [GuideView initWithArray];
-            [_guideView guideViewForView:self.view andTop:_friendsTableView.frame.origin.y andBottom:_friendsTableView.frame.origin.y + 40];
-            [_guideView noticeTextForView:self.view withText:@""];
-        } else if (_guideView) {
-            [_guideView removeAll];
-        }
-    } else if (_guideView) {
-        [_guideView removeAll];
-    }
-
+    
+//    if ([_all count] == 1) {
+//        Friends *first = [_all firstObject];
+//        if (!_guideView && [first.username isEqualToString:@"Biu"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"Biu"]) {
+//            _guideView = [GuideView initWithArray];
+//            [_guideView guideViewForView:self.view andTop:_friendsTableView.frame.origin.y andBottom:_friendsTableView.frame.origin.y + 40];
+//            //[_guideView noticeTextForView:self.view withText:@""];
+//        } else if (_guideView) {
+//            [_guideView removeAll];
+//        }
+//    } else if (_guideView) {
+//        [_guideView removeAll];
+//    }
+    
 //            [[Toast makeTip] pageTip:@"添加好友" andCenter:@"" andBottom:@"通讯录好友"];
 //        } else {
 //            
@@ -128,13 +129,14 @@
     //   [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MainTip"];
     //}
     [self.friendsTableView reloadData];
+#warning 原本是Biu的位置还在抖
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     //[self initTableView];
-    
+       
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
     [self.navigationController setEnableBackGesture:YES];
     self.curUser = [AVUser currentUser];
@@ -150,7 +152,6 @@
         //添加Biu好友 (写死的)
         //时间戳设到很大的值 保证Biu是在第一个 13位
         [Friends addFriendWithUsername:@"Biu" andId:@"54a9f5bce4b08a3aeaece545" andTime:9999999999999 andUnread:YES inManagedObjectContext:self.context];
-        
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"Biu"];
     }
 }

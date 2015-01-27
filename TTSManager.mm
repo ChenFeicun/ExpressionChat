@@ -69,9 +69,5 @@ static id instance = nil;
     [self.synthesizer setParamForKey:BDS_PARAM_AUDIO_RATE value:BDS_AUDIO_BITRATE_MP3_24K];
     //[self.synthesizer setAudioSessionCategory:AVAudioSessionCategoryPlayback];
 }
-- (void)synthesizerNewDataArrived:(BDSSpeechSynthesizer *)speechSynthesizer data:(NSData *)newData isLastData:(BOOL)lastDataFlag
-{
-    NSLog(@"123");
-    
-}
+
 @end

@@ -20,9 +20,7 @@
 
 static BOOL editingOrNot = YES;
 
-- (id)initWithOriginalFrame:(CGRect)frame
-{
-    
+- (id)initWithOriginalFrame:(CGRect)frame {
     CGRect maxFrame = CGRectMake(0, 0, EMOJI_BOARD_WIDTH, SCREEN_HEIGHT);
     self = [super initWithFrame:maxFrame];
     if (self) {
@@ -37,40 +35,43 @@ static BOOL editingOrNot = YES;
         
         self.menuActive = NO;
         
-        self.ttsEditView = [[UITextField alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT/2, EMOJI_BOARD_WIDTH, 30)];
-        self.ttsEditView.backgroundColor = [UIColor whiteColor];
-        self.ttsEditView.textAlignment = NSTextAlignmentCenter;
-        self.ttsEditView.font = [UIFont systemFontOfSize:14];
-        self.ttsEditView.placeholder = @"请输入需要转化的文字";
+        self.ttsEditView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT / 2 - (40 * 3 / 2), EMOJI_BOARD_WIDTH, 40 * 3)];
         self.ttsEditView.hidden = YES;
-        self.ttsEditView.delegate = self;
-        self.ttsEditView.returnKeyType = UIReturnKeyDone;
         
-        UIColor *biuBlue = [[UIColor alloc] initWithRed:0.0283401 green:0.781377 blue:0.854251 alpha:1];
-        UIButton *confrimButton = [[UIButton alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT/2+30, EMOJI_BOARD_WIDTH, 30)];
+        UITextField *editView = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, EMOJI_BOARD_WIDTH, 40)];
+        [Animation setBackgroundColorWithLight:editView];
+        editView.textAlignment = NSTextAlignmentCenter;
+        editView.font = [UIFont boldSystemFontOfSize:17];
+        editView.placeholder = @"请输入需要转化的文字";
+        editView.delegate = self;
+        editView.returnKeyType = UIReturnKeyDone;
+        editView.tag = 97;
+   
+        UIButton *confrimButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 40, EMOJI_BOARD_WIDTH, 40)];
         [confrimButton setTitle:@"确认" forState:UIControlStateNormal];
         [confrimButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [confrimButton setBackgroundColor:biuBlue];
+        [Animation setBackgroundColorWithDark:confrimButton];
         [confrimButton addTarget:self action:@selector(saveTTSString:) forControlEvents:UIControlEventTouchUpInside];
-        confrimButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-        confrimButton.hidden = YES;
+        confrimButton.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         confrimButton.tag = 99;
+        [confrimButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         
-        UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT/2+60, EMOJI_BOARD_WIDTH, 30)];
+        UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 80, EMOJI_BOARD_WIDTH, 40)];
         [closeButton setTitle:@"取消" forState:UIControlStateNormal];
         [closeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [closeButton setBackgroundColor:biuBlue];
+        [Animation setBackgroundColorWithDark:closeButton];
         [closeButton addTarget:self action:@selector(UndoTTSString:) forControlEvents:UIControlEventTouchUpInside];
-        closeButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-        closeButton.hidden = YES;
+        closeButton.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         closeButton.tag = 98;
         
+        [self.ttsEditView addSubview:editView];
+        [self.ttsEditView addSubview:closeButton];
+        [self.ttsEditView addSubview:confrimButton];
+        
         [self addSubview:self.ttsEditView];
-        [self addSubview:closeButton];
-        [self addSubview:confrimButton];
         
         self.blueView = [[UIView alloc] initWithFrame:frame];
-        self.blueView.backgroundColor = biuBlue;
+        [Animation setBackgroundColorWithDark:self.blueView];
         [self addSubview:self.blueView];
         
         CGRect smallFrame = CGRectMake(PADDING_SIZE,PADDING_SIZE, FACE_ICON_SIZE - PADDING_SIZE * 2, FACE_ICON_SIZE - PADDING_SIZE * 2);
@@ -109,7 +110,7 @@ static BOOL editingOrNot = YES;
     return self;
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self saveTTSString:(UIButton*)[self viewWithTag:99]];
     return YES;
 }
@@ -117,8 +118,6 @@ static BOOL editingOrNot = YES;
 - (void)handleKeyboardWillShow:(NSNotification *)notification {
     if (editingOrNot) {
         [Animation moveViewForEditing:self.ttsEditView orNot:editingOrNot];
-        [Animation moveViewForEditing:[self viewWithTag:98] orNot:editingOrNot];
-        [Animation moveViewForEditing:[self viewWithTag:99] orNot:editingOrNot];
         editingOrNot = !editingOrNot;
     }
     
@@ -127,14 +126,12 @@ static BOOL editingOrNot = YES;
 - (void)handleKeyboardWillHide:(NSNotification *)notification {
     if (!editingOrNot) {
         [Animation moveViewForEditing:self.ttsEditView orNot:editingOrNot];
-        [Animation moveViewForEditing:[self viewWithTag:98] orNot:editingOrNot];
-        [Animation moveViewForEditing:[self viewWithTag:99] orNot:editingOrNot];
         editingOrNot = !editingOrNot;
     }
 }
 
 
--(void)showOptionView:(NSString *)emojiIndex frame:(CGRect)frame isHidden:(BOOL)isHidden
+- (void)showOptionView:(NSString *)emojiIndex frame:(CGRect)frame isHidden:(BOOL)isHidden
 {
     CGFloat correctX = frame.origin.x;
     while (correctX>=EMOJI_BOARD_WIDTH) {
@@ -146,10 +143,6 @@ static BOOL editingOrNot = YES;
     self.pointView.hidden = isHidden;
     
     [self.emojiView setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"emoji_%@.png", emojiIndex]] forState:UIControlStateNormal];
-    //self.emojiView.image = [UIImage imageNamed:[NSString stringWithFormat:@"emoji_%@.png", emojiIndex]];
-    //UITapGestureRecognizer *emojiTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapEmojiView:)];
-    //emojiTap.delegate = self;
-    //[self.emojiView addGestureRecognizer:emojiTap];
     
     CGRect longFrame = CGRectMake(0, frame.origin.y, EMOJI_BOARD_WIDTH, frame.size.height);
     int multiple = round(frame.origin.x/frame.size.width);
@@ -187,7 +180,7 @@ static BOOL editingOrNot = YES;
         ttsFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple - 3), PADDING_SIZE, imgWidth, imgWidth);
         checkFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple - 2), PADDING_SIZE, imgWidth, imgWidth);
     }
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         self.blueView.frame = longFrame;
         self.emojiView.frame = emojiFrame;
         self.pointView.frame = pointFrame;
@@ -197,10 +190,11 @@ static BOOL editingOrNot = YES;
         self.clearView.frame = clearFrame;
     }];
     self.menuActive = YES;
+    [self isRecord:!isHidden];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
-{  //string就是此时输入的那个字符textField就是此时正在输入的那个输入框返回YES就是可以改变输入框的值NO相反
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    //string就是此时输入的那个字符textField就是此时正在输入的那个输入框返回YES就是可以改变输入框的值NO相反
 
     NSString *toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string]; //得到输入框的内容
     
@@ -224,80 +218,80 @@ static BOOL editingOrNot = YES;
 - (void)tapShadowView:(UITapGestureRecognizer *)sender {
     if (self.menuActive) {
         [self disAppearOptionalView];
+        [self.delegate tapShadowArea];
     }
 }
+
 - (void)tapEmojiView:(UIButton *)sender {
     if (self.menuActive) {
         [self disAppearOptionalView];
+        [self.delegate tapShadowArea];
     }
 }
+
 - (void)tapRcdView:(UIButton *)sender {
     if (self.menuActive) {
         self.menuActive = NO;
         [self.delegate tapRcdButton];
     }
 }
+
 - (void)tapTtsView:(UIButton *)sender {
     if (self.menuActive) {
         self.menuActive = NO;
         [self.delegate tapTTSButton];
     }
 }
+
 - (void)tapClearView:(UIButton *)sender {
     if (self.menuActive) {
         self.menuActive = NO;
         [self.delegate tapClearButton];
     }
 }
+
 - (void)tapCheckView:(UIButton *)sender {
     if (self.menuActive) {
         self.menuActive = NO;
         [self.delegate tapCheckButton];
     }
 }
--(void)saveTTSString:(UIButton *)sender
-{
-    [self.ttsEditView resignFirstResponder];
-    [self.delegate confrimTTS:self.ttsEditView.text];
+
+- (void)saveTTSString:(UIButton *)sender {
+    [(UITextField *)[self.ttsEditView viewWithTag:97] resignFirstResponder];
+    [self.delegate confrimTTS:((UITextField *)[self.ttsEditView viewWithTag:97]).text];
 }
--(void)UndoTTSString:(UIButton *)sender
-{
-    [self.ttsEditView resignFirstResponder];
+
+- (void)UndoTTSString:(UIButton *)sender {
+    [(UITextField *)[self.ttsEditView viewWithTag:97] resignFirstResponder];
     [self.delegate closeTTS];
     [self hiddenttsEditView];
 }
 
--(void)hiddenttsEditView
-{
+- (void)hiddenttsEditView {
     self.ttsEditView.hidden = YES;
-    [self viewWithTag:98].hidden = YES;
-    [self viewWithTag:99].hidden = YES;
 }
 
--(void)showttsEditView:(NSString *)ttsString
-{
-    self.ttsEditView.text = ttsString;
+- (void)showttsEditView:(NSString *)ttsString {
+    ((UITextField *)[self.ttsEditView viewWithTag:97]).text = ttsString;
     self.ttsEditView.hidden = NO;
-    [self viewWithTag:98].hidden = NO;
-    [self viewWithTag:99].hidden = NO;
 }
--(void)hiddenPointView
-{
+
+- (void)hiddenPointView {
     self.pointView.hidden = YES;
 }
 
--(void)showPointView
-{
+- (void)showPointView {
     self.pointView.hidden = NO;
 }
 
-- (void)disAppearOptionalView{
+- (void)disAppearOptionalView {
     self.menuActive = NO;
     CGFloat imgWidth = FACE_ICON_SIZE - PADDING_SIZE * 2;
     CGFloat pointSize = 5 * RATIO;
     CGRect pointFrame = CGRectMake(0, FACE_ICON_SIZE - pointSize, pointSize, pointSize);
     CGRect zeroFrame = CGRectMake(PADDING_SIZE, PADDING_SIZE, imgWidth, imgWidth);
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         self.blueView.frame = self.tempFrame;
         self.emojiView.frame = zeroFrame;
         self.pointView.frame = pointFrame;
@@ -309,4 +303,35 @@ static BOOL editingOrNot = YES;
         [self removeFromSuperview];
     }];
 }
+
+- (void)isRecord:(BOOL)isRecord {
+    if (isRecord) {
+        self.clearView.enabled = YES;
+        self.checkView.enabled = YES;
+    }else{
+        self.clearView.enabled = NO;
+        self.checkView.enabled = NO;
+    }
+}
+
+- (void)ttsBegin {
+    self.ttsView.enabled = YES;
+    self.rcdView.enabled = NO;
+    self.clearView.enabled = NO;
+    self.checkView.enabled = NO;
+}
+
+- (void)ttsrcdEnd:(BOOL)isRecord {
+    self.ttsView.enabled = YES;
+    self.rcdView.enabled = YES;
+    [self isRecord:isRecord];
+}
+
+- (void)rcdBegin {
+    self.rcdView.enabled = YES;
+    self.ttsView.enabled = NO;
+    self.clearView.enabled = NO;
+    self.checkView.enabled = NO;
+}
+
 @end

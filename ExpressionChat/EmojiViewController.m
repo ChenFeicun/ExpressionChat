@@ -26,7 +26,7 @@
 
 
 
-@interface EmojiViewController () <RecordAudioDelegate> {
+@interface EmojiViewController () <RecordAudioDelegate, UIAlertViewDelegate> {
     RecordAudio *recordAudio;
     NSData *curAudio;
     BOOL isRecording;
@@ -59,12 +59,16 @@
 @property (nonatomic, strong) GuideView *guideView;
 @property (nonatomic) BOOL firstGuide;
 @property (nonatomic) BOOL secondGuide;
+@property (nonatomic) BOOL thirdGuide;
+
 //长按出现的View
 @property (strong, nonatomic) NSMutableArray *ttsArray;
 @property (strong, nonatomic) TTSManager *mySynthesizer;
 @property (strong, nonatomic) TTSManager *yourSynthesizer;
 @property (strong, nonatomic) Toast *loadToast;
 @property (strong, nonatomic) OptionalView *optionalView;
+
+@property (nonatomic, strong) NSTimer *ttsTimer;
 @end
 
 static double startRecordTime=0;
@@ -141,18 +145,18 @@ static CGFloat VIEW_HEIGHT;
 - (IBAction)dropOfflineMsg:(id)sender {
     //将Friend表的unread置0
     [Friends updateUnreadByName:_chatFriend.username inManagedObjectContext:_context];
-    if ([_chatFriend.username isEqualToString:@"Biu"]) {
+    if ([_chatFriend.username isEqualToString:@"Biu"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"EmojiTip"]) {
         [_timer invalidate];
         _timer = nil;
         //掉下一个特定的消息
         [self dropUpOrDown:DOWN withResXRatio:0.5f andResName:@"emoji_01.png"];
-        NSURL* guideUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"guide_01" ofType:@"mp3"]];
+        NSURL* guideUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"step0" ofType:@"mp3"]];
         avPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:guideUrl error:nil];
         [avPlayer prepareToPlay];
         [avPlayer play];
         [_guideView guideViewForView:self.view withFrame:CGRectMake(0, _emojiBoard.frame.origin.y, FACE_ICON_SIZE, FACE_ICON_SIZE)  andStepIndex:1];
         _firstGuide = true;
-        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"EmojiTip"];
     }
     if ([_msgArray count]) {
         [_timer invalidate];
@@ -161,7 +165,8 @@ static CGFloat VIEW_HEIGHT;
             //下载文件
             BiuMessage *biuMsg = [[BiuMessage alloc] initWithNotifyMsg:msg];
             if ([msg.type isEqualToString:@"0"]) {
-                [self dropEmoji:biuMsg upOrDown:DOWN];
+                [self dropUpOrDown:DOWN withResXRatio:biuMsg.resXRatio andResName:biuMsg.resName];
+                //[self dropEmoji:biuMsg upOrDown:DOWN];
             } else if ([msg.type isEqualToString:@"1"]) {
                 if (msg.audioid) {
                     [AVFile getFileWithObjectId:msg.audioid withBlock:^(AVFile *file, NSError *error) {
@@ -171,7 +176,8 @@ static CGFloat VIEW_HEIGHT;
                                 //NSLog(@"%@", error.localizedDescription);
                                 if (data && !error) {
                                     [recordAudio play:data];
-                                    [self dropEmoji:biuMsg upOrDown:DOWN];
+                                    [self dropUpOrDown:DOWN withResXRatio:biuMsg.resXRatio andResName:biuMsg.resName];
+                                    //[self dropEmoji:biuMsg upOrDown:DOWN];
                                     [file deleteInBackground];
                                     [file clearCachedFile];
                                 }
@@ -179,7 +185,7 @@ static CGFloat VIEW_HEIGHT;
                         }
                     }];
                 }
-            } else if([msg.type isEqualToString:@"2"]) {
+            } else if ([msg.type isEqualToString:@"2"]) {
                 NSString *ttsString = biuMsg.ttsString;
                 [_ttsArray addObject:biuMsg];
                 [_yourSynthesizer synthesize:ttsString];
@@ -202,7 +208,8 @@ static CGFloat VIEW_HEIGHT;
 
     BiuMessage *biuMsg = [[BiuMessage alloc] initWithDictionary:dict];
     if ([type isEqualToString:@"0"]) {
-        [self dropEmoji:biuMsg upOrDown:DOWN];
+        [self dropUpOrDown:DOWN withResXRatio:biuMsg.resXRatio andResName:biuMsg.resName];
+        //[self dropEmoji:biuMsg upOrDown:DOWN];
     } else if ([type isEqualToString:@"1"]) {
         //NSString *fileUrl = [dict objectForKey:@"audioUrl"];
         NSString *fileId = [dict objectForKey:@"audioID"];
@@ -213,20 +220,22 @@ static CGFloat VIEW_HEIGHT;
                     [dataFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                         if (data && !error) {
                             [recordAudio play:data];
-                            [self dropEmoji:biuMsg upOrDown:DOWN];
+                            [self dropUpOrDown:DOWN withResXRatio:biuMsg.resXRatio andResName:biuMsg.resName];
+                            //[self dropEmoji:biuMsg upOrDown:DOWN];
                             [file deleteInBackground];
                             [file clearCachedFile];
                         }
                     }];
                 }
             }];
-        } else if ([type isEqualToString:@"2"]) {
-            //NSString *fileUrl = [dict objectForKey:@"audioUrl"];
-            NSString *ttsString = biuMsg.ttsString;
-            [_ttsArray addObject:biuMsg];
-            [_yourSynthesizer synthesize:ttsString];
         }
+    } else if ([type isEqualToString:@"2"]) {
+        //NSString *fileUrl = [dict objectForKey:@"audioUrl"];
+        NSString *ttsString = biuMsg.ttsString;
+        [_ttsArray addObject:biuMsg];
+        [_yourSynthesizer synthesize:ttsString];
     }
+
 }
 
 - (void)dropUpOrDown:(BOOL)isUp withResXRatio:(float)x andResName:(NSString *)resName {
@@ -269,27 +278,17 @@ static CGFloat VIEW_HEIGHT;
 
 - (void)dropEmoji:(BiuMessage *)biuMsg upOrDown:(BOOL)isUp{
     [self dropUpOrDown:isUp withResXRatio:biuMsg.resXRatio andResName:biuMsg.resName];
-    if (biuMsg.type == 1) {
+    if (biuMsg.type == 1 || biuMsg.type == 2) {
         if (isUp == UP) {
             NSString *str = [biuMsg.resName substringFromIndex:biuMsg.resName.length - 2];
             Emoji *emj = [[ResourceManager sharedInstance].emojiArray objectAtIndex:[str integerValue] - 1];
             if (emj.isRecord) {
-                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"]) {
-                    //[recordAudio playWithNoSound:emj.emojiData];
-                } else {
-                    [recordAudio play:emj.emojiData];
-                }
-            }
-        }
-    } else if (biuMsg.type == 2){
-        if (isUp == UP) {
-            NSString *str = [biuMsg.resName substringFromIndex:biuMsg.resName.length - 2];
-            Emoji *emj = [[ResourceManager sharedInstance].emojiArray objectAtIndex:[str integerValue] - 1];
-            if (emj.isRecord) {
-                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"]) {
-                    //[recordAudio playWithNoSound:emj.emojiData];
-                } else {
-                    [recordAudio playMp3:emj.emojiData];
+                if (![[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"]) {
+                    if (biuMsg.type == 1) {
+                        [recordAudio play:emj.emojiData];
+                    } else {
+                        [recordAudio playMp3:emj.emojiData];
+                    }
                 }
             }
         }
@@ -332,6 +331,19 @@ static CGFloat VIEW_HEIGHT;
 }
 
 #pragma mark - 表情键盘的点击
+- (void)firstStepFinshed:(NSTimer *)timer {
+    [timer invalidate];
+    [_guideView guideViewForView:self.view withFrame:CGRectMake(FACE_ICON_SIZE * 3, _emojiBoard.frame.origin.y, FACE_ICON_SIZE, FACE_ICON_SIZE) andStepIndex:2];
+    _secondGuide = true;
+
+    Emoji *emj = [[ResourceManager sharedInstance].emojiArray objectAtIndex:5];
+    [self didSelectEmoji:emj passingXRatio:0.5 andType:0];
+    NSURL* guideUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"step1" ofType:@"mp3"]];
+    avPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:guideUrl error:nil];
+    [avPlayer prepareToPlay];
+    [avPlayer play];
+}
+
 - (void)clickEmojiCell:(EmojiCellView *)cellView {
     NSInteger type;
     //NSString *str = [NSString stringWithFormat:@"%02li",(long)indexPath.row + 1];
@@ -341,43 +353,39 @@ static CGFloat VIEW_HEIGHT;
     
     //引导用户点击表情
     if (_firstGuide) {
-        [_guideView guideViewForView:self.view withFrame:CGRectMake(FACE_ICON_SIZE * 3, _emojiBoard.frame.origin.y, FACE_ICON_SIZE, FACE_ICON_SIZE) andStepIndex:2];
         _firstGuide = false;
-        _secondGuide = true;
         [avPlayer stop];
-        NSURL* guideUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"guide_02" ofType:@"mp3"]];
-        avPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:guideUrl error:nil];
-        [avPlayer prepareToPlay];
-        [avPlayer play];
-    }
-    
-    Emoji *emj = [[ResourceManager sharedInstance].emojiArray objectAtIndex:([cellView.emojiIndex integerValue] - 1)];
-    if (emj.isRecord) {
-        NSArray *array = [[emj.soundURL path] componentsSeparatedByString:@"."];
-        if ([[array lastObject]  isEqual: @"mp3"]) {
-            type = 2;
-            [self didSelectEmoji:emj passingXRatio:resXRatio andType:type];
-        }else if ([[array lastObject]  isEqual: @"amr"]){
-            type = 1;
-            [self preDrop:emj passingXRatio:resXRatio andType:type];
-            AVFile *file = [AVFile fileWithName:emj.avosName data:emj.emojiData];
-            [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                //NSLog(@"%@", error.localizedDescription);
-                if (succeeded && !error) {
-                    emj.avosURL = file.url;
-                    emj.avosID = file.objectId;
-                    //使本地可实时显示表情声音 不必等待上传结束
-                    [self didSelectEmoji:emj passingXRatio:resXRatio andType:type];
-                    [file clearCachedFile];
-                } else if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]) {
-                    [[Toast makeToast:@"网络连接异常"] show:NO];
-                }
-            }];
-        }
+        [NSTimer scheduledTimerWithTimeInterval:1.5f target:self selector:@selector(firstStepFinshed:) userInfo:nil repeats:NO];
     } else {
-        type = 0;
-        [self preDrop:emj passingXRatio:resXRatio andType:type];
-        [self didSelectEmoji:emj passingXRatio:resXRatio andType:type];
+        Emoji *emj = [[ResourceManager sharedInstance].emojiArray objectAtIndex:([cellView.emojiIndex integerValue] - 1)];
+        if (emj.isRecord) {
+            NSArray *array = [[emj.soundURL path] componentsSeparatedByString:@"."];
+            if ([[array lastObject]  isEqual: @"mp3"]) {
+                type = 2;
+                [self preDrop:emj passingXRatio:resXRatio andType:type];
+                [self didSelectEmoji:emj passingXRatio:resXRatio andType:type];
+            }else if ([[array lastObject]  isEqual: @"amr"]){
+                type = 1;
+                [self preDrop:emj passingXRatio:resXRatio andType:type];
+                AVFile *file = [AVFile fileWithName:emj.avosName data:emj.emojiData];
+                [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    //NSLog(@"%@", error.localizedDescription);
+                    if (succeeded && !error) {
+                        emj.avosURL = file.url;
+                        emj.avosID = file.objectId;
+                        //使本地可实时显示表情声音 不必等待上传结束
+                        [self didSelectEmoji:emj passingXRatio:resXRatio andType:type];
+                        [file clearCachedFile];
+                    } else if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]) {
+                        [[Toast makeToast:@"网络连接异常"] show:NO];
+                    }
+                }];
+            }
+        } else {
+            type = 0;
+            [self preDrop:emj passingXRatio:resXRatio andType:type];
+            [self didSelectEmoji:emj passingXRatio:resXRatio andType:type];
+        }
     }
 }
 
@@ -385,12 +393,27 @@ static CGFloat VIEW_HEIGHT;
 - (void)longPressEmojiCell:(EmojiCellView *)cellView {
     if (_secondGuide) {
         _secondGuide = false;
+        _thirdGuide = true;
+        [_guideView changeNoticeText:@"录音 TTS 试听 删除"];
     }
     _emojiCellView = cellView;
     [self.view addSubview:self.optionalView];
     CGFloat emojiY = VIEW_HEIGHT - VIEW_WIDTH / 7 * 3 - 20 + cellView.frame.origin.y;
     CGRect emojiFrame = CGRectMake(cellView.frame.origin.x, emojiY, cellView.frame.size.width, cellView.frame.size.height);
     [_optionalView showOptionView:cellView.emojiIndex frame:emojiFrame isHidden:[cellView isPointViewHide]];
+}
+
+- (void)tapShadowArea {
+    if (_thirdGuide) {
+        _thirdGuide = false;
+        [_guideView removeAll];
+        [avPlayer stop];
+        [self dropUpOrDown:DOWN withResXRatio:0.5f andResName:@"emoji_12.png"];
+        NSURL* guideUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"step2" ofType:@"mp3"]];
+        avPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:guideUrl error:nil];
+        [avPlayer prepareToPlay];
+        [avPlayer play];
+    }
 }
 
 - (void)tapTTSButton {
@@ -400,15 +423,40 @@ static CGFloat VIEW_HEIGHT;
 }
 
 - (void)tapRcdButton {
-    _tempEmoji = [[ResourceManager sharedInstance].emojiArray objectAtIndex:[_emojiCellView.emojiIndex integerValue] - 1];
-    //录音时间2s
-    _recordTimer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(endRecord) userInfo:nil repeats:NO];
-    [recordAudio startRecord];
-    _recordView.hidden = NO;
-    startRecordTime = [NSDate timeIntervalSinceReferenceDate];
-    curAudio=nil;
-    _powerTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(recordImgViewChangedByPower) userInfo:nil repeats:YES];
-    [self.optionalView showPointView];
+    //判读是否允许访问麦克风
+    AVAudioSession *avSession = [AVAudioSession sharedInstance];
+    if ([avSession respondsToSelector:@selector(requestRecordPermission:)]) {
+        [avSession requestRecordPermission:^(BOOL available) {
+            if (available) {
+                //completionHandler
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    _tempEmoji = [[ResourceManager sharedInstance].emojiArray objectAtIndex:[_emojiCellView.emojiIndex integerValue] - 1];
+                    //录音时间2s
+                    _recordTimer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(endRecord) userInfo:nil repeats:NO];
+                    [recordAudio startRecord];
+                    _recordView.hidden = NO;
+                    startRecordTime = [NSDate timeIntervalSinceReferenceDate];
+                    curAudio=nil;
+                    _powerTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(recordImgViewChangedByPower) userInfo:nil repeats:YES];
+                    [self.optionalView showPointView];
+                });
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无法录音" message:@"请在iPhone的“设置-隐私-麦克风”选项中，允许Biu访问您的麦克风。" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+                    [alert show];
+                });
+            }
+        }];
+        
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    NSLog(@"DismissBtn");
+    if (buttonIndex == 0) {
+        [_optionalView disAppearOptionalView];
+    }
 }
 
 - (void)tapCheckButton {
@@ -439,16 +487,27 @@ static CGFloat VIEW_HEIGHT;
     if (ttsString.length > 12) {
         _loadToast = [Toast makeToast:@"长度请保持在12以内"];
         [_loadToast show:NO];
-    }else if (ttsString.length == 0){
-        //doNothing
-    }else{
+    } else if (ttsString.length == 0){
+        _loadToast = [Toast makeToast:@"请输入文字"];
+        [_loadToast show:NO];
+        [Animation shakeView:[_optionalView.ttsEditView viewWithTag:97]];
+    } else {
         [_mySynthesizer synthesize:ttsString];
         _tempEmoji.ttsString = ttsString;
+        [[ResourceManager sharedInstance] saveEmojiTTSString:_tempEmoji];
         //提示信息：等待回复；
         _loadToast = [Toast makeToast:@"请稍候"];
         [_loadToast loading];
         _loadToast.toastView.backgroundColor = [UIColor clearColor];
+        _ttsTimer = [NSTimer scheduledTimerWithTimeInterval:6.0f target:self selector:@selector(lostTTS) userInfo:nil repeats:NO];
     }
+}
+
+- (void)lostTTS {
+    [_loadToast endLoading];
+    _loadToast = [Toast makeToast:@"网络连接超时"];
+    [_loadToast show:NO];
+    self.optionalView.menuActive = YES;
 }
 
 - (void)closeTTS {
@@ -458,34 +517,45 @@ static CGFloat VIEW_HEIGHT;
 -(void)synthesizerNewDataArrived:(BDSSpeechSynthesizer *)speechSynthesizer data:(NSData *)newData isLastData:(BOOL)lastDataFlag {
     curAudio = newData;
     NSString *IDF = [(NSObject*)speechSynthesizer valueForKey:@"params"];
-    if ([IDF  isEqual: @"me"]){
-        if (curAudio) {
-            [_emojiCellView showPointView];
-            _tempEmoji = [[ResourceManager sharedInstance].emojiArray objectAtIndex:[_emojiCellView.emojiIndex integerValue] - 1];
-            _tempEmoji.isRecord = YES;
-            _tempEmoji.emojiData = curAudio;
-            _tempEmoji.soundURL = [[ResourceManager sharedInstance] dataWriteToFileMp3:_tempEmoji.emojiName withData:_tempEmoji.emojiData];
-            
-            //提示信息：得到回复；
-            [_loadToast endLoading];
-            [self.optionalView hiddenttsEditView];
-            [self.optionalView showPointView];
+    if ([IDF isEqual: @"me"]){
+        if ([_ttsTimer isValid]) {
+            [_ttsTimer invalidate];
+            _ttsTimer = nil;
+            if (curAudio) {
+                [_emojiCellView showPointView];
+                _tempEmoji = [[ResourceManager sharedInstance].emojiArray objectAtIndex:[_emojiCellView.emojiIndex integerValue] - 1];
+                _tempEmoji.isRecord = YES;
+                _tempEmoji.emojiData = curAudio;
+                _tempEmoji.soundURL = [[ResourceManager sharedInstance] dataWriteToFileMp3:_tempEmoji.emojiName withData:_tempEmoji.emojiData];
+                
+                //提示信息：得到回复；
+                [_loadToast endLoading];
+                [self.optionalView ttsrcdEnd:_tempEmoji.isRecord];
+                [self.optionalView hiddenttsEditView];
+                [self.optionalView showPointView];
+            }
         }
         self.optionalView.menuActive = YES;
-    }else if ([IDF  isEqual: @"you"]){
+    }else if ([IDF isEqual: @"you"]){
         NSObject *newDis = [(NSObject*)speechSynthesizer valueForKey:@"requestDispatcher"];
         NSString *emojiString = [(NSObject*)newDis valueForKey:@"textToSynthesize"];
-        [self removeFormTTSArray:emojiString ttsdata:newData];
+        [self removeFormTTSArray:emojiString ttsData:newData];
         //NSLog(@"%@",emojiString);
     }
     //NSLog(@"合成完成");
 }
 
-- (void)removeFormTTSArray:(NSString *)ttsString ttsdata:(NSData *)ttsdata {
+//不会进入这个方法
+//- (void)synthesizerErrorOccurred:(BDSSpeechSynthesizer *)speechSynthesizer error:(NSError *)error {
+//    NSLog(@"%@", error.localizedDescription);
+//    NSLog(@"%@", error);
+//}
+
+- (void)removeFormTTSArray:(NSString *)ttsString ttsData:(NSData *)ttsData {
     for (NSInteger i = [_ttsArray count]-1; i>=0; i--) {
         BiuMessage *msg = _ttsArray[i];
         if (msg.ttsString == ttsString) {
-            [recordAudio playMp3:ttsdata];
+            [recordAudio playMp3:ttsData];
             [self dropUpOrDown:DOWN withResXRatio:msg.resXRatio andResName:msg.resName];
             [_ttsArray removeObjectAtIndex:i];
         }
@@ -597,10 +667,22 @@ static CGFloat VIEW_HEIGHT;
 //#warning 引导
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [recordAudio stopPlay];
+    if (avPlayer) {
+        [avPlayer stop];
+    }
+    //Biu的未读设置为NO 并且更新时间戳
+    if ([_chatFriend.username isEqualToString:@"Biu"]) {
+        [Friends updateFriend:_chatFriend time:0 unread:NO inManagedObjectContext:_context];
+    }
+}
+
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     //通知session 当前聊天用户为空
-    [recordAudio stopPlay];
+  
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ClearCurrentFriend" object:nil];
 }
 
@@ -610,14 +692,11 @@ static CGFloat VIEW_HEIGHT;
         if ([_chatFriend.username isEqualToString:@"Biu"]) {
             self.guideView = [GuideView initWithArray];
             [self.guideView guideViewForView:self.view withFrame:CGRectMake(0, 0, VIEW_WIDTH, _friendButton.frame.origin.y) andStepIndex:0];
-            [self.guideView noticeTextForView:self.view withText:@"向右滑动跳过引导"];
+            //[self.guideView noticeTextForView:self.view withText:@"向右滑动跳过引导"];
             
             _timer = [NSTimer timerWithTimeInterval:2.0f target:self selector:@selector(shakeTillClick) userInfo:nil repeats:YES];
         }
-        
-        //[[Toast makeTip] chatPageTip:(_emojiBoard.frame.origin.y + _emojiBoard.frame.size.height / 2 - 40)];//[[Toast makeTip] pageTip:@"查看离线消息" andCenter:@"向右滑动返回主界面" andBottom:@"长按表情录音"];
     }
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"EmojiTip"];
 }
 
 @end

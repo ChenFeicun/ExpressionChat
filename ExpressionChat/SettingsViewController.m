@@ -50,12 +50,11 @@
 }
 
 - (IBAction)validatePhone:(id)sender {
+    //[self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
     [self performSegueWithIdentifier:@"ValidatePhone" sender:self];
 }
 
 - (IBAction)addFriendsFromPeople:(id)sender {
-    _loadToast = [Toast makeToast:@"请稍候"];
-    [_loadToast loading];
     [self readAllPhoneNumber];
 }
 
@@ -63,7 +62,7 @@
     if (buttonIndex == 1) {
         NSLog(@"确定");
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"OpenOrClose"];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MainTip"];
+        //[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"MainTip"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"EmojiTip"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SettingsTip"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Biu"];
@@ -83,6 +82,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    AVUser *user = [AVUser currentUser];
+    if (user.mobilePhoneVerified) {
+        NSLog(@"%@  %@", user.mobilePhoneNumber, [user objectForKey:@"mobilePhoneNumber"]);
+        [Animation setBackgroundColorWithGrey:_phoneButton];
+        [_phoneButton setTitle:user.mobilePhoneNumber forState:UIControlStateDisabled];
+        _phoneButton.adjustsImageWhenHighlighted = NO;
+        _phoneButton.enabled = NO;
+    }
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"SettingsTip"]) {
         [[Toast makeTip] pageTip:@"" andCenter:@"向右滑动返回主界面" andBottom:@""];
     }
@@ -93,10 +100,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationController setEnableBackGesture:YES];
-    if ([AVUser currentUser].mobilePhoneVerified) {
-        [_phoneButton setTitle:[AVUser currentUser].mobilePhoneNumber forState:UIControlStateNormal];
-        _phoneButton.enabled = NO;
-    }
+    
     _appDelegate = [[UIApplication sharedApplication] delegate];
     _document = _appDelegate.document;
     if (_document.documentState == UIDocumentStateNormal) {
@@ -105,6 +109,9 @@
 
     NSString *soundTitle = [[NSUserDefaults standardUserDefaults] boolForKey:@"OpenOrClose"] ? @"声音: 关" : @"声音: 开";
     [_soundButton setTitle:soundTitle forState:UIControlStateNormal];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@""];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -119,6 +126,11 @@
     ABAddressBookRequestAccessWithCompletion(tmpAddressBook, ^(bool greanted, CFErrorRef error){
         NSLog(@"%@", error);
         if (greanted) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _loadToast = [Toast makeToast:@"请稍候"];
+                [_loadToast loading:self.view];
+
+            });
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 if (ABAddressBookGetAuthorizationStatus() != kABAuthorizationStatusAuthorized) {
                     return ;
@@ -131,8 +143,7 @@
                 NSMutableArray *phoneArray = [[NSMutableArray alloc] init];
                 for (id person in people) {
                     ABMultiValueRef phone = ABRecordCopyValue((__bridge ABRecordRef)(person), kABPersonPhoneProperty);
-                    for (int k = 0; k < ABMultiValueGetCount(phone); k++)
-                    {
+                    for (int k = 0; k < ABMultiValueGetCount(phone); k++) {
                         //获取該Label下的电话值
                         NSString * personPhone = (__bridge NSString*)ABMultiValueCopyValueAtIndex(phone, k);
                         //去掉+86 以及中间的 -
@@ -144,6 +155,12 @@
                 }
                 CFRelease(addressBook);
                 [self searchAndAddFriends:phoneArray];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //判断是否允许访问通讯录
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无法访问通讯录" message:@"请在iPhone的“设置-隐私-通讯录”选项中，允许Biu访问您的手机通讯录。" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+                [alert show];
             });
         }
     });
