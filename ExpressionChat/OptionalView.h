@@ -19,6 +19,12 @@
 
 @end
 
+@interface IconBtn : UIButton
+-(instancetype)initWithFrame:(CGRect)frame imgName:(NSString *)imgName;
+-(void)disableBtn;
+-(void)enableBtn;
+@end
+
 @interface OptionalView : UIView<UITextFieldDelegate, UIGestureRecognizerDelegate>
 @property (nonatomic) BOOL menuActive;
 @property (nonatomic) CGRect tempFrame;
@@ -27,10 +33,10 @@
 @property (nonatomic, strong) UIView *shadowView;
 @property (nonatomic, strong) UIView *blueView;
 @property (nonatomic, strong) UIButton *emojiView;
-@property (nonatomic, strong) UIButton *rcdView;
-@property (nonatomic, strong) UIButton *ttsView;
-@property (nonatomic, strong) UIButton *clearView;
-@property (nonatomic, strong) UIButton *checkView;
+@property (nonatomic, strong) IconBtn *rcdView;
+@property (nonatomic, strong) IconBtn *ttsView;
+@property (nonatomic, strong) IconBtn *clearView;
+@property (nonatomic, strong) IconBtn *checkView;
 @property (nonatomic, strong) UIView *pointView;
 - (id)initWithOriginalFrame:(CGRect)frame;
 -(void)showOptionView:(NSString *)emojiIndex frame:(CGRect)frame isHidden:(BOOL)isHidden;

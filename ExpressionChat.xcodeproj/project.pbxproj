@@ -27,13 +27,15 @@
 		183EE39019EE06BC0096DC26 /* EmojiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 183EE38F19EE06BC0096DC26 /* EmojiViewController.m */; };
 		1840F8DC19EB59A600F64F7C /* BiuSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840F8DB19EB59A600F64F7C /* BiuSessionManager.m */; };
 		1841E3DF19E5270400859B58 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1841E3DE19E5270400859B58 /* MainViewController.m */; };
-		18510A651A772F8200661C27 /* highLight.png in Resources */ = {isa = PBXBuildFile; fileRef = 18510A641A772F8200661C27 /* highLight.png */; };
+		1850911D1A87892500AB209B /* disdelete.png in Resources */ = {isa = PBXBuildFile; fileRef = 185091191A87892500AB209B /* disdelete.png */; };
+		1850911E1A87892500AB209B /* display.png in Resources */ = {isa = PBXBuildFile; fileRef = 1850911A1A87892500AB209B /* display.png */; };
+		1850911F1A87892500AB209B /* disrecord.png in Resources */ = {isa = PBXBuildFile; fileRef = 1850911B1A87892500AB209B /* disrecord.png */; };
+		185091201A87892500AB209B /* distext.png in Resources */ = {isa = PBXBuildFile; fileRef = 1850911C1A87892500AB209B /* distext.png */; };
 		18510A671A7782B100661C27 /* emoji_02.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18510A661A7782B100661C27 /* emoji_02.mp3 */; };
 		18510A6B1A7782D200661C27 /* step0.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18510A681A7782D200661C27 /* step0.mp3 */; };
 		18510A6C1A7782D200661C27 /* step1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18510A691A7782D200661C27 /* step1.mp3 */; };
 		18510A6D1A7782D200661C27 /* step2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18510A6A1A7782D200661C27 /* step2.mp3 */; };
 		18510A711A77830A00661C27 /* emoji_01.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18510A6E1A77830A00661C27 /* emoji_01.mp3 */; };
-		18510A721A77830A00661C27 /* emoji_08.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18510A6F1A77830A00661C27 /* emoji_08.mp3 */; };
 		18510A731A77830A00661C27 /* emoji_09.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18510A701A77830A00661C27 /* emoji_09.mp3 */; };
 		185212011A1D742500CA86B4 /* record_animate_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 185211F11A1D742500CA86B4 /* record_animate_01.png */; };
 		185212021A1D742500CA86B4 /* record_animate_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 185211F21A1D742500CA86B4 /* record_animate_02.png */; };
@@ -61,6 +63,7 @@
 		185914CC1A15A1CC00BFDEBE /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 185914C81A15A1CC00BFDEBE /* libopencore-amrnb.a */; };
 		185914CD1A15A1CC00BFDEBE /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 185914C91A15A1CC00BFDEBE /* libopencore-amrwb.a */; };
 		18707E291A67E90F00A4BA11 /* GuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18707E281A67E90F00A4BA11 /* GuideView.m */; };
+		1872E45B1A807475005BCA6A /* emoji_08.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1872E45A1A807475005BCA6A /* emoji_08.mp3 */; };
 		1872F2AC1A68A39500318043 /* OptionalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1872F2AB1A68A39500318043 /* OptionalView.m */; };
 		1872F2B41A68B19600318043 /* libBDSSpeechSynthesizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1872F2B11A68B19600318043 /* libBDSSpeechSynthesizer.a */; };
 		1872F2B51A68B19600318043 /* TTSManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1872F2B31A68B19600318043 /* TTSManager.mm */; };
@@ -77,6 +80,7 @@
 		18B6A1A219FF2B08008C4EE9 /* Friends+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6A1A119FF2B08008C4EE9 /* Friends+Methods.m */; };
 		18B6A1A519FF2D29008C4EE9 /* NotifyMsg+Methods.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B6A1A419FF2D29008C4EE9 /* NotifyMsg+Methods.m */; };
 		18B78AFF1A09C62300540327 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78AFE1A09C62300540327 /* Toast.m */; };
+		18B95F6F1A78B663008761FC /* highLight.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B95F6E1A78B663008761FC /* highLight.png */; };
 		18C675D21A2AB9B000A21CDB /* correct.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C675D11A2AB9B000A21CDB /* correct.png */; };
 		18E009311A0723560071F471 /* ValidateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E009301A0723560071F471 /* ValidateViewController.m */; };
 		18EF7FB119E685B60018AC26 /* DBBiu.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 18EF7FAF19E685B60018AC26 /* DBBiu.xcdatamodeld */; };
@@ -94,7 +98,7 @@
 
 /* Begin PBXFileReference section */
 		18017E8119F8EF9800BB9B29 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		180C237319E4D419008F8C0E /* ExpressionChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExpressionChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		180C237319E4D419008F8C0E /* Biu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Biu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		180C237719E4D41A008F8C0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		180C237819E4D41A008F8C0E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		180C237A19E4D41A008F8C0E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -126,13 +130,15 @@
 		1841E3DE19E5270400859B58 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		1848FCBF1A26B77A004F08D1 /* AVOSCloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVOSCloud.framework; sourceTree = "<group>"; };
 		1848FCC11A26C0E5004F08D1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
-		18510A641A772F8200661C27 /* highLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highLight.png; sourceTree = "<group>"; };
+		185091191A87892500AB209B /* disdelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disdelete.png; sourceTree = "<group>"; };
+		1850911A1A87892500AB209B /* display.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = display.png; sourceTree = "<group>"; };
+		1850911B1A87892500AB209B /* disrecord.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disrecord.png; sourceTree = "<group>"; };
+		1850911C1A87892500AB209B /* distext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = distext.png; sourceTree = "<group>"; };
 		18510A661A7782B100661C27 /* emoji_02.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = emoji_02.mp3; sourceTree = "<group>"; };
 		18510A681A7782D200661C27 /* step0.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = step0.mp3; sourceTree = "<group>"; };
 		18510A691A7782D200661C27 /* step1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = step1.mp3; sourceTree = "<group>"; };
 		18510A6A1A7782D200661C27 /* step2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = step2.mp3; sourceTree = "<group>"; };
 		18510A6E1A77830A00661C27 /* emoji_01.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = emoji_01.mp3; sourceTree = "<group>"; };
-		18510A6F1A77830A00661C27 /* emoji_08.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = emoji_08.mp3; sourceTree = "<group>"; };
 		18510A701A77830A00661C27 /* emoji_09.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = emoji_09.mp3; sourceTree = "<group>"; };
 		185211F11A1D742500CA86B4 /* record_animate_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record_animate_01.png; sourceTree = "<group>"; };
 		185211F21A1D742500CA86B4 /* record_animate_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record_animate_02.png; sourceTree = "<group>"; };
@@ -171,6 +177,7 @@
 		185914CB1A15A1CC00BFDEBE /* RecordAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordAudio.m; sourceTree = "<group>"; };
 		18707E271A67E90F00A4BA11 /* GuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuideView.h; path = ../GuideView.h; sourceTree = "<group>"; };
 		18707E281A67E90F00A4BA11 /* GuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuideView.m; path = ../GuideView.m; sourceTree = "<group>"; };
+		1872E45A1A807475005BCA6A /* emoji_08.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = emoji_08.mp3; sourceTree = "<group>"; };
 		1872F2AA1A68A39500318043 /* OptionalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionalView.h; sourceTree = "<group>"; };
 		1872F2AB1A68A39500318043 /* OptionalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionalView.m; sourceTree = "<group>"; };
 		1872F2AE1A68B19600318043 /* BDSBuiltInPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDSBuiltInPlayer.h; sourceTree = "<group>"; };
@@ -200,6 +207,7 @@
 		18B6A1A419FF2D29008C4EE9 /* NotifyMsg+Methods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NotifyMsg+Methods.m"; path = "../NotifyMsg+Methods.m"; sourceTree = "<group>"; };
 		18B78AFD1A09C62300540327 /* Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Toast.h; path = ../Toast.h; sourceTree = "<group>"; };
 		18B78AFE1A09C62300540327 /* Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Toast.m; path = ../Toast.m; sourceTree = "<group>"; };
+		18B95F6E1A78B663008761FC /* highLight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highLight.png; sourceTree = "<group>"; };
 		18C675D11A2AB9B000A21CDB /* correct.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = correct.png; sourceTree = "<group>"; };
 		18E0092F1A0723560071F471 /* ValidateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValidateViewController.h; sourceTree = "<group>"; };
 		18E009301A0723560071F471 /* ValidateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValidateViewController.m; sourceTree = "<group>"; };
@@ -249,7 +257,7 @@
 		180C237419E4D419008F8C0E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				180C237319E4D419008F8C0E /* ExpressionChat.app */,
+				180C237319E4D419008F8C0E /* Biu.app */,
 				180C238C19E4D41A008F8C0E /* ExpressionChatTests.xctest */,
 			);
 			name = Products;
@@ -352,6 +360,11 @@
 		185211F01A1D740E00CA86B4 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				185091191A87892500AB209B /* disdelete.png */,
+				1850911A1A87892500AB209B /* display.png */,
+				1850911B1A87892500AB209B /* disrecord.png */,
+				1850911C1A87892500AB209B /* distext.png */,
+				18B95F6E1A78B663008761FC /* highLight.png */,
 				18C675D11A2AB9B000A21CDB /* correct.png */,
 				1891BA8D1A20A6F000347A20 /* biu_logo.png */,
 				183560CF1A1F08ED0079BCE2 /* warning.png */,
@@ -372,7 +385,6 @@
 				185211FF1A1D742500CA86B4 /* record_animate_15.png */,
 				185212001A1D742500CA86B4 /* record_bg.png */,
 				185267EE1A1AD96C0078BB0E /* normal.png */,
-				18510A641A772F8200661C27 /* highLight.png */,
 			);
 			name = Image;
 			sourceTree = "<group>";
@@ -497,7 +509,7 @@
 			children = (
 				18510A6E1A77830A00661C27 /* emoji_01.mp3 */,
 				18510A661A7782B100661C27 /* emoji_02.mp3 */,
-				18510A6F1A77830A00661C27 /* emoji_08.mp3 */,
+				1872E45A1A807475005BCA6A /* emoji_08.mp3 */,
 				18510A701A77830A00661C27 /* emoji_09.mp3 */,
 				18510A681A7782D200661C27 /* step0.mp3 */,
 				18510A691A7782D200661C27 /* step1.mp3 */,
@@ -523,7 +535,7 @@
 			);
 			name = ExpressionChat;
 			productName = ExpressionChat;
-			productReference = 180C237319E4D419008F8C0E /* ExpressionChat.app */;
+			productReference = 180C237319E4D419008F8C0E /* Biu.app */;
 			productType = "com.apple.product-type.application";
 		};
 		180C238B19E4D41A008F8C0E /* ExpressionChatTests */ = {
@@ -594,11 +606,14 @@
 			files = (
 				180C238219E4D41A008F8C0E /* Main.storyboard in Resources */,
 				185212031A1D742500CA86B4 /* record_animate_03.png in Resources */,
+				1872E45B1A807475005BCA6A /* emoji_08.mp3 in Resources */,
 				1852120B1A1D742500CA86B4 /* record_animate_11.png in Resources */,
 				18510A6B1A7782D200661C27 /* step0.mp3 in Resources */,
+				1850911E1A87892500AB209B /* display.png in Resources */,
 				185212101A1D742500CA86B4 /* record_bg.png in Resources */,
 				18C675D21A2AB9B000A21CDB /* correct.png in Resources */,
 				185212061A1D742500CA86B4 /* record_animate_06.png in Resources */,
+				1850911F1A87892500AB209B /* disrecord.png in Resources */,
 				185212021A1D742500CA86B4 /* record_animate_02.png in Resources */,
 				1852120F1A1D742500CA86B4 /* record_animate_15.png in Resources */,
 				18510A6D1A7782D200661C27 /* step2.mp3 in Resources */,
@@ -609,19 +624,20 @@
 				185212081A1D742500CA86B4 /* record_animate_08.png in Resources */,
 				183560D01A1F08ED0079BCE2 /* warning.png in Resources */,
 				180C238419E4D41A008F8C0E /* Images.xcassets in Resources */,
-				18510A721A77830A00661C27 /* emoji_08.mp3 in Resources */,
 				185212041A1D742500CA86B4 /* record_animate_04.png in Resources */,
+				185091201A87892500AB209B /* distext.png in Resources */,
+				1850911D1A87892500AB209B /* disdelete.png in Resources */,
 				1852120C1A1D742500CA86B4 /* record_animate_12.png in Resources */,
 				18510A731A77830A00661C27 /* emoji_09.mp3 in Resources */,
 				185212071A1D742500CA86B4 /* record_animate_07.png in Resources */,
 				18510A6C1A7782D200661C27 /* step1.mp3 in Resources */,
 				185212091A1D742500CA86B4 /* record_animate_09.png in Resources */,
 				18017E8219F8EF9800BB9B29 /* LaunchScreen.xib in Resources */,
+				18B95F6F1A78B663008761FC /* highLight.png in Resources */,
 				1852120E1A1D742500CA86B4 /* record_animate_14.png in Resources */,
 				185212011A1D742500CA86B4 /* record_animate_01.png in Resources */,
 				18510A671A7782B100661C27 /* emoji_02.mp3 in Resources */,
 				1852120A1A1D742500CA86B4 /* record_animate_10.png in Resources */,
-				18510A651A772F8200661C27 /* highLight.png in Resources */,
 				18510A711A77830A00661C27 /* emoji_01.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -788,8 +804,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iOS Development: Zhengxin Peng (FY529QWNV7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iOS Development: Zhengxin Peng (FY529QWNV7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengxin Peng (9UJ995B4PR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zhengxin Peng (9UJ995B4PR)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/apple/Desktop/iOS/release-v2.6.5.1",
@@ -805,8 +821,8 @@
 					"$(PROJECT_DIR)/ExpressionChat",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = ExpressionChat;
-				PROVISIONING_PROFILE = "c4228c69-dd3d-4994-838b-676d1b2ade79";
+				PRODUCT_NAME = Biu;
+				PROVISIONING_PROFILE = "1479114e-7db7-40c7-b5e6-0aa31a754c58";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -817,8 +833,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iOS Development: Zhengxin Peng (FY529QWNV7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iOS Development: Zhengxin Peng (FY529QWNV7)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhengxin Peng (9UJ995B4PR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zhengxin Peng (9UJ995B4PR)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/apple/Desktop/iOS/release-v2.6.5.1",
@@ -834,8 +850,8 @@
 					"$(PROJECT_DIR)/ExpressionChat",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_NAME = ExpressionChat;
-				PROVISIONING_PROFILE = "c4228c69-dd3d-4994-838b-676d1b2ade79";
+				PRODUCT_NAME = Biu;
+				PROVISIONING_PROFILE = "1479114e-7db7-40c7-b5e6-0aa31a754c58";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

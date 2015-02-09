@@ -50,17 +50,23 @@ static BOOL editingOrNot = YES;
         UIButton *confrimButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 40, EMOJI_BOARD_WIDTH, 40)];
         [confrimButton setTitle:@"确认" forState:UIControlStateNormal];
         [confrimButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [Animation setBackgroundColorWithDark:confrimButton];
+        //[Animation setBackgroundColorWithDark:confrimButton];
+        [confrimButton setBackgroundImage:[UIImage imageNamed:@"normal.png"] forState:UIControlStateNormal];
+        [confrimButton setBackgroundImage:[UIImage imageNamed:@"highLight.png"] forState:UIControlStateHighlighted];
         [confrimButton addTarget:self action:@selector(saveTTSString:) forControlEvents:UIControlEventTouchUpInside];
         confrimButton.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         confrimButton.tag = 99;
-        [confrimButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        confrimButton.adjustsImageWhenHighlighted = NO;
+        //[confrimButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         
         UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 80, EMOJI_BOARD_WIDTH, 40)];
         [closeButton setTitle:@"取消" forState:UIControlStateNormal];
         [closeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [Animation setBackgroundColorWithDark:closeButton];
-        [closeButton addTarget:self action:@selector(UndoTTSString:) forControlEvents:UIControlEventTouchUpInside];
+        //[Animation setBackgroundColorWithDark:closeButton];
+        [closeButton setBackgroundImage:[UIImage imageNamed:@"normal.png"] forState:UIControlStateNormal];
+        [closeButton setBackgroundImage:[UIImage imageNamed:@"highLight.png"] forState:UIControlStateHighlighted];
+        closeButton.adjustsImageWhenHighlighted = NO;
+        [closeButton addTarget:self action:@selector(undoTTSString:) forControlEvents:UIControlEventTouchUpInside];
         closeButton.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         closeButton.tag = 98;
         
@@ -79,22 +85,27 @@ static BOOL editingOrNot = YES;
         self.emojiView = [[UIButton alloc] initWithFrame:smallFrame];//[[UIImageView alloc] initWithFrame:smallFrame];
         [self.emojiView addTarget:self action:@selector(tapEmojiView:) forControlEvents:UIControlEventTouchUpInside];
         
+        CGRect iconFrame = CGRectMake(0, 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
         
         CGFloat pointSize = 5 * RATIO;
         self.pointView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - pointSize, pointSize, pointSize)];
         self.pointView.backgroundColor = [UIColor whiteColor];
         [self.blueView addSubview:self.pointView];
         
-        self.rcdView = [self getButtonWithFrameAndImage:smallFrame imageName:@"record"];
+        self.rcdView = [[IconBtn alloc] initWithFrame:iconFrame imgName:@"record.png"];
+        //self.rcdView = [self getButtonWithFrameAndImage:iconFrame imageName:@"record"];
         [self.rcdView addTarget:self action:@selector(tapRcdView:) forControlEvents:UIControlEventTouchUpInside];
         
-        self.ttsView = [self getButtonWithFrameAndImage:smallFrame imageName:@"text"];
+        self.ttsView = [[IconBtn alloc] initWithFrame:iconFrame imgName:@"text.png"];
+        //self.ttsView = [self getButtonWithFrameAndImage:iconFrame imageName:@"text"];
         [self.ttsView addTarget:self action:@selector(tapTtsView:) forControlEvents:UIControlEventTouchUpInside];
         
-        self.clearView = [self getButtonWithFrameAndImage:smallFrame imageName:@"delete"];
+        self.clearView = [[IconBtn alloc] initWithFrame:iconFrame imgName:@"delete.png"];
+        //self.clearView = [self getButtonWithFrameAndImage:iconFrame imageName:@"delete"];
         [self.clearView addTarget:self action:@selector(tapClearView:) forControlEvents:UIControlEventTouchUpInside];
         
-        self.checkView = [self getButtonWithFrameAndImage:smallFrame imageName:@"play"];
+        self.checkView = [[IconBtn alloc] initWithFrame:iconFrame imgName:@"play.png"];
+        //self.checkView = [self getButtonWithFrameAndImage:iconFrame imageName:@"play"];
         [self.checkView addTarget:self action:@selector(tapCheckView:) forControlEvents:UIControlEventTouchUpInside];
         
         [self.blueView addSubview:self.rcdView];
@@ -151,34 +162,34 @@ static BOOL editingOrNot = YES;
     CGFloat pointSize = 5 * RATIO;
     CGRect emojiFrame = CGRectMake(frame.origin.x+PADDING_SIZE,PADDING_SIZE,imgWidth,imgWidth);
     CGRect pointFrame = CGRectMake(frame.origin.x, frame.size.height - pointSize, pointSize, pointSize);
-    CGRect rcdFrame = CGRectMake(PADDING_SIZE, PADDING_SIZE, imgWidth, imgWidth);
-    CGRect ttsFrame = CGRectMake(PADDING_SIZE, PADDING_SIZE, imgWidth, imgWidth);
-    CGRect checkFrame = CGRectMake(PADDING_SIZE, PADDING_SIZE, imgWidth, imgWidth);
-    CGRect clearFrame = CGRectMake(PADDING_SIZE, PADDING_SIZE, imgWidth, imgWidth);
+    CGRect rcdFrame = CGRectMake(0, 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
+    CGRect ttsFrame = CGRectMake(0, 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
+    CGRect checkFrame = CGRectMake(0, 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
+    CGRect clearFrame = CGRectMake(0, 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
     
     if (multiple == 2 || multiple == 3 || multiple == 4) {
-        rcdFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple-2), PADDING_SIZE, imgWidth, imgWidth);
-        ttsFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple-1), PADDING_SIZE, imgWidth, imgWidth);
-        checkFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple+1), PADDING_SIZE, imgWidth, imgWidth);
-        clearFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple+2), PADDING_SIZE, imgWidth, imgWidth);
+        rcdFrame = CGRectMake(FACE_ICON_SIZE*(multiple-2), 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
+        ttsFrame = CGRectMake(FACE_ICON_SIZE*(multiple-1), 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
+        checkFrame = CGRectMake(FACE_ICON_SIZE*(multiple+1), 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
+        clearFrame = CGRectMake(FACE_ICON_SIZE*(multiple+2), 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
     }else if (multiple == 0 || multiple == 1){
         if (multiple == 0) {
-            rcdFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE, PADDING_SIZE, imgWidth, imgWidth);
+            rcdFrame = CGRectMake(FACE_ICON_SIZE, 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
         }else if (multiple == 1){
-            rcdFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE * 2, PADDING_SIZE, imgWidth, imgWidth);
+            rcdFrame = CGRectMake(FACE_ICON_SIZE * 2, 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
         }
-        ttsFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple + 2), PADDING_SIZE, imgWidth, imgWidth);
-        checkFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple + 3), PADDING_SIZE, imgWidth, imgWidth);
-        clearFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple + 4), PADDING_SIZE, imgWidth, imgWidth);
+        ttsFrame = CGRectMake(FACE_ICON_SIZE*(multiple + 2), 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
+        checkFrame = CGRectMake(FACE_ICON_SIZE*(multiple + 3), 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
+        clearFrame = CGRectMake(FACE_ICON_SIZE*(multiple + 4), 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
     }else if (multiple == 5 || multiple == 6){
         if (multiple == 5) {
-            clearFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*4, PADDING_SIZE, imgWidth, imgWidth);
+            clearFrame = CGRectMake(FACE_ICON_SIZE*4, 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
         }else if (multiple == 6){
-            clearFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*5, PADDING_SIZE, imgWidth, imgWidth);
+            clearFrame = CGRectMake(FACE_ICON_SIZE*5, 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
         }
-        rcdFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple - 4), PADDING_SIZE, imgWidth, imgWidth);
-        ttsFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple - 3), PADDING_SIZE, imgWidth, imgWidth);
-        checkFrame = CGRectMake(PADDING_SIZE+FACE_ICON_SIZE*(multiple - 2), PADDING_SIZE, imgWidth, imgWidth);
+        rcdFrame = CGRectMake(FACE_ICON_SIZE*(multiple - 4), 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
+        ttsFrame = CGRectMake(FACE_ICON_SIZE*(multiple - 3), 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
+        checkFrame = CGRectMake(FACE_ICON_SIZE*(multiple - 2), 0, FACE_ICON_SIZE, FACE_ICON_SIZE);
     }
     [UIView animateWithDuration:0.2 animations:^{
         self.blueView.frame = longFrame;
@@ -207,13 +218,20 @@ static BOOL editingOrNot = YES;
     return YES;
 }
 
--(UIButton *)getButtonWithFrameAndImage:(CGRect)frame imageName:(NSString *)imageName
-{
-    UIButton *newButton = [[UIButton alloc] initWithFrame:frame];
-    [newButton setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
-    [newButton setTitle:@"" forState:UIControlStateNormal];
-    return newButton;
-}
+//-(UIButton *)getButtonWithFrameAndImage:(CGRect)frame imageName:(NSString *)imageName {
+//    UIButton *newButton = [[UIButton alloc] initWithFrame:frame];
+//    CGFloat imgWidth = frame.size.height - PADDING_SIZE * 2;
+//    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(PADDING_SIZE, PADDING_SIZE, imgWidth, imgWidth)];
+//    img.tag = 99;
+//    img.image = [UIImage imageNamed:imageName];
+//    [newButton addSubview:img];
+//    //[newButton setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+//    //[newButton setTitle:@"" forState:UIControlStateNormal];
+//    //newButton.adjustsImageWhenHighlighted = NO;
+//    [newButton setBackgroundImage:[UIImage imageNamed:@"highLight.png"] forState:UIControlStateHighlighted];
+//    //newButton
+//    return newButton;
+//}
 
 - (void)tapShadowView:(UITapGestureRecognizer *)sender {
     if (self.menuActive) {
@@ -239,6 +257,8 @@ static BOOL editingOrNot = YES;
 - (void)tapTtsView:(UIButton *)sender {
     if (self.menuActive) {
         self.menuActive = NO;
+        self.shadowView.backgroundColor = [UIColor grayColor];
+        self.shadowView.alpha = 0.7;
         [self.delegate tapTTSButton];
     }
 }
@@ -262,7 +282,7 @@ static BOOL editingOrNot = YES;
     [self.delegate confrimTTS:((UITextField *)[self.ttsEditView viewWithTag:97]).text];
 }
 
-- (void)UndoTTSString:(UIButton *)sender {
+- (void)undoTTSString:(UIButton *)sender {
     [(UITextField *)[self.ttsEditView viewWithTag:97] resignFirstResponder];
     [self.delegate closeTTS];
     [self hiddenttsEditView];
@@ -290,10 +310,10 @@ static BOOL editingOrNot = YES;
     CGFloat imgWidth = FACE_ICON_SIZE - PADDING_SIZE * 2;
     CGFloat pointSize = 5 * RATIO;
     CGRect pointFrame = CGRectMake(0, FACE_ICON_SIZE - pointSize, pointSize, pointSize);
-    CGRect zeroFrame = CGRectMake(PADDING_SIZE, PADDING_SIZE, imgWidth, imgWidth);
+    CGRect zeroFrame = CGRectMake(0, 0, imgWidth, imgWidth);
     [UIView animateWithDuration:0.2 animations:^{
         self.blueView.frame = self.tempFrame;
-        self.emojiView.frame = zeroFrame;
+        self.emojiView.frame = CGRectMake(PADDING_SIZE, PADDING_SIZE, imgWidth, imgWidth);
         self.pointView.frame = pointFrame;
         self.rcdView.frame = zeroFrame;
         self.ttsView.frame = zeroFrame;
@@ -306,32 +326,67 @@ static BOOL editingOrNot = YES;
 
 - (void)isRecord:(BOOL)isRecord {
     if (isRecord) {
-        self.clearView.enabled = YES;
-        self.checkView.enabled = YES;
+        [self.clearView enableBtn];
+        [self.checkView enableBtn];
     }else{
-        self.clearView.enabled = NO;
-        self.checkView.enabled = NO;
+        [self.clearView disableBtn];
+        [self.checkView disableBtn];
     }
 }
 
 - (void)ttsBegin {
-    self.ttsView.enabled = YES;
-    self.rcdView.enabled = NO;
-    self.clearView.enabled = NO;
-    self.checkView.enabled = NO;
+    [self.ttsView enableBtn];
+    [self.rcdView disableBtn];
+    [self.checkView disableBtn];
+    [self.clearView disableBtn];
 }
 
 - (void)ttsrcdEnd:(BOOL)isRecord {
-    self.ttsView.enabled = YES;
-    self.rcdView.enabled = YES;
+    [self.ttsView enableBtn];
+    [self.rcdView enableBtn];
     [self isRecord:isRecord];
 }
 
 - (void)rcdBegin {
-    self.rcdView.enabled = YES;
-    self.ttsView.enabled = NO;
-    self.clearView.enabled = NO;
-    self.checkView.enabled = NO;
+    [self.ttsView disableBtn];
+    [self.rcdView enableBtn];
+    [self.checkView disableBtn];
+    [self.clearView disableBtn];
+}
+
+@end
+
+
+@interface IconBtn()
+@property (nonatomic, strong) UIImageView *iconImg;
+@property (nonatomic, strong) NSString *disImgName;
+@property (nonatomic, strong) NSString *imgName;
+@end
+
+@implementation IconBtn
+
+- (instancetype)initWithFrame:(CGRect)frame imgName:(NSString *)imgName {
+    if (self = [super initWithFrame:frame]) {
+        CGFloat imgWidth = frame.size.height - PADDING_SIZE * 2;
+        self.iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(PADDING_SIZE, PADDING_SIZE, imgWidth, imgWidth)];
+        self.imgName = imgName;
+        self.iconImg.image = [UIImage imageNamed:imgName];
+        self.disImgName = [@"dis" stringByAppendingString:imgName];
+        [self addSubview:self.iconImg];
+        self.adjustsImageWhenHighlighted = NO;
+        [self setBackgroundImage:[UIImage imageNamed:@"highLight.png"] forState:UIControlStateHighlighted];
+    }
+    return self;
+}
+
+- (void)disableBtn {
+    self.enabled = NO;
+    self.iconImg.image = [UIImage imageNamed:self.disImgName];
+}
+
+- (void)enableBtn {
+    self.enabled = YES;
+    self.iconImg.image = [UIImage imageNamed:self.imgName];
 }
 
 @end

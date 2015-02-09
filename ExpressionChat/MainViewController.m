@@ -59,7 +59,7 @@
                     //NSLog(@"Find %@", self.searchFriendTextField.text);
                     //添加用户 关闭键盘
                     //[self initDocument];
-                    [Friends addFriend:object inManagedObjectContext:_context];
+                    [Friends addFriendLocalAndCloud:object inManagedObjectContext:_context];
                     //[self addFriend:object];
                     self.searchFriendTextField.text = @"";
                     [self.searchFriendTextField resignFirstResponder];
@@ -107,46 +107,86 @@
     //if (![[NSUserDefaults standardUserDefaults] boolForKey:@"MainTip"]) {
     //第一次进来 即使有离线消息，也会在viewWillAppear之后 reload
     _all = [Friends allFriendsInManagedObjectContext:_context];
-    
-//    if ([_all count] == 1) {
-//        Friends *first = [_all firstObject];
-//        if (!_guideView && [first.username isEqualToString:@"Biu"] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"Biu"]) {
-//            _guideView = [GuideView initWithArray];
-//            [_guideView guideViewForView:self.view andTop:_friendsTableView.frame.origin.y andBottom:_friendsTableView.frame.origin.y + 40];
-//            //[_guideView noticeTextForView:self.view withText:@""];
-//        } else if (_guideView) {
-//            [_guideView removeAll];
-//        }
-//    } else if (_guideView) {
-//        [_guideView removeAll];
-//    }
-    
-//            [[Toast makeTip] pageTip:@"添加好友" andCenter:@"" andBottom:@"通讯录好友"];
-//        } else {
-//            
-//            //[[Toast makeTip] pageTip:@"添加好友" andCenter:@"您还未添加好友" andBottom:@"通讯录好友"];
-//        }
-    //   [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MainTip"];
-    //}
     [self.friendsTableView reloadData];
-#warning 原本是Biu的位置还在抖
+}
+
+- (void)friendsSync {
+    self.curUser = [AVUser currentUser];
+    
+    long long cloudTimestemp = [[[AVUser currentUser] objectForKey:@"timestamp"] longLongValue];
+    long long localTimestemp = [[[NSUserDefaults standardUserDefaults] objectForKey:@"LocalTimestamp"] longLongValue];
+//#warning 异步的  需要Toast等待？  reload
+    _all = [Friends allFriendsInManagedObjectContext:_context];
+    if (cloudTimestemp != localTimestemp) {
+        AVRelation *relation = [[AVUser currentUser] relationforKey:@"friends"];
+        AVQuery *friendQuery = [relation query];
+        [friendQuery whereKey:@"ownerId" equalTo:self.curUser.objectId];
+        //[friendQuery includeKey:@"friendId"]; 
+        [friendQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (objects && !error) {
+                if (cloudTimestemp > localTimestemp) {
+                    //从云端下载
+                    [Friends addFriendsFromCloud:objects inManagedObjectContext:_context];
+                } else {
+                    //上传
+                    BOOL isInCloud = NO;
+                    NSString *friendId;
+                    for (Friends *friend in _all) {
+                        isInCloud = NO;
+                        //是Biu的话不上传
+                        if ([friend.username isEqualToString:@"Biu"]) {
+                            continue;
+                        }
+                        for (AVObject *element in objects) {
+                            friendId = [element objectForKey:@"friendId"];
+                            if ([friend.id isEqualToString:friendId]) {
+                                isInCloud = YES;
+                                break;
+                            }
+                        }
+                        if (!isInCloud) {
+                            //传到云端
+                            [Friends addFriendToCloud:friend];
+                        }
+                    }
+                    //云端多余的要删掉
+                    BOOL isExist = NO;
+                    for (AVObject *element in objects) {
+                        friendId = [element objectForKey:@"friendId"];
+                        for (Friends *friend in _all) {
+                            if ([friendId isEqualToString:friend.id]) {
+                                isExist = YES;
+                                break;
+                            }
+                        }
+                        if (!isExist) {
+                            //云端删除
+                            [Friends deleteCloudFriend:friendId];
+                        }
+                    }
+                }
+            }
+        }];
+    } else {
+        //如果都等于0 考虑上版本  当本地用户数不为0 上传
+        if (localTimestemp == 0 && [_all count] > 0) {
+            for (Friends *friend in _all) {
+                if (![friend.username isEqualToString:@"Biu"])
+                    [Friends addFriendToCloud:friend];
+            }
+        }
+    }
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    //[self initTableView];
-       
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
-    [self.navigationController setEnableBackGesture:YES];
-    self.curUser = [AVUser currentUser];
-    [self.curButton setTitle:self.curUser.username forState:UIControlStateNormal];
+    //数据库相关
     self.appDelegate = [[UIApplication sharedApplication] delegate];
-    self.document = self.appDelegate.document;
     self.sessionManager = [BiuSessionManager sharedInstance];
+    self.document = self.appDelegate.document;
     [self documentIsReady];
-    //使 + 为白色
-    [_searchFriendTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"addCloudFriend" object:nil];
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Biu"]) {
         //添加Biu好友 (写死的)
@@ -154,6 +194,17 @@
         [Friends addFriendWithUsername:@"Biu" andId:@"54a9f5bce4b08a3aeaece545" andTime:9999999999999 andUnread:YES inManagedObjectContext:self.context];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"Biu"];
     }
+    
+    [self friendsSync];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
+    [self.navigationController setEnableBackGesture:YES];
+    
+    [self.curButton setTitle:self.curUser.username forState:UIControlStateNormal];
+    
+    //使 + 为白色
+    [_searchFriendTextField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -170,7 +221,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     _all = [Friends allFriendsInManagedObjectContext:_context];
     if (_all) {
-        
         return [self.all count];
     } else {
         return 0;
@@ -195,11 +245,14 @@
         if ([friend.unread boolValue]) {
             if ([friend.username isEqualToString:@"Biu"]) {
                 _biuLabel = label;
-                _biuTimer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(biuShake) userInfo:nil repeats:YES];
-                //[[NSRunLoop currentRunLoop] addTimer:_biuTimer forMode:NSDefaultRunLoopMode];
+                if (!_biuTimer) {
+                    _biuTimer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(biuShake) userInfo:nil repeats:YES];
+                    [[NSRunLoop currentRunLoop] addTimer:_biuTimer forMode:NSDefaultRunLoopMode];
+                }
+            } else {
+                [Animation shakeView:label];
             }
             [label showBang:YES];
-            [Animation shakeView:label];
         } else {
             [label showBang:NO];
         }
@@ -227,6 +280,7 @@
     [cell triggerSwipeWithType:JZSwipeTypeNone];
     Friends *friend = self.all[indexPath.row];
     if ([friend.username isEqualToString:@"Biu"]) {
+        [_biuTimer setFireDate:[NSDate distantFuture]];
         [_biuTimer invalidate];
         _biuTimer = nil;
     }
@@ -247,7 +301,7 @@
         if (indexPath) {
             Friends *friend = [_all objectAtIndex:indexPath.row];
             [NotifyMsg deleteFriendMsg:friend inManagedObjectContext:_context];
-            [Friends deleteFriend:friend inManagedObjectContext:_context];
+            [Friends deleteFriendLocalAndCloud:friend inManagedObjectContext:_context];
             //deleteRowsAtIndexPaths 执行完会自动删除
             //[self.all removeObjectAtIndex:indexPath.row];
             [self.friendsTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];

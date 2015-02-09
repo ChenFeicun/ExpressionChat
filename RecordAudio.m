@@ -38,7 +38,7 @@
         //AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute, sizeof (audioRouteOverride), &audioRouteOverride);
         //ovrd  spkr
         
-        [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&error];
+        [audioSession setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&error];
         //Activate the session
         if (!error) {
             [audioSession setActive:YES error: &error];
@@ -120,7 +120,8 @@
 
 - (void)playMp3:(NSData*) data{
     //Setup the AVAudioPlayer to play the file that we just recorded.
-    
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&error];
+
     avPlayer = [[AVAudioPlayer alloc] initWithData:data error:&error];
     avPlayer.delegate = self;
     [avPlayer prepareToPlay];

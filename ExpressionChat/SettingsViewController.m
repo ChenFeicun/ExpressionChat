@@ -66,6 +66,7 @@
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"EmojiTip"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SettingsTip"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Biu"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LocalTimestamp"];
         [Friends deleteAllFriends:_context];
         [NotifyMsg deleteAllMsg:_context];
         //删除录音文件
@@ -85,10 +86,11 @@
     AVUser *user = [AVUser currentUser];
     if (user.mobilePhoneVerified) {
         NSLog(@"%@  %@", user.mobilePhoneNumber, [user objectForKey:@"mobilePhoneNumber"]);
-        [Animation setBackgroundColorWithGrey:_phoneButton];
-        [_phoneButton setTitle:user.mobilePhoneNumber forState:UIControlStateDisabled];
         _phoneButton.adjustsImageWhenHighlighted = NO;
         _phoneButton.enabled = NO;
+        //[Animation setBackgroundColorWithGrey:_phoneButton];
+        [_phoneButton setBackgroundImage:nil forState:UIControlStateNormal];
+        [_phoneButton setTitle:user.mobilePhoneNumber forState:UIControlStateDisabled];
     }
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"SettingsTip"]) {
         [[Toast makeTip] pageTip:@"" andCenter:@"向右滑动返回主界面" andBottom:@""];
@@ -182,7 +184,7 @@
                     if (![Friends isFriendExistInDB:user.username inManagedObjectContext:_context]) {
                         //入库
                         NSLog(@"%@", user.username);
-                        [Friends addFriend:user inManagedObjectContext:_context];
+                        [Friends addFriendLocalAndCloud:user inManagedObjectContext:_context];
                     }
                 }
             }

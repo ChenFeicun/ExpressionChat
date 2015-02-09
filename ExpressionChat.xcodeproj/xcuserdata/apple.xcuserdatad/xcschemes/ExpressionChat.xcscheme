@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "180C237219E4D419008F8C0E"
-               BuildableName = "ExpressionChat.app"
+               BuildableName = "Biu.app"
                BlueprintName = "ExpressionChat"
                ReferencedContainer = "container:ExpressionChat.xcodeproj">
             </BuildableReference>
@@ -57,7 +57,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "180C237219E4D419008F8C0E"
-            BuildableName = "ExpressionChat.app"
+            BuildableName = "Biu.app"
             BlueprintName = "ExpressionChat"
             ReferencedContainer = "container:ExpressionChat.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "180C237219E4D419008F8C0E"
-            BuildableName = "ExpressionChat.app"
+            BuildableName = "Biu.app"
             BlueprintName = "ExpressionChat"
             ReferencedContainer = "container:ExpressionChat.xcodeproj">
          </BuildableReference>
@@ -94,7 +94,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "180C237219E4D419008F8C0E"
-            BuildableName = "ExpressionChat.app"
+            BuildableName = "Biu.app"
             BlueprintName = "ExpressionChat"
             ReferencedContainer = "container:ExpressionChat.xcodeproj">
          </BuildableReference>

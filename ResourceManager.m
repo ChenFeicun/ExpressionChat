@@ -50,7 +50,7 @@ static id instance = nil;
                 } else if (i == 1) {
                     [indexDict setObject:@"笑尿了" forKey:@"ttsstring"];
                 } else if (i == 7) {
-                    [indexDict setObject:@"心塞" forKey:@"ttsstring"];
+                    [indexDict setObject:@"心腮" forKey:@"ttsstring"];
                 } else if (i == 8) {
                     [indexDict setObject:@"摸摸答" forKey:@"ttsstring"];
                 } else {

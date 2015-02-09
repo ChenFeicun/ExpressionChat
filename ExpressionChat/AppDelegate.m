@@ -12,7 +12,7 @@
 #import "ResourceManager.h"
 #import <AVOSCloud/AVOSCloud.h>
 
-@interface AppDelegate ()
+@interface AppDelegate () <UIAlertViewDelegate>
 
 @end
 
@@ -55,24 +55,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [self initDocument];
-    //v2a4kgkyvnsmjkj0kf6e73w8rve32gxx4cttl8ob7dss0ikb
-    //v2o8ffr9ou10wqzk96hslcd3vmcqpv2huxv0qkeqef4rgfro
     //Biu
     [AVOSCloud setApplicationId:@"f9usm1eb6gw2qiadlw2ylqciindz78zvxe68psg66fkpz8ww"
                       clientKey:@"giq92vh6f4mnfoy5vfxkfd6t00dyjpvxe9kw74g0r0gizlke"];
     //开启调试日志
-    setenv("LOG_CURL", "YES", 0);
+    //setenv("LOG_CURL", "YES", 0);
     //图标上的数字 通过推送推过来的 需要在服务器端做增加
     
     //推送过来的消息在这里 应用未启动
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-//    if (launchOptions) {
-//        NSInteger badge = [UIApplication sharedApplication].applicationIconBadgeNumber;
-//        if (badge) {
-//            NSLog(@"%li", (long)badge);
-//            [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-//        }
-//    }
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
         [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
     } else {
@@ -82,8 +72,56 @@
 
     }
     
-    //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self scoreTheApp];
     return YES;
+}
+
+- (void)scoreTheApp {
+    //没进入过打分页面
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ScoreApp"]) {
+        NSString *dateString = [[NSUserDefaults standardUserDefaults] objectForKey:@"ShowDate"];
+        if (dateString) {
+            NSDate *nowDate = [NSDate date];
+            NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            NSTimeInterval timeInterval = [nowDate timeIntervalSinceDate:[dateFormatter dateFromString:dateString]];
+            int days = timeInterval / (3600 * 24);
+            if (days == 10) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"去给Biu打分吧" message:@"您的评价对我们很重要" delegate:self cancelButtonTitle:@"稍后评价" otherButtonTitles:@"现在就去", nil];
+                [alertView show];
+                [alertView setDelegate:self];
+            }
+
+        } else {
+            NSInteger startCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"Startcount"];
+            if (startCount) {
+                startCount = startCount + 1;
+            } else {
+                startCount = 1;
+            }
+            [[NSUserDefaults standardUserDefaults] setInteger:startCount forKey:@"Startcount"];
+            if (startCount == 3) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"去给Biu打分吧" message:@"您的评价对我们很重要" delegate:self cancelButtonTitle:@"稍后评价" otherButtonTitles:@"现在就去", nil];
+                [alertView setDelegate:self];
+                [alertView show];
+            }
+        }
+
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ScoreApp"];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/cn/app/biu-yi-ge-hao-wan-deapp/id946737127?mt=8"]];
+    } else {
+        //更新日期
+        NSDate *date = [NSDate date];
+         NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [[NSUserDefaults standardUserDefaults] setValue:[dateFormatter stringFromDate:date] forKey:@"ShowDate"];
+        
+    }
 }
 
 //接收远程消息 应用处于打开状态
@@ -136,8 +174,10 @@
     AVInstallation *curInstallation = [AVInstallation currentInstallation];
     if (curInstallation) {
         [curInstallation setObject:@0 forKey:@"badge"];
-        [curInstallation saveInBackground];
+        [curInstallation saveEventually];
     }
+    application.applicationIconBadgeNumber = 0;
+    [application cancelAllLocalNotifications];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

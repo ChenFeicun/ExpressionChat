@@ -59,6 +59,8 @@ static BOOL editingOrNot = YES;
         //NSLog(@"-----%@-----", error.localizedDescription);
         [_loadToast endLoading];
         if (user && !error) {
+            //本地时间戳
+            [[NSUserDefaults standardUserDefaults] setValue:@"0" forKey:@"LocalTimestamp"];
             [self performSegueWithIdentifier:@"LoginToMain" sender:self];
         } else if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline." ] || [error.localizedDescription isEqualToString:@"似乎已断开与互联网的连接。"]) {
             //没有网络连接
@@ -66,16 +68,17 @@ static BOOL editingOrNot = YES;
         } else if ([error.localizedDescription isEqualToString:@"Could not find user"]) {
             [_user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
-                    //注册成功
+                    //注册成功  本地时间戳
+                    [[NSUserDefaults standardUserDefaults] setValue:@"0" forKey:@"LocalTimestamp"];
                     [self performSegueWithIdentifier:@"LoginToMain" sender:self];
-                }else{
+                } else {
                     
                 }
             }];
         } else if ([error.localizedDescription isEqualToString:@"The request timed out."]) {
             //The request timed out.
             [[Toast makeToast:@"登录请求超时"] show:NO];
-        } else if ([error.localizedDescription isEqualToString:@"The username and password mismatch."]){
+        } else if ([error.localizedDescription isEqualToString:@"The username and password mismatch."]) {
             [Animation shakeView:_loginButton];
             [[Toast makeToast:@"用户名与密码不匹配"] show:NO];
         }
